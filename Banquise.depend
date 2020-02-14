@@ -1,8 +1,14 @@
 # depslib dependency file v1.0
-1581663653 source:c:\users\flori\desktop\root\banquise\banquise\main.c
+1581668579 source:c:\users\flori\desktop\root\banquise\banquise\main.c
 	<stdio.h>
 	<stdlib.h>
 	"banquise.h"
 
-1581663653 c:\users\flori\desktop\root\banquise\banquise\banquise.h
+1581666830 c:\users\flori\desktop\root\banquise\banquise\banquise.h
+
+1581675557 source:c:\users\flori\desktop\root\banquise\banquise\banquise.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"banquise.h"
 

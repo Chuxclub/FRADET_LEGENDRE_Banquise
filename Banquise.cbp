@@ -31,9 +31,15 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Unit filename="banquise.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="banquise.h" />
+		<Unit filename="joueur.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="termcolor.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
