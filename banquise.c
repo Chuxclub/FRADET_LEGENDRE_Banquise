@@ -76,13 +76,13 @@ void addRocks(T_banquise *banquise)
         {
             int loto = rand() % RAND_MAX;
 
-            if(loto < 20 && banquise->grid[i][j].ice == 1)
+            if(loto < 25 && banquise->grid[i][j].ice == 1)
                 banquise->grid[i][j].object = 2;
         }
     }
 }
 
-/*
+
 //ajoute un glacon alÃ©atoirement sur la banquise
 //object = 0 pour un glacon
 void addFlakes(T_banquise *banquise)
@@ -101,6 +101,7 @@ void addFlakes(T_banquise *banquise)
     }
 }
 
+/*
 //ajoute un ressort alÃ©atoirement sur la banquise
 //object = 3 pour un glacon
 void addSprings(T_banquise *banquise)
@@ -151,22 +152,22 @@ void addFlags(T_banquise *banquise)
     int Xb = 0 + (rand() % 3);
     int Yb = rand() % BANQUISE_SIZE;
 
-    while(banquise->grid[Xa][Ya].object > 0 || banquise->grid[Xa][Ya].ice == 1)
+    //Si la position de A définie ci-dessus comporte un objet ou de l'eau on redéfinit jusqu'à
+    //ce que ce soit bon!
+    while(banquise->grid[Xa][Ya].object > 0 || banquise->grid[Xa][Ya].ice == 0)
     {
         Xa = BANQUISE_SIZE - 1 - (rand() % 3);
         Ya = rand() % BANQUISE_SIZE;
     }
-
-
     banquise->grid[Xa][Ya].A = 1;
 
 
-    while((banquise->grid[Xa][Ya].object > 0 || banquise->grid[Xa][Ya].ice == 1))
+    //Même chose pour B
+    while((banquise->grid[Xb][Yb].object > 0 || banquise->grid[Xb][Yb].ice == 0))
     {
         Xb = 0 + (rand() % 3);
         Yb = rand() % BANQUISE_SIZE;
     }
-
     banquise->grid[Xb][Yb].B = 1;
 }
 
@@ -363,107 +364,112 @@ void addPlayers(T_banquise *banquise, int nb_players)
 
 //Affiche un code d'une case avec le symbole correspondant
 //Suit ordre logique: A/B > object > player > ice
-/*void printCase(T_case banquise_case)
+void printCase(T_case banquise_case)
 {
+    //Si c'est de l'eau inutile de chercher plus loins, on l'affiche
     if(banquise_case.ice == 0)
     {
         printf("~"); //text_blue(stdout)
         printf(" | "); //text_white(stdout)
     }
 
-    else if(banquise_case.ice == 1)
+    //S'il y a un objet, un drapeau ou un joueur on va l'afficher
+    else if(banquise_case.object > 0 || banquise_case.A > 0 || banquise_case.B > 0 || banquise_case.player > 0)
     {
-        if(banquise_case.object == 1)
+        //C'est soit un objet...
+        if(banquise_case.object > 0)
         {
-            printf("&"); //text_yellow(stdout)
-            printf(" | "); //text_white(stdout)
-        }
-        else if(banquise_case.object == 2)
-        {
-            printf("o"); //text_blue(stdout)
-            printf(" | "); //text_white(stdout)
+            switch(banquise_case.object)
+            {
+                case 1:
+                    printf("*"); //text_yellow(stdout)
+                    printf(" | "); //text_white(stdout)
+                    break;
+
+                case 2:
+                    printf("o"); //text_yellow(stdout)
+                    printf(" | "); //text_white(stdout)
+                    break;
+
+                case 3:
+                    printf("@"); //text_blue(stdout)
+                    printf(" | "); //text_white(stdout)
+                    break;
+
+                case 4:
+                    printf("m"); //text_blue(stdout)
+                    printf(" | "); //text_white(stdout)
+                    break;
+
+                case 5:
+                    printf("!"); //text_blue(stdout)
+                    printf(" | "); //text_white(stdout)
+                    break;
+
+                default:
+                    perror("Wrong object value in printCase() in banquise.c");
+                    exit(EXIT_FAILURE);
+                    break;
+            }
         }
 
-        else if(banquise_case.object == 3)
-        {
-            printf("@"); //text_blue(stdout)
-            printf(" | "); //text_white(stdout)
-        }
+        //Soit un drapeau
+        else if(banquise_case.A > 0 || banquise_case.B > 0)
+            {
+               if(banquise_case.A == 1)
+                {
+                    printf("A"); //text_purple(stdout)
+                    printf(" | "); //text_white(stdout)
+                }
 
-        else if(banquise_case.object == 4)
-        {
-            printf("m"); //text_blue(stdout)
-            printf(" | "); //text_white(stdout)
-        }
+                else
+                {
+                    printf("B"); //text_purple(stdout)
+                    printf(" | "); //text_white(stdout)
+                }
+            }
 
-        else if(banquise_case.object == 5)
+        //Soit un joueur
+        else if(banquise_case.player > 0)
         {
-            printf("!"); //text_blue(stdout)
-            printf(" | "); //text_white(stdout)
+            switch(banquise_case.player)
+            {
+                case 1:
+                    printf("1"); //text_purple(stdout)
+                    printf(" | "); //text_white(stdout)
+                    break;
+
+                case 2:
+                    printf("2"); //text_purple(stdout)
+                    printf(" | "); //text_white(stdout)
+                    break;
+
+                case 3:
+                    printf("3"); //text_purple(stdout)
+                    printf(" | "); //text_white(stdout)
+                    break;
+
+                case 4:
+                    printf("4"); //text_purple(stdout)
+                    printf(" | "); //text_white(stdout)
+                    break;
+
+                default:
+                    perror("Wrong player value in printCase() in banquise.c");
+                    exit(EXIT_FAILURE);
+                    break;
+                }
         }
-        else
+    }
+
+    //S'il n'y a ni eau, ni objet/drapeau/joueur, c'est de la glace
+    else
         {
             printf("#"); //text_bold(stdout)
             printf(" | "); //text_white(stdout)
         }
-    }
-}*/
 
-void printCase(T_case banquise_case)
-{
-    if(banquise_case.player == 1)
-    {
-        printf("1"); //text_purple(stdout)
-        printf(" | "); //text_white(stdout)
-    }
 
-    else if(banquise_case.player == 2)
-    {
-        printf("2"); //text_purple(stdout)
-        printf(" | "); //text_white(stdout)
-    }
-
-    else if(banquise_case.player == 3)
-    {
-        printf("3"); //text_purple(stdout)
-        printf(" | "); //text_white(stdout)
-    }
-
-    else if(banquise_case.player == 4)
-    {
-        printf("4"); //text_purple(stdout)
-        printf(" | "); //text_white(stdout)
-    }
-
-    else if(banquise_case.A == 1)
-    {
-        printf("A"); //text_purple(stdout)
-        printf(" | "); //text_white(stdout)
-    }
-
-    else if(banquise_case.B == 1)
-    {
-        printf("B"); //text_purple(stdout)
-        printf(" | "); //text_white(stdout)
-    }
-
-    else if(banquise_case.object == 2)
-    {
-        printf("o"); //text_yellow(stdout)
-        printf(" | "); //text_white(stdout)
-    }
-
-    else if(banquise_case.ice == 0)
-    {
-        printf("~"); //text_blue(stdout)
-        printf(" | "); //text_white(stdout)
-    }
-
-    else
-    {
-        printf("#"); //text_bold(stdout)
-        printf(" | "); //text_white(stdout)
-    }
 }
 
 

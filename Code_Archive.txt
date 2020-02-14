@@ -1,0 +1,62 @@
+
+//printCase() dans Banquise.c
+/*    if(banquise_case.player == 1)
+    {
+        printf("1"); //text_purple(stdout)
+        printf(" | "); //text_white(stdout)
+    }
+
+    else if(banquise_case.player == 2)
+    {
+        printf("2"); //text_purple(stdout)
+        printf(" | "); //text_white(stdout)
+    }
+
+    else if(banquise_case.player == 3)
+    {
+        printf("3"); //text_purple(stdout)
+        printf(" | "); //text_white(stdout)
+    }
+
+    else if(banquise_case.player == 4)
+    {
+        printf("4"); //text_purple(stdout)
+        printf(" | "); //text_white(stdout)
+    }
+
+    else if(banquise_case.A == 1)
+    {
+        printf("A"); //text_purple(stdout)
+        printf(" | "); //text_white(stdout)
+    }
+
+    else if(banquise_case.B == 1)
+    {
+        printf("B"); //text_purple(stdout)
+        printf(" | "); //text_white(stdout)
+    }
+
+    else if(banquise_case.object == 1)
+    {
+        printf("*"); //text_yellow(stdout)
+        printf(" | "); //text_white(stdout)
+    }
+
+    else if(banquise_case.object == 2)
+    {
+        printf("o"); //text_yellow(stdout)
+        printf(" | "); //text_white(stdout)
+    }
+
+    else if(banquise_case.ice == 0)
+    {
+        printf("~"); //text_blue(stdout)
+        printf(" | "); //text_white(stdout)
+    }
+
+    else
+    {
+        printf("#"); //text_bold(stdout)
+        printf(" | "); //text_white(stdout)
+    }
+*/

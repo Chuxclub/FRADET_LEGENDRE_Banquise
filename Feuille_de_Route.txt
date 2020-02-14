@@ -13,9 +13,9 @@ Fait:
 3) Ajouter sur ce plateau des rochers de manières aléatoire
 4) Ajouter sur ce plateau un point de départ et d'arrivée de manière presque aléatoire (voir code pour la règle)
 5) Ajouter joueurs au plus près du point A
+6) Ajouter sur ce plateau des flocons de manière aléatoire
 
 A faire:
-6) Ajouter sur ce plateau des flocons de manière aléatoire
 7) Ajouter sur ce plateau un ressort et un marteau de manière aléatoire => prévoir la possibilité d'en mettre plusieurs plus tard
 
 
