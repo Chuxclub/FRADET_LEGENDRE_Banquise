@@ -12,3 +12,16 @@
 	<time.h>
 	"banquise.h"
 
+1581687686 source:c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\main.c
+	<stdio.h>
+	<stdlib.h>
+	"banquise.h"
+
+1581686503 c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\banquise.h
+
+1581687979 source:c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\banquise.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"banquise.h"
+

@@ -14,7 +14,7 @@ int main()
     addWater(myBanquise);
     addRocks(myBanquise);
     addFlags(myBanquise);
-    addPlayers(myBanquise);
+    addPlayers(myBanquise, 4);
 
     //Affichage
     printBanquise(myBanquise);

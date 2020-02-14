@@ -11,6 +11,7 @@
 #define RAND_MAX 101
 
 #define BANQUISE_SIZE 10
+#define NB_OF_COORDINATES 2
 
 //Crée un simple tableau de glace uniquement
 T_banquise *initBanquise(int size)
@@ -107,11 +108,27 @@ void addFlags(T_banquise *banquise)
     banquise->grid[Xb][Yb].B = 1;
 }
 
-int **searchInboundPos(T_banquise *banquise, int Ligne_a, int Col_a, int dist_A, int *size_pos)
+//Teste si une case est disponible pour y placer un objet interactif ou un joueur
+//Renvoit 1 si la case est disponible, 0 sinon
+int IsCaseAvailable(T_case banquise_case)
 {
-    //Initialisation variables nécessaires
+    if((banquise_case.ice == 1 && banquise_case.object == 0) && (banquise_case.A != 1 && banquise_case.B != 1) && banquise_case.player == 0)
+        return 1;
+
+    else
+        return 0;
+}
+
+//Recherche toutes les positions disponibles dans une zone de recherche
+//Que la fonction incrémente au fur et à mesure, s'arrête quand toute la banquise a été explorée ou que le tableau est non vide
+int **searchInboundPos(T_banquise *banquise, int Ligne_a, int Col_a, int *size_pos_tab)
+{
+    /*Initialisation des constantes et variables nécessaires*/
     //pos_tab correspond aux positions qui seront
     //dans les limites du tableau
+    int dist_A = 0;
+    int size = 0;
+    int found = 0;
     int ligne_max = BANQUISE_SIZE - 1;
     int col_max  = BANQUISE_SIZE - 1;
     int col_min  = 0;
@@ -120,55 +137,135 @@ int **searchInboundPos(T_banquise *banquise, int Ligne_a, int Col_a, int dist_A,
     for(int i = 0; i < BANQUISE_SIZE;  i++)
         pos_tab[i] = (int *) malloc(sizeof(int) * 2);
 
-    //Recherche position dans le tableau à tester après
-    //La première position est toujours valide compte tenu
-    //De la définition de A dans les trois dernières lignes du tableau
-    int i = 0;
-    int col_begin = Col_a - dist_A;
-    int col_end = Col_a + dist_A;
-    int ligne_begin = Ligne_a - dist_A;
-    int ligne_end = Ligne_a + dist_A;
-
-    /*printf("ligne_begin: %i\n", ligne_begin);
-    printf("ligne_end: %i\n", ligne_end);
-
-    printf("col_begin: %i\n", col_begin);
-    printf("col_end: %i\n\n", col_end);*/
-
-    while(ligne_end > ligne_max)
-        ligne_end--;
-
-    /*printf("new_ligne_end: %i\n", ligne_end);*/
-
-    while(col_begin < col_min)
-            col_begin++;
-
-    while(col_end > col_max)
-        col_end--;
-
-    /*printf("new_col_begin: %i\n", col_begin);
-    printf("new_col_end: %i\n", col_end);*/
-
-    //Balayage de la zone à dist_A du haut en bas, de la gauche vers la droite
-    //Sauvegarde des positions dans le tableau au fur et à mesure de la recherche
-    for(int ligne_index = ligne_begin; ligne_index <= ligne_end; ligne_index++)
+    do
     {
-        //Positionnement du début et fin de la recherche
-        //pour les indices colonnes
-        for(int col_index = col_begin; col_index <= col_end; col_index++)
-        {
-            pos_tab[i][0] = ligne_index;
-            pos_tab[i][1] = col_index;
-            //printf("Ligne  = %i, Colonne = %i\n", pos_tab[i][0], pos_tab[i][1]);
-            i++;
-        }
-    }
+        /*Définition des limites de la zone de recherche*/
+        //Positionnement des indices lignes/colonnes par rapport à A (Col_a, Ligne_a)
+        //Et par rapport au rayon de recherche autour de A (dist_A)
+        //Rectification de ces indices si ces-derniers dépassent le plateau de jeu
+        int col_begin = Col_a - dist_A;
+        int col_end = Col_a + dist_A;
+        int ligne_begin = Ligne_a - dist_A;
+        int ligne_end = Ligne_a + dist_A;
 
-    *size_pos = i;
+        while(ligne_end > ligne_max)
+            ligne_end--;
+
+        while(col_begin < col_min)
+                col_begin++;
+
+        while(col_end > col_max)
+            col_end--;
+
+        /*Balayage de la zone de recherche du haut en bas, de la gauche vers la droite*/
+        //Sauvegarde des positions dans le tableau au fur et à mesure de la recherche et que celles-ci sont libres
+        //Sauvegarde de la taille du tableau avec la variable size au fur et à mesure qu'on rajoute des positions
+        size = 0;
+        for(int ligne_index = ligne_begin; ligne_index <= ligne_end; ligne_index++)
+        {
+            for(int col_index = col_begin; col_index <= col_end; col_index++)
+            {
+                if(IsCaseAvailable(banquise->grid[ligne_index][col_index]))
+                {
+                    pos_tab[size][0] = ligne_index;
+                    pos_tab[size][1] = col_index;
+                    size++;
+                }
+            }
+        }
+
+        /*Extension de la zone et boucle aucune position de trouvée*/
+        if(size > 0)
+            found = 1;
+
+        else
+            dist_A++;
+
+        /*Arrêt de la recherche si on est parti du coin haut gauche du plateau et qu'on n'a rien trouvé par balayage*/
+        if((col_begin == 0 && ligne_begin == 0) && found == 0)
+        {
+            fprintf(stderr, "No available position to place player\(s\)\n");
+            exit(EXIT_FAILURE);
+        }
+
+    }while(found == 0);
+
+    *size_pos_tab = size;
     return pos_tab;
 }
 
-void addPlayers(T_banquise *banquise)
+//Recherche une position disponible dans une zone de recherche
+//Que la fonction incrémente au fur et à mesure, s'arrête quand toute la banquise a été explorée ou qu'une position a été trouvée
+int *searchAvailablePos(T_banquise *banquise, int Ligne_a, int Col_a)
+{
+    /*Initialisation des constantes et variables nécessaires*/
+    //pos_tab correspond aux positions qui seront
+    //dans les limites du tableau
+    int dist_A = 0;
+    int found = 0;
+    int ligne_max = BANQUISE_SIZE - 1;
+    int col_max  = BANQUISE_SIZE - 1;
+    int col_min  = 0;
+    int *pos_tab = (int *) malloc(sizeof(int) * NB_OF_COORDINATES);
+
+    do
+    {
+        /*Définition des limites de la zone de recherche*/
+        //Positionnement des indices lignes/colonnes par rapport à A (Col_a, Ligne_a)
+        //Et par rapport au rayon de recherche autour de A (dist_A)
+        //Rectification de ces indices si ces-derniers dépassent le plateau de jeu
+        int col_begin = Col_a - dist_A;
+        int col_end = Col_a + dist_A;
+        int ligne_begin = Ligne_a - dist_A;
+        int ligne_end = Ligne_a + dist_A;
+
+        while(ligne_end > ligne_max)
+            ligne_end--;
+
+        while(col_begin < col_min)
+            col_begin++;
+
+        while(col_end > col_max)
+            col_end--;
+
+
+        /*Balayage de la zone de recherche du haut en bas, de la gauche vers la droite*/
+        //Sauvegarde des positions dans le tableau au fur et à mesure de la recherche et que celles-ci sont libres
+        //Sauvegarde de la taille du tableau avec la variable size au fur et à mesure qu'on rajoute des positions
+        for(int ligne_index = ligne_begin; ligne_index <= ligne_end; ligne_index++)
+        {
+            for(int col_index = col_begin; col_index <= col_end; col_index++)
+            {
+                if(IsCaseAvailable(banquise->grid[ligne_index][col_index]))
+                {
+                    pos_tab[0] = ligne_index;
+                    pos_tab[1] = col_index;
+                    found = 1;
+                    break;
+                }
+            }
+
+            if(found == 1)
+                break;
+        }
+
+        /*Extension de la zone et boucle si aucune position de trouvée*/
+        if(found == 0)
+            dist_A++;
+
+        /*Arrêt de la recherche si on est parti du coin haut gauche du plateau et qu'on n'a rien trouvé par balayage*/
+        if((col_begin == 0 && ligne_begin == 0) && found == 0)
+        {
+            fprintf(stderr, "No available position to place player\(s\)\n");
+            exit(EXIT_FAILURE);
+        }
+    }while(found == 0);
+
+    return pos_tab;
+}
+
+//Ajoute les joueurs au plus près du point A sur la banquise
+void addPlayers(T_banquise *banquise, int nb_players)
 {
     /*Recherche point A (rappel: ne peut être que dans les trois dernières lignes)*/
     int Col_a = 0;
@@ -186,20 +283,47 @@ void addPlayers(T_banquise *banquise)
         }
     }
 
-    /*Recherche position disponible autour du point A*/
-    int size_pos  = 0;
-    int *size_pos_ptr = &size_pos;
-    int **pos_tab = searchInboundPos(banquise, Ligne_a, Col_a, 1, size_pos_ptr);
-
-    for(int i = 0; i < size_pos; i++)
-        printf("Ligne  = %i, Colonne = %i\n", pos_tab[i][0], pos_tab[i][1]);
-
+    /*Positionnement des joueurs*/
+    //Boucle -> recherche d'une position la plus proche, ajout joueur, etc.
+    for(int i = 1; i <= nb_players; i++)
+    {
+        int *found_pos = searchAvailablePos(banquise, Ligne_a, Col_a);
+        int available_line = found_pos[0];
+        int available_col = found_pos[1];
+        banquise->grid[available_line][available_col].player = i;
+        free(found_pos);
+    }
 }
+
 //Affiche un code d'une case avec le symbole correspondant
 //Suit ordre logique: A/B > object > player > ice
 void printCase(T_case banquise_case)
 {
-    if(banquise_case.A == 1)
+    if(banquise_case.player == 1)
+    {
+        printf("1"); //text_purple(stdout)
+        printf(" | "); //text_white(stdout)
+    }
+
+    else if(banquise_case.player == 2)
+    {
+        printf("2"); //text_purple(stdout)
+        printf(" | "); //text_white(stdout)
+    }
+
+    else if(banquise_case.player == 3)
+    {
+        printf("3"); //text_purple(stdout)
+        printf(" | "); //text_white(stdout)
+    }
+
+    else if(banquise_case.player == 4)
+    {
+        printf("4"); //text_purple(stdout)
+        printf(" | "); //text_white(stdout)
+    }
+
+    else if(banquise_case.A == 1)
     {
         printf("A"); //text_purple(stdout)
         printf(" | "); //text_white(stdout)
