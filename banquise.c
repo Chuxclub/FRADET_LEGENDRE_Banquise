@@ -13,7 +13,7 @@
 #define BANQUISE_SIZE 10
 #define NB_OF_COORDINATES 2
 
-//CrÃ©e un simple tableau de glace uniquement
+//Crée un simple tableau de glace uniquement
 T_banquise *initBanquise(int size)
 {
     T_banquise *res;
@@ -32,6 +32,12 @@ T_banquise *initBanquise(int size)
             res->grid[i][j].ice = 1;
             res->grid[i][j].player = 0;
             res->grid[i][j].object = 0;
+
+            //res.grid[i][j].glacon.pos.px = 0;
+            //res.grid[i][j].glacon.pos.py = 0;
+            //res.grid[i][j].glacon.vectordx = 0;
+            //res.grid[i][j].glacon.vectordy = 0;
+
             res->grid[i][j].A = 0;
             res->grid[i][j].B = 0;
         }
@@ -41,7 +47,7 @@ T_banquise *initBanquise(int size)
     return res;
 }
 
-//Ajoute de l'eau alÃ©atoirement dans la banquise, remplace la glace
+//Ajoute de l'eau aléatoirement dans la banquise, remplace la glace
 void addWater(T_banquise *banquise)
 {
     srand(time(NULL));
@@ -58,7 +64,7 @@ void addWater(T_banquise *banquise)
     }
 }
 
-//Ajoute des rochers alÃ©atoirement sur la banquise, remplace la glace
+//Ajoute des rochers aléatoirement sur la banquise, remplace la glace
 //Mais ne remplace pas l'eau! Code pour rocher: object = 1
 void addRocks(T_banquise *banquise)
 {
@@ -76,9 +82,65 @@ void addRocks(T_banquise *banquise)
     }
 }
 
-//Ajoute les points de dÃ©part et d'arrivÃ©
-//Le point d'arrivÃ© ne peut Ãªtre qu'Ã  trois lignes du haut du dÃ©part
-//Le point de dÃ©part dans les trois lignes en bas du tableau
+/*
+//ajoute un glacon alÃ©atoirement sur la banquise
+//object = 0 pour un glacon
+void addFlakes(T_banquise *banquise)
+{
+    srand(time(NULL));
+
+    for(int i = 0; i < banquise->size; i++)
+    {
+        for(int j = 0; j < banquise->size; j++)
+        {
+            int snow = rand() % RAND_MAX;
+
+            if(snow < 21 && banquise->grid[i][j].ice == 1)
+                banquise->grid[i][j].object = 1;
+        }
+    }
+}
+
+//ajoute un ressort alÃ©atoirement sur la banquise
+//object = 3 pour un glacon
+void addSprings(T_banquise *banquise)
+{
+    srand(time(NULL));
+
+    for(int i = 0; i < banquise->size; i++)
+    {
+        for(int j = 0; j < banquise->size; j++)
+        {
+            int spring = rand() % RAND_MAX;
+
+            if(spring < 21 && banquise->grid[i][j].ice == 1)
+                banquise->grid[i][j].object = 3;
+        }
+    }
+}
+
+//ajoute un piege alÃ©atoirement sur la banquise
+//object = 4 pour un piege
+void addTraps(T_banquise *banquise)
+{
+    srand(time(NULL));
+
+    for(int i = 0; i < banquise->size; i++)
+    {
+        for(int j = 0; j < banquise->size; j++)
+        {
+            int trap = rand() % RAND_MAX;
+
+            if(trap < 21 && banquise->grid[i][j].ice == 1)
+                banquise->grid[i][j].object = 5;
+        }
+    }
+}
+*/
+
+//Ajoute les points de départ et d'arrivé
+//Le point d'arrivé ne peut être qu'à trois lignes du haut du départ
+//Le point de départ dans les trois lignes en bas du tableau
 void addFlags(T_banquise *banquise)
 {
     srand(time(NULL));
@@ -120,10 +182,11 @@ int IsCaseAvailable(T_case banquise_case)
 }
 
 //Recherche toutes les positions disponibles dans une zone de recherche
-//Que la fonction incrÃ©mente au fur et Ã  mesure, s'arrÃªte quand toute la banquise a Ã©tÃ© explorÃ©e ou que le tableau est non vide
+//que la fonction incrémente au fur et à mesure, s'arrête quand toute la banquise a été explorée ou que le tableau est non vide.
+//N'est utilisée que pour les tests
 int **searchInboundPos(T_banquise *banquise, int Ligne_a, int Col_a, int *size_pos_tab)
 {
-    /*Initialisation des constantes et variables nÃ©cessaires*/
+    /*Initialisation des constantes et variables nécessaires*/
     //pos_tab correspond aux positions qui seront
     //dans les limites du tableau
     int dist_A = 0;
@@ -139,10 +202,10 @@ int **searchInboundPos(T_banquise *banquise, int Ligne_a, int Col_a, int *size_p
 
     do
     {
-        /*DÃ©finition des limites de la zone de recherche*/
-        //Positionnement des indices lignes/colonnes par rapport Ã  A (Col_a, Ligne_a)
+        /*Définition des limites de la zone de recherche*/
+        //Positionnement des indices lignes/colonnes par rapport à A (Col_a, Ligne_a)
         //Et par rapport au rayon de recherche autour de A (dist_A)
-        //Rectification de ces indices si ces-derniers dÃ©passent le plateau de jeu
+        //Rectification de ces indices si ces-derniers dépassent le plateau de jeu
         int col_begin = Col_a - dist_A;
         int col_end = Col_a + dist_A;
         int ligne_begin = Ligne_a - dist_A;
@@ -158,8 +221,8 @@ int **searchInboundPos(T_banquise *banquise, int Ligne_a, int Col_a, int *size_p
             col_end--;
 
         /*Balayage de la zone de recherche du haut en bas, de la gauche vers la droite*/
-        //Sauvegarde des positions dans le tableau au fur et Ã  mesure de la recherche et que celles-ci sont libres
-        //Sauvegarde de la taille du tableau avec la variable size au fur et Ã  mesure qu'on rajoute des positions
+        //Sauvegarde des positions dans le tableau au fur et à mesure de la recherche et que celles-ci sont libres
+        //Sauvegarde de la taille du tableau avec la variable size au fur et à mesure qu'on rajoute des positions
         size = 0;
         for(int ligne_index = ligne_begin; ligne_index <= ligne_end; ligne_index++)
         {
@@ -174,14 +237,14 @@ int **searchInboundPos(T_banquise *banquise, int Ligne_a, int Col_a, int *size_p
             }
         }
 
-        /*Extension de la zone et boucle aucune position de trouvÃ©e*/
+        /*Extension de la zone et boucle aucune position de trouvée*/
         if(size > 0)
             found = 1;
 
         else
             dist_A++;
 
-        /*ArrÃªt de la recherche si on est parti du coin haut gauche du plateau et qu'on n'a rien trouvÃ© par balayage*/
+        /*Arrêt de la recherche si on est parti du coin haut gauche du plateau et qu'on n'a rien trouvé par balayage*/
         if((col_begin == 0 && ligne_begin == 0) && found == 0)
         {
             fprintf(stderr, "No available position to place player\(s\)\n");
@@ -195,10 +258,10 @@ int **searchInboundPos(T_banquise *banquise, int Ligne_a, int Col_a, int *size_p
 }
 
 //Recherche une position disponible dans une zone de recherche
-//Que la fonction incrÃ©mente au fur et Ã  mesure, s'arrÃªte quand toute la banquise a Ã©tÃ© explorÃ©e ou qu'une position a Ã©tÃ© trouvÃ©e
+//Que la fonction incrémente au fur et à mesure, s'arrête quand toute la banquise a été explorée ou qu'une position a été trouvée
 int *searchAvailablePos(T_banquise *banquise, int Ligne_a, int Col_a)
 {
-    /*Initialisation des constantes et variables nÃ©cessaires*/
+    /*Initialisation des constantes et variables nécessaires*/
     //pos_tab correspond aux positions qui seront
     //dans les limites du tableau
     int dist_A = 0;
@@ -210,10 +273,10 @@ int *searchAvailablePos(T_banquise *banquise, int Ligne_a, int Col_a)
 
     do
     {
-        /*DÃ©finition des limites de la zone de recherche*/
-        //Positionnement des indices lignes/colonnes par rapport Ã  A (Col_a, Ligne_a)
+        /*Définition des limites de la zone de recherche*/
+        //Positionnement des indices lignes/colonnes par rapport à A (Col_a, Ligne_a)
         //Et par rapport au rayon de recherche autour de A (dist_A)
-        //Rectification de ces indices si ces-derniers dÃ©passent le plateau de jeu
+        //Rectification de ces indices si ces-derniers dépassent le plateau de jeu
         int col_begin = Col_a - dist_A;
         int col_end = Col_a + dist_A;
         int ligne_begin = Ligne_a - dist_A;
@@ -230,8 +293,8 @@ int *searchAvailablePos(T_banquise *banquise, int Ligne_a, int Col_a)
 
 
         /*Balayage de la zone de recherche du haut en bas, de la gauche vers la droite*/
-        //Sauvegarde des positions dans le tableau au fur et Ã  mesure de la recherche et que celles-ci sont libres
-        //Sauvegarde de la taille du tableau avec la variable size au fur et Ã  mesure qu'on rajoute des positions
+        //Sauvegarde des positions dans le tableau au fur et à mesure de la recherche et que celles-ci sont libres
+        //Sauvegarde de la taille du tableau avec la variable size au fur et à mesure qu'on rajoute des positions
         for(int ligne_index = ligne_begin; ligne_index <= ligne_end; ligne_index++)
         {
             for(int col_index = col_begin; col_index <= col_end; col_index++)
@@ -249,11 +312,11 @@ int *searchAvailablePos(T_banquise *banquise, int Ligne_a, int Col_a)
                 break;
         }
 
-        /*Extension de la zone et boucle si aucune position de trouvÃ©e*/
+        /*Extension de la zone et boucle si aucune position de trouvée*/
         if(found == 0)
             dist_A++;
 
-        /*ArrÃªt de la recherche si on est parti du coin haut gauche du plateau et qu'on n'a rien trouvÃ© par balayage*/
+        /*Arrêt de la recherche si on est parti du coin haut gauche du plateau et qu'on n'a rien trouvé par balayage*/
         if((col_begin == 0 && ligne_begin == 0) && found == 0)
         {
             fprintf(stderr, "No available position to place player\(s\)\n");
@@ -264,10 +327,10 @@ int *searchAvailablePos(T_banquise *banquise, int Ligne_a, int Col_a)
     return pos_tab;
 }
 
-//Ajoute les joueurs au plus prÃ¨s du point A sur la banquise
+//Ajoute les joueurs au plus près du point A sur la banquise
 void addPlayers(T_banquise *banquise, int nb_players)
 {
-    /*Recherche point A (rappel: ne peut Ãªtre que dans les trois derniÃ¨res lignes)*/
+    /*Recherche point A (rappel: ne peut être que dans les trois dernières lignes)*/
     int Col_a = 0;
     int Ligne_a = 0;
 
@@ -297,6 +360,55 @@ void addPlayers(T_banquise *banquise, int nb_players)
 
 //Affiche un code d'une case avec le symbole correspondant
 //Suit ordre logique: A/B > object > player > ice
+
+//Affiche un code d'une case avec le symbole correspondant
+//Suit ordre logique: A/B > object > player > ice
+/*void printCase(T_case banquise_case)
+{
+    if(banquise_case.ice == 0)
+    {
+        printf("~"); //text_blue(stdout)
+        printf(" | "); //text_white(stdout)
+    }
+
+    else if(banquise_case.ice == 1)
+    {
+        if(banquise_case.object == 1)
+        {
+            printf("&"); //text_yellow(stdout)
+            printf(" | "); //text_white(stdout)
+        }
+        else if(banquise_case.object == 2)
+        {
+            printf("o"); //text_blue(stdout)
+            printf(" | "); //text_white(stdout)
+        }
+
+        else if(banquise_case.object == 3)
+        {
+            printf("@"); //text_blue(stdout)
+            printf(" | "); //text_white(stdout)
+        }
+
+        else if(banquise_case.object == 4)
+        {
+            printf("m"); //text_blue(stdout)
+            printf(" | "); //text_white(stdout)
+        }
+
+        else if(banquise_case.object == 5)
+        {
+            printf("!"); //text_blue(stdout)
+            printf(" | "); //text_white(stdout)
+        }
+        else
+        {
+            printf("#"); //text_bold(stdout)
+            printf(" | "); //text_white(stdout)
+        }
+    }
+}*/
+
 void printCase(T_case banquise_case)
 {
     if(banquise_case.player == 1)
@@ -354,7 +466,26 @@ void printCase(T_case banquise_case)
     }
 }
 
-//Affiche l'Ã©tat de la banquise Ã  l'instant de son appel
+
+/*
+//calcule la fonte de la banquise
+T_banquise Fontebanquise (T_banquise *banquise){
+    srand(time (NULL));
+for (int i = 0; i < banquise->size; i++){
+    for (int j = 0; j < banquise->size; j++){
+        if ((banquise->grid[i][j].ice = 0) && (rand()%(16) < 16)){   //fond avec un pourcentage de 15%
+            banquise->grid[i][j-1].ice = 0;  // toutes les cases autour de ce point d'eau
+            banquise->grid[i][j+1].ice = 0;
+            banquise->grid[i-1][j].ice = 0;
+            banquise->grid[i+1][j].ice = 0;
+            j += 2; //ajoute plus 2 Ã  j pour ne pas recommencer avec le point d'eau nouvellement crÃ©Ã©
+        }
+    }
+}
+return *banquise;
+}*/
+
+//Affiche l'état de la banquise à l'instant de son appel
 void printBanquise(T_banquise *banquise)
 {
     //Upper Border

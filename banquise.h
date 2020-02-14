@@ -31,6 +31,11 @@ typedef struct
 T_banquise *initBanquise(int size);
 void addWater(T_banquise *banquise);
 void addRocks(T_banquise *banquise);
+//void addFlakes(T_banquise *banquise);
+//void addTraps(T_banquise *banquise);
+//void addSprings(T_banquise *banquise);
+//banquise Fontebanquise (banquise B)
+
 void printBanquise(T_banquise *banquise);
 void printCase(T_case banquise_case);
 
