@@ -1,0 +1,62 @@
+									Feuille de route: Banquise Game
+									     (Certifié Franglish!)
+
+=======================================================================================================================================================================
+IMPORTANT: A la fin de chaque phase, se concerter pour vérifier complexités/optimisations possibles/lisibilité/documentation/anticipation pour des évolutions possibles
+=======================================================================================================================================================================
+
+Phase 1 -> Génération aléatoire du plateau de jeu complète
+
+Fait:
+1) Générer un plateau de taille n avec que de la glace
+2) Ajouter sur ce plateau de l'eau de manière aléatoire
+3) Ajouter sur ce plateau des rochers de manières aléatoire
+4) Ajouter sur ce plateau un point de départ et d'arrivée de manière presque aléatoire (voir code pour la règle)
+5) Ajouter joueurs au plus près du point A
+
+A faire:
+6) Ajouter sur ce plateau des flocons de manière aléatoire
+7) Ajouter sur ce plateau un ressort et un marteau de manière aléatoire => prévoir la possibilité d'en mettre plusieurs plus tard
+
+
+Phase 2 -> Ajout de toutes les interactions
+Fait:
+
+A faire:
+1) Menu principal sélection nombre de joueurs
+2) Boucle déplacement des joueurs + mise à jour affichage à chaque déplacement (jeu au tour par tour...) => pour l'instant les joueurs peuvent aller sur tout et partout
+3) Restriction des déplacements des joueurs selon les éléments sur le terrain
+4) Interaction joueur/flocons et flocons/environnement (environnement = eau/roche)
+5) Interaction flocons/ressort
+6) Interaction flocon/marteau
+
+
+Phase 3 -> Détection de la fin de partie
+Fait:
+
+A faire:
+1) Détecter l'existence d'un chemin direct récursivement
+2) Détecter la possibilité d'un chemin indirect
+3) Détecter une fin de partie
+
+Phase 4 -> Ajout du réchauffement climatique
+Fait:
+
+A faire:
+1) Ajouter un réchauffement climatique aléatoire à la boucle des rafraîchissements tout par tour
+
+Phase 5 -> Ajout score des joueurs
+Fait:
+
+A faire:
+1) Ajouter un score aux joueurs: nombre de joueurs tués/distance de l'arrivée/chemin parcouru
+2) Afficher le score en fin de partie
+3) Déterminer un gagnant par catégorie: tueur/pacifique/distance/chemin
+
+
+Phase 6 -> Analyse complexité/Réécriture pour lisibilité et optimisations, remise du projet
+Fait:
+
+A faire:
+1) Pour chaque module: analyser les complexités => Si ok: vérifier lisibilité => Si ok: vérifier documentation (nom/prénom, explications)
+						=> Si pas ok: vérifier optimisation => Si ok, lisiblité puis documentation...
