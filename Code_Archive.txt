@@ -1,3 +1,79 @@
+//Recherche toutes les positions disponibles dans une zone de recherche
+//que la fonction incrémente au fur et à mesure, s'arrête quand toute la banquise a été explorée ou que le tableau est non vide.
+//N'est utilisée que pour les tests
+int **searchInboundPos(T_banquise *banquise, int Ligne_a, int Col_a, int *size_pos_tab)
+{
+    /*Initialisation des constantes et variables nécessaires*/
+    //pos_tab correspond aux positions qui seront
+    //dans les limites du tableau
+    int dist_A = 0;
+    int size = 0;
+    int found = 0;
+    int ligne_max = BANQUISE_SIZE - 1;
+    int col_max  = BANQUISE_SIZE - 1;
+    int col_min  = 0;
+    int **pos_tab = (int **) malloc(sizeof(int *) * BANQUISE_SIZE);
+
+    for(int i = 0; i < BANQUISE_SIZE;  i++)
+        pos_tab[i] = (int *) malloc(sizeof(int) * 2);
+
+    do
+    {
+        /*Définition des limites de la zone de recherche*/
+        //Positionnement des indices lignes/colonnes par rapport à A (Col_a, Ligne_a)
+        //Et par rapport au rayon de recherche autour de A (dist_A)
+        //Rectification de ces indices si ces-derniers dépassent le plateau de jeu
+        int col_begin = Col_a - dist_A;
+        int col_end = Col_a + dist_A;
+        int ligne_begin = Ligne_a - dist_A;
+        int ligne_end = Ligne_a + dist_A;
+
+        while(ligne_end > ligne_max)
+            ligne_end--;
+
+        while(col_begin < col_min)
+                col_begin++;
+
+        while(col_end > col_max)
+            col_end--;
+
+        /*Balayage de la zone de recherche du haut en bas, de la gauche vers la droite*/
+        //Sauvegarde des positions dans le tableau au fur et à mesure de la recherche et que celles-ci sont libres
+        //Sauvegarde de la taille du tableau avec la variable size au fur et à mesure qu'on rajoute des positions
+        size = 0;
+        for(int ligne_index = ligne_begin; ligne_index <= ligne_end; ligne_index++)
+        {
+            for(int col_index = col_begin; col_index <= col_end; col_index++)
+            {
+                if(IsCaseAvailable(banquise->grid[ligne_index][col_index]))
+                {
+                    pos_tab[size][0] = ligne_index;
+                    pos_tab[size][1] = col_index;
+                    size++;
+                }
+            }
+        }
+
+        /*Extension de la zone et boucle aucune position de trouvée*/
+        if(size > 0)
+            found = 1;
+
+        else
+            dist_A++;
+
+        /*Arrêt de la recherche si on est parti du coin haut gauche du plateau et qu'on n'a rien trouvé par balayage*/
+        if((col_begin == 0 && ligne_begin == 0) && found == 0)
+        {
+            fprintf(stderr, "No available position to place player\(s\)\n");
+            exit(EXIT_FAILURE);
+        }
+
+    }while(found == 0);
+
+    *size_pos_tab = size;
+    return pos_tab;
+}
+
 
 //printCase() dans Banquise.c
 /*    if(banquise_case.player == 1)

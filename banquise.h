@@ -5,18 +5,18 @@
 #ifndef BANQUISE_BANQUISE_H
 #define BANQUISE_BANQUISE_H
 
-/*
- * Dans Ice: code 0 = eau, code 1 = glace
- * Dans Player: code 0 = il n'y a pas de joueurs, code 1 = il y le joueur 1, code 2 = il y a le joueur 2, etc.
- * Dans Object: code 0 = pas  d'objets, code 1= glaçon, code 2=rocher, code 3=ressort, code 4=marteau, code 5=piege
- * Dans A: code 0=la case n'est pas le point de départ, code 1=la case est le point de départ
- * Dans B: code 0=la case n'est pas le point d'arrivée, code 1=la case est le point d'arrivée
- */
+/* ============================================ */
+/* ============ TYPES UTILISATEURS ============ */
+/* ============================================ */
+typedef enum{water = 0, ice} T_ice;
+typedef enum{no_player = 0, player_1, player_2, player_3, player_4} T_player;
+typedef enum{no_object = 0, flake, rock, spring, hammer, trap} T_object;
+
 typedef struct
 {
-    int ice;
-    int player;
-    int object;
+    T_ice ice;
+    T_player player;
+    T_object object;
     int A;
     int B;
 } T_case;
@@ -28,20 +28,41 @@ typedef struct
 }T_banquise;
 
 
-T_banquise *initBanquise(int size);
+
+/* ============================================ */
+/* ========= INITIALISATION BANQUISE ========== */
+/* ============================================ */
+T_banquise *initRawBanquise(int size);
+
+
+
+/* ============================================ */
+/* ========== MODIFICATIONS BANQUISE ========== */
+/* ============================================ */
 void addWater(T_banquise *banquise);
 void addRocks(T_banquise *banquise);
-//void addFlakes(T_banquise *banquise);
+void addFlakes(T_banquise *banquise);
+void addFlags(T_banquise *banquise);
 //void addTraps(T_banquise *banquise);
 //void addSprings(T_banquise *banquise);
-//banquise Fontebanquise (banquise B)
 
+int IsCaseAvailable(T_case banquise_case);
+int *searchPos(T_banquise *banquise, int Ligne_a, int Col_a, int size_pos_tab[]);
+void addPlayers(T_banquise *banquise, int nb_players);
+
+
+/* ============================================ */
+/* ================ AFFICHAGES ================ */
+/* ============================================ */
 void printBanquise(T_banquise *banquise);
 void printCase(T_case banquise_case);
 
-void addPlayers(T_banquise *banquise, int nb_players);
-int IsPosAvailable(T_case banquise_case);
-int *searchPos(T_banquise *banquise, int Ligne_a, int Col_a, int size_pos_tab[]);
-int *searchPos(T_banquise *banquise, int Ligne_a, int Col_a, int size_pos_tab[]);
+
+/* ============================================ */
+/* =================== FONTE ================== */
+/* ============================================ */
+T_banquise Fontebanquise (T_banquise *B);
+
+
 
 #endif //BANQUISE_BANQUISE_H
