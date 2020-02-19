@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "banquise.h"
+#include <windows.h>
 //#include "termcolor.h"
 
 #define RAND_MAX 101
