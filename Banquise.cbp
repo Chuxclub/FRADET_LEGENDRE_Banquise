@@ -35,6 +35,15 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="banquise.h" />
+		<Unit filename="glacon.c">
+			<Option compilerVar="CC" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="glacon.h" />
+		<Unit filename="joueur.c">
+			<Option compilerVar="CC" />
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="joueur.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />

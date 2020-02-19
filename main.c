@@ -8,13 +8,14 @@
 int main()
 {
     //Initialisation de la banquise (que de la glace)
-    T_banquise *myBanquise = initBanquise(BANQUISE_SIZE);
+    T_banquise *myBanquise = initRawBanquise(BANQUISE_SIZE);
 
     //Génération aléatoire des éléments du terrain
     addWater(myBanquise);
     addRocks(myBanquise);
     addFlags(myBanquise);
-    addPlayers(myBanquise);
+    addPlayers(myBanquise, 4);
+    addFlakes(myBanquise);
 
     //Affichage
     printBanquise(myBanquise);

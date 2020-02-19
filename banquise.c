@@ -12,9 +12,15 @@
 #define RAND_MAX 101
 
 #define BANQUISE_SIZE 10
+#define NB_OF_COORDINATES 2
 
-//CrÃ©e un simple tableau de glace uniquement
-T_banquise *initBanquise(int size)
+
+/* ============================================ */
+/* ========= INITIALISATION BANQUISE ========== */
+/* ============================================ */
+
+//Crée un simple tableau de glace uniquement
+T_banquise *initRawBanquise(int size)
 {
     T_banquise *res;
     res = ( T_banquise* ) malloc(sizeof(T_banquise));
@@ -29,9 +35,15 @@ T_banquise *initBanquise(int size)
     {
         for(int j = 0; j < size; j++)
         {
-            res->grid[i][j].ice = 1;
-            res->grid[i][j].player = 0;
-            res->grid[i][j].object = 0;
+            res->grid[i][j].ice = ice;
+            res->grid[i][j].player = no_player;
+            res->grid[i][j].object = no_object;
+
+            //res.grid[i][j].glacon.pos.px = 0;
+            //res.grid[i][j].glacon.pos.py = 0;
+            //res.grid[i][j].glacon.vectordx = 0;
+            //res.grid[i][j].glacon.vectordy = 0;
+
             res->grid[i][j].A = 0;
             res->grid[i][j].B = 0;
         }
@@ -41,7 +53,12 @@ T_banquise *initBanquise(int size)
     return res;
 }
 
-//Ajoute de l'eau alÃ©atoirement dans la banquise, remplace la glace
+
+/* ============================================ */
+/* ========== MODIFICATIONS BANQUISE ========== */
+/* ============================================ */
+
+//Ajoute de l'eau aléatoirement dans la banquise, remplace la glace
 void addWater(T_banquise *banquise)
 {
     srand(time(NULL));
@@ -53,12 +70,12 @@ void addWater(T_banquise *banquise)
             int loto = rand() % RAND_MAX;
 
             if(loto < 15)
-                banquise->grid[i][j].ice = 0;
+                banquise->grid[i][j].ice = water;
         }
     }
 }
 
-//Ajoute des rochers alÃ©atoirement sur la banquise, remplace la glace
+//Ajoute des rochers aléatoirement sur la banquise, remplace la glace
 //Mais ne remplace pas l'eau! Code pour rocher: object = 1
 void addRocks(T_banquise *banquise)
 {
@@ -70,15 +87,72 @@ void addRocks(T_banquise *banquise)
         {
             int loto = rand() % RAND_MAX;
 
-            if(loto < 20 && banquise->grid[i][j].ice == 1)
-                banquise->grid[i][j].object = 2;
+            if(loto < 25 && banquise->grid[i][j].ice == 1)
+                banquise->grid[i][j].object = rock;
         }
     }
 }
 
-//Ajoute les points de dÃ©part et d'arrivÃ©
-//Le point d'arrivÃ© ne peut Ãªtre qu'Ã  trois lignes du haut du dÃ©part
-//Le point de dÃ©part dans les trois lignes en bas du tableau
+
+//ajoute un glacon alÃ©atoirement sur la banquise
+//object = 0 pour un glacon
+void addFlakes(T_banquise *banquise)
+{
+    srand(time(NULL));
+
+    for(int i = 0; i < banquise->size; i++)
+    {
+        for(int j = 0; j < banquise->size; j++)
+        {
+            int snow = rand() % RAND_MAX;
+
+            if(snow < 21 && banquise->grid[i][j].ice == ice)
+                banquise->grid[i][j].object = flake;
+        }
+    }
+}
+
+/*
+//ajoute un ressort alÃ©atoirement sur la banquise
+//object = 3 pour un glacon
+void addSprings(T_banquise *banquise)
+{
+    srand(time(NULL));
+
+    for(int i = 0; i < banquise->size; i++)
+    {
+        for(int j = 0; j < banquise->size; j++)
+        {
+            int spring = rand() % RAND_MAX;
+
+            if(spring < 21 && banquise->grid[i][j].ice == 1)
+                banquise->grid[i][j].object = 3;
+        }
+    }
+}
+
+//ajoute un piege alÃ©atoirement sur la banquise
+//object = 4 pour un piege
+void addTraps(T_banquise *banquise)
+{
+    srand(time(NULL));
+
+    for(int i = 0; i < banquise->size; i++)
+    {
+        for(int j = 0; j < banquise->size; j++)
+        {
+            int trap = rand() % RAND_MAX;
+
+            if(trap < 21 && banquise->grid[i][j].ice == 1)
+                banquise->grid[i][j].object = 5;
+        }
+    }
+}
+*/
+
+//Ajoute les points de départ et d'arrivé
+//Le point d'arrivé ne peut être qu'à trois lignes du haut du départ
+//Le point de départ dans les trois lignes en bas du tableau
 void addFlags(T_banquise *banquise)
 {
     srand(time(NULL));
@@ -89,89 +163,111 @@ void addFlags(T_banquise *banquise)
     int Xb = 0 + (rand() % 3);
     int Yb = rand() % BANQUISE_SIZE;
 
-    while(banquise->grid[Xa][Ya].object > 0 || banquise->grid[Xa][Ya].ice == 1)
+    //Si la position de A définie ci-dessus comporte un objet ou de l'eau on redéfinit jusqu'à
+    //ce que ce soit bon!
+    while(banquise->grid[Xa][Ya].object > 0 || banquise->grid[Xa][Ya].ice == 0)
     {
         Xa = BANQUISE_SIZE - 1 - (rand() % 3);
         Ya = rand() % BANQUISE_SIZE;
     }
-
-
     banquise->grid[Xa][Ya].A = 1;
 
 
-    while((banquise->grid[Xa][Ya].object > 0 || banquise->grid[Xa][Ya].ice == 1))
+    //Même chose pour B
+    while((banquise->grid[Xb][Yb].object > 0 || banquise->grid[Xb][Yb].ice == 0))
     {
         Xb = 0 + (rand() % 3);
         Yb = rand() % BANQUISE_SIZE;
     }
-
     banquise->grid[Xb][Yb].B = 1;
 }
 
-int **searchInboundPos(T_banquise *banquise, int Ligne_a, int Col_a, int dist_A, int *size_pos)
+//Teste si une case est disponible pour y placer un objet interactif ou un joueur
+//Renvoit 1 si la case est disponible, 0 sinon
+int IsCaseAvailable(T_case banquise_case)
 {
-    //Initialisation variables nÃ©cessaires
+    if((banquise_case.ice == ice && banquise_case.object == no_object) && (banquise_case.A != 1 && banquise_case.B != 1) && banquise_case.player == no_player)
+        return 1;
+
+    else
+        return 0;
+}
+
+
+//Recherche une position disponible dans une zone de recherche
+//Que la fonction incrémente au fur et à mesure, s'arrête quand toute la banquise a été explorée ou qu'une position a été trouvée
+int *searchAvailablePos(T_banquise *banquise, int Ligne_a, int Col_a)
+{
+    /*Initialisation des constantes et variables nécessaires*/
     //pos_tab correspond aux positions qui seront
     //dans les limites du tableau
+    int dist_A = 0;
+    int found = 0;
     int ligne_max = BANQUISE_SIZE - 1;
     int col_max  = BANQUISE_SIZE - 1;
     int col_min  = 0;
-    int **pos_tab = (int **) malloc(sizeof(int *) * BANQUISE_SIZE);
+    int *pos_tab = (int *) malloc(sizeof(int) * NB_OF_COORDINATES);
 
-    for(int i = 0; i < BANQUISE_SIZE;  i++)
-        pos_tab[i] = (int *) malloc(sizeof(int) * 2);
+    do
+    {
+        /*Définition des limites de la zone de recherche*/
+        //Positionnement des indices lignes/colonnes par rapport à A (Col_a, Ligne_a)
+        //Et par rapport au rayon de recherche autour de A (dist_A)
+        //Rectification de ces indices si ces-derniers dépassent le plateau de jeu
+        int col_begin = Col_a - dist_A;
+        int col_end = Col_a + dist_A;
+        int ligne_begin = Ligne_a - dist_A;
+        int ligne_end = Ligne_a + dist_A;
 
-    //Recherche position dans le tableau Ã  tester aprÃ¨s
-    //La premiÃ¨re position est toujours valide compte tenu
-    //De la dÃ©finition de A dans les trois derniÃ¨res lignes du tableau
-    int i = 0;
-    int col_begin = Col_a - dist_A;
-    int col_end = Col_a + dist_A;
-    int ligne_begin = Ligne_a - dist_A;
-    int ligne_end = Ligne_a + dist_A;
+        while(ligne_end > ligne_max)
+            ligne_end--;
 
-    /*printf("ligne_begin: %i\n", ligne_begin);
-    printf("ligne_end: %i\n", ligne_end);
-
-    printf("col_begin: %i\n", col_begin);
-    printf("col_end: %i\n\n", col_end);*/
-
-    while(ligne_end > ligne_max)
-        ligne_end--;
-
-    /*printf("new_ligne_end: %i\n", ligne_end);*/
-
-    while(col_begin < col_min)
+        while(col_begin < col_min)
             col_begin++;
 
-    while(col_end > col_max)
-        col_end--;
+        while(col_end > col_max)
+            col_end--;
 
-    /*printf("new_col_begin: %i\n", col_begin);
-    printf("new_col_end: %i\n", col_end);*/
 
-    //Balayage de la zone Ã  dist_A du haut en bas, de la gauche vers la droite
-    //Sauvegarde des positions dans le tableau au fur et Ã  mesure de la recherche
-    for(int ligne_index = ligne_begin; ligne_index <= ligne_end; ligne_index++)
-    {
-        //Positionnement du dÃ©but et fin de la recherche
-        //pour les indices colonnes
-        for(int col_index = col_begin; col_index <= col_end; col_index++)
+        /*Balayage de la zone de recherche du haut en bas, de la gauche vers la droite*/
+        //Sauvegarde des positions dans le tableau au fur et à mesure de la recherche et que celles-ci sont libres
+        //Sauvegarde de la taille du tableau avec la variable size au fur et à mesure qu'on rajoute des positions
+        for(int ligne_index = ligne_begin; ligne_index <= ligne_end; ligne_index++)
         {
-            pos_tab[i][0] = ligne_index;
-            pos_tab[i][1] = col_index;
-            //printf("Ligne  = %i, Colonne = %i\n", pos_tab[i][0], pos_tab[i][1]);
-            i++;
-        }
-    }
+            for(int col_index = col_begin; col_index <= col_end; col_index++)
+            {
+                if(IsCaseAvailable(banquise->grid[ligne_index][col_index]))
+                {
+                    pos_tab[0] = ligne_index;
+                    pos_tab[1] = col_index;
+                    found = 1;
+                    break;
+                }
+            }
 
-    *size_pos = i;
+            if(found == 1)
+                break;
+        }
+
+        /*Extension de la zone et boucle si aucune position de trouvée*/
+        if(found == 0)
+            dist_A++;
+
+        /*Arrêt de la recherche si on est parti du coin haut gauche du plateau et qu'on n'a rien trouvé par balayage*/
+        if((col_begin == 0 && ligne_begin == 0) && found == 0)
+        {
+            fprintf(stderr, "No available position to place player\(s\)\n");
+            exit(EXIT_FAILURE);
+        }
+    }while(found == 0);
+
     return pos_tab;
 }
 
-void addPlayers(T_banquise *banquise)
+//Ajoute les joueurs au plus près du point A sur la banquise
+void addPlayers(T_banquise *banquise, int nb_players)
 {
-    /*Recherche point A (rappel: ne peut Ãªtre que dans les trois derniÃ¨res lignes)*/
+    /*Recherche point A (rappel: ne peut être que dans les trois dernières lignes)*/
     int Col_a = 0;
     int Ligne_a = 0;
 
@@ -187,51 +283,136 @@ void addPlayers(T_banquise *banquise)
         }
     }
 
-    /*Recherche position disponible autour du point A*/
-    int size_pos  = 0;
-    int *size_pos_ptr = &size_pos;
-    int **pos_tab = searchInboundPos(banquise, Ligne_a, Col_a, 1, size_pos_ptr);
-
-    for(int i = 0; i < size_pos; i++)
-        printf("Ligne  = %i, Colonne = %i\n", pos_tab[i][0], pos_tab[i][1]);
-
+    /*Positionnement des joueurs*/
+    //Boucle -> recherche d'une position la plus proche, ajout joueur, etc.
+    for(int i = 1; i <= nb_players; i++)
+    {
+        int *found_pos = searchAvailablePos(banquise, Ligne_a, Col_a);
+        int available_line = found_pos[0];
+        int available_col = found_pos[1];
+        banquise->grid[available_line][available_col].player = i;
+        free(found_pos);
+    }
 }
+
+
+
+/* ============================================ */
+/* ================ AFFICHAGES ================ */
+/* ============================================ */
+
 //Affiche un code d'une case avec le symbole correspondant
 //Suit ordre logique: A/B > object > player > ice
 void printCase(T_case banquise_case)
 {
-    if(banquise_case.A == 1)
-    {
-        printf("A"); //text_purple(stdout)
-        printf(" | "); //text_white(stdout)
-    }
-
-    else if(banquise_case.B == 1)
-    {
-        printf("B"); //text_purple(stdout)
-        printf(" | "); //text_white(stdout)
-    }
-
-    else if(banquise_case.object == 2)
-    {
-        printf("o"); //text_yellow(stdout)
-        printf(" | "); //text_white(stdout)
-    }
-
-    else if(banquise_case.ice == 0)
+    //Si c'est de l'eau inutile de chercher plus loins, on l'affiche
+    if(banquise_case.ice == 0)
     {
         printf("~"); //text_blue(stdout)
         printf(" | "); //text_white(stdout)
     }
 
-    else
+    //S'il y a un objet, un drapeau ou un joueur on va l'afficher
+    else if(banquise_case.object > 0 || banquise_case.A > 0 || banquise_case.B > 0 || banquise_case.player > 0)
     {
-        printf("#"); //text_bold(stdout)
-        printf(" | "); //text_white(stdout)
+        //C'est soit un objet...
+        if(banquise_case.object > 0)
+        {
+            switch(banquise_case.object)
+            {
+                case flake:
+                    printf("*"); //text_yellow(stdout)
+                    printf(" | "); //text_white(stdout)
+                    break;
+
+                case rock:
+                    printf("o"); //text_yellow(stdout)
+                    printf(" | "); //text_white(stdout)
+                    break;
+
+                case spring:
+                    printf("@"); //text_blue(stdout)
+                    printf(" | "); //text_white(stdout)
+                    break;
+
+                case hammer:
+                    printf("m"); //text_blue(stdout)
+                    printf(" | "); //text_white(stdout)
+                    break;
+
+                case trap:
+                    printf("!"); //text_blue(stdout)
+                    printf(" | "); //text_white(stdout)
+                    break;
+
+                default:
+                    perror("Wrong object value in printCase() in banquise.c");
+                    exit(EXIT_FAILURE);
+                    break;
+            }
+        }
+
+        //Soit un drapeau
+        else if(banquise_case.A > 0 || banquise_case.B > 0)
+            {
+               if(banquise_case.A == 1)
+                {
+                    printf("A"); //text_purple(stdout)
+                    printf(" | "); //text_white(stdout)
+                }
+
+                else
+                {
+                    printf("B"); //text_purple(stdout)
+                    printf(" | "); //text_white(stdout)
+                }
+            }
+
+        //Soit un joueur
+        else if(banquise_case.player > 0)
+        {
+            switch(banquise_case.player)
+            {
+                case player_1:
+                    printf("1"); //text_purple(stdout)
+                    printf(" | "); //text_white(stdout)
+                    break;
+
+                case player_2:
+                    printf("2"); //text_purple(stdout)
+                    printf(" | "); //text_white(stdout)
+                    break;
+
+                case player_3:
+                    printf("3"); //text_purple(stdout)
+                    printf(" | "); //text_white(stdout)
+                    break;
+
+                case player_4:
+                    printf("4"); //text_purple(stdout)
+                    printf(" | "); //text_white(stdout)
+                    break;
+
+                default:
+                    perror("Wrong player value in printCase() in banquise.c");
+                    exit(EXIT_FAILURE);
+                    break;
+                }
+        }
     }
+
+    //S'il n'y a ni eau, ni objet/drapeau/joueur, c'est de la glace
+    else
+        {
+            printf("#"); //text_bold(stdout)
+            printf(" | "); //text_white(stdout)
+        }
+
+
 }
 
-//Affiche l'Ã©tat de la banquise Ã  l'instant de son appel
+
+//Affiche l'état de la banquise à l'instant de son appel
 void printBanquise(T_banquise *banquise)
 {
     //Upper Border
@@ -268,4 +449,33 @@ void printBanquise(T_banquise *banquise)
 
     //Newline
     printf("\n");
+}
+
+
+
+
+/* ============================================ */
+/* =================== FONTE ================== */
+/* ============================================ */
+
+//Calcule la fonte de la banquise => Pour le besoin des tests, ne pas y faire appel maintenant
+T_banquise Fontebanquise (T_banquise *banquise)
+{
+    srand(time (NULL));
+    for (int i = 0; i < banquise->size; i++)
+    {
+        for (int j = 0; j < banquise->size; j++)
+        {
+            if ((banquise->grid[i][j].ice = 0) && (rand()%(16) < 16))
+            {   //fond avec un pourcentage de 15%
+                banquise->grid[i][j-1].ice = 0;  // toutes les cases autour de ce point d'eau
+                banquise->grid[i][j+1].ice = 0;
+                banquise->grid[i-1][j].ice = 0;
+                banquise->grid[i+1][j].ice = 0;
+                j += 2; //ajoute plus 2 Ã  j pour ne pas recommencer avec le point d'eau nouvellement crÃ©Ã©
+            }
+        }
+    }
+
+    return *banquise;
 }

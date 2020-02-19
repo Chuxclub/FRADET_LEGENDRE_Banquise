@@ -12,3 +12,53 @@
 	<time.h>
 	"banquise.h"
 
+1581707510 source:c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\main.c
+	<stdio.h>
+	<stdlib.h>
+	"banquise.h"
+
+1581707841 c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\banquise.h
+
+1581707042 source:c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\banquise.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"banquise.h"
+
+1581701788 source:c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\glacon.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"banquise.h"
+	"joueur.h"
+	"glacon.h"
+
+1581701688 c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\joueur.h
+
+1581701788 c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\glacon.h
+	"banquise.h"
+	"joueur.h"
+
+1581701796 source:c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\joueur.c
+	<stdio.h>
+	<stdlib.h>
+	"banquise.h"
+	"joueur.h"
+	"glacon.h"
+	"banquise.c"
+	"glacon.c"
+
+1581702624 c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\banquise.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"banquise.h"
+
+1581701788 c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\glacon.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"banquise.h"
+	"joueur.h"
+	"glacon.h"
+
