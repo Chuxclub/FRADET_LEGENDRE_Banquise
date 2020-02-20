@@ -26,5 +26,38 @@ int main()
     //Affichage
     printBanquise(myBanquise);
 
+
+ /*   //Début du jeu
+    char move;
+    int end = 0;
+
+    do
+    {
+        switch(move)
+        {
+            case 'z':
+                moveUp(player);
+                break;
+
+            case 'q':
+                moveLeft(player);
+                break;
+
+            case 's':
+                moveDown(player);
+                break;
+
+            case 'd':
+                moveRight(player);
+                break;
+
+            default:
+                perror("wrong input");
+                exit(EXIT_FAILURE);
+                break;
+        }
+
+    }while(scanf("%c", move) && !(end))
+*/
     return 0;
 }

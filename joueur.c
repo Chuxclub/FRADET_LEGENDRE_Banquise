@@ -115,7 +115,7 @@ void addPlayers(T_banquise *banquise, int nb_players)
 int HowManyPlayers()
 {
     int nb_player;
-    printf("Combien de joueurs �tes-vous ?\n");
+    printf("Combien de joueurs etes-vous ?\n");
     scanf("%d", &nb_player);
     return nb_player;
 }
