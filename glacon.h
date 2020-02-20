@@ -1,8 +1,13 @@
 #ifndef GLACON_H_INCLUDED
 #define GLACON_H_INCLUDED
+
 #include "banquise.h"
 #include "joueur.h"
 
+
+/* ============================================ */
+/* ============ TYPES UTILISATEURS ============ */
+/* ============================================ */
 
 typedef struct
 {
@@ -10,6 +15,12 @@ typedef struct
     T_vecteur vector;
 }T_flake;
 
+
+/* ============================================ */
+/* ========== INITIALISATION GLACONS ========== */
+/* ============================================ */
+
+void addFlakes(T_banquise *banquise);
 //rencontre entre un glacon et un joueur
 /*T_banquise MeetAFlake(T_player *banquise.grid.player, T_flake *banquise.grid.glacon);
 

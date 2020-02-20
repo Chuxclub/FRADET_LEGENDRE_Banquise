@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # depslib dependency file v1.0
 1582142316 source:c:\users\flori\desktop\root\banquise\banquise\main.c
 	<stdio.h>
@@ -95,3 +96,117 @@
 	<stdlib.h>
 	"joueur.h"
 
+=======
+# depslib dependency file v1.0
+1582190533 source:c:\users\flori\desktop\root\banquise\banquise\main.c
+	<stdio.h>
+	<stdlib.h>
+	"banquise.h"
+	"glacon.h"
+	"piege.h"
+	"ressort.h"
+	"utils.h"
+
+1582190580 c:\users\flori\desktop\root\banquise\banquise\banquise.h
+
+1582190202 source:c:\users\flori\desktop\root\banquise\banquise\banquise.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"banquise.h"
+	"windows_colors.h"
+
+1581707510 source:c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\main.c
+	<stdio.h>
+	<stdlib.h>
+	"banquise.h"
+
+1581707841 c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\banquise.h
+
+1581707042 source:c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\banquise.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"banquise.h"
+
+1581701788 source:c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\glacon.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"banquise.h"
+	"joueur.h"
+	"glacon.h"
+
+1581701688 c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\joueur.h
+
+1581701788 c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\glacon.h
+	"banquise.h"
+	"joueur.h"
+
+1581701796 source:c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\joueur.c
+	<stdio.h>
+	<stdlib.h>
+	"banquise.h"
+	"joueur.h"
+	"glacon.h"
+	"banquise.c"
+	"glacon.c"
+
+1581702624 c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\banquise.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"banquise.h"
+
+1581701788 c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\glacon.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"banquise.h"
+	"joueur.h"
+	"glacon.h"
+
+1582138895 source:c:\users\flori\desktop\root\banquise\banquise\windows_colors.c
+	<windows.h>
+
+1582138809 c:\users\flori\desktop\root\banquise\banquise\windows_colors.h
+
+1582189532 c:\users\flori\desktop\root\banquise\banquise\glacon.h
+	"banquise.h"
+	"joueur.h"
+
+1582189678 c:\users\flori\desktop\root\banquise\banquise\joueur.h
+
+1582188724 source:c:\users\flori\desktop\root\banquise\banquise\glacon.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"banquise.h"
+	"joueur.h"
+	"glacon.h"
+
+1582189758 source:c:\users\flori\desktop\root\banquise\banquise\joueur.c
+	<stdio.h>
+	<stdlib.h>
+	"banquise.h"
+	"joueur.h"
+	"glacon.h"
+	"banquise.h"
+	"glacon.h"
+
+1582189993 c:\users\flori\desktop\root\banquise\banquise\piege.h
+
+1582190020 source:c:\users\flori\desktop\root\banquise\banquise\piege.c
+	"banquise.h"
+
+1582190205 c:\users\flori\desktop\root\banquise\banquise\ressort.h
+
+1582190234 source:c:\users\flori\desktop\root\banquise\banquise\ressort.c
+	"banquise.h"
+
+1582190359 source:c:\users\flori\desktop\root\banquise\banquise\utils.c
+	"banquise.h"
+
+1582190359 c:\users\flori\desktop\root\banquise\banquise\utils.h
+
+>>>>>>> master

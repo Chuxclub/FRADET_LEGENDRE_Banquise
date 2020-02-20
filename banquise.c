@@ -7,7 +7,10 @@
 #include <time.h>
 #include "banquise.h"
 #include "windows_colors.h" //Ajoute des couleurs au terminal Windows
-//#include "termcolor.h"
+#include "joueur.h"
+#include "ressort.h"
+#include "utils.h"
+#include "piege.h"
 
 #define RAND_MAX 101
 #define BANQUISE_SIZE 10
@@ -52,6 +55,25 @@ T_banquise *initRawBanquise(int size)
     return res;
 }
 
+//Crée une banquise prête pour démarrer le jeu
+T_banquise *initBanquise(int size)
+{
+    //Initialisation de la banquise (que de la glace)
+    T_banquise *myBanquise = initRawBanquise(size);
+
+    //Génération aléatoire des éléments du terrain
+    addWater(myBanquise);
+    addRocks(myBanquise);
+    addFlakes(myBanquise);
+    addSprings(myBanquise);
+    addTraps(myBanquise);
+
+    addFlags(myBanquise);
+    addPlayers(myBanquise, 4);
+
+    return myBanquise;
+}
+
 
 /* ============================================ */
 /* ========== MODIFICATIONS BANQUISE ========== */
@@ -89,94 +111,6 @@ void addRocks(T_banquise *banquise)
 }
 
 
-//ajoute un glacon alÃ©atoirement sur la banquise
-//object = 0 pour un glacon
-void addFlakes(T_banquise *banquise)
-{
-    for(int i = 0; i < banquise->size; i++)
-    {
-        for(int j = 0; j < banquise->size; j++)
-        {
-            int snow = rand() % RAND_MAX;
-
-            if(snow < 21 && banquise->grid[i][j].ice == ice)
-                banquise->grid[i][j].object = flake;
-        }
-    }
-}
-
-
-//ajoute un ressort alÃ©atoirement sur la banquise
-//object = 3 pour un glacon
-void addSprings(T_banquise *banquise)
-{
-    int loto_spring = rand() % RAND_MAX;
-    printf("loto_spring: %i\n", loto_spring);
-
-    do
-    {
-        for(int i = 0; i < banquise->size; i++)
-        {
-            for(int j = 0; j < banquise->size; j++)
-            {
-                if(loto_spring < 5 && IsCaseAvailable(banquise->grid[i][j]))
-                {
-                    banquise->grid[i][j].object = spring;
-                    return;
-                }
-
-
-                else
-                    loto_spring --;
-            }
-        }
-    }while(loto_spring > 5);
-    //Si Spring n'est pas en-dessous de 5, on recommence le parcours de la banquise => Je m'assure
-    //qu'un ressort sera toujours sur la banquise
-
-}
-
-
-//ajoute un piege alÃ©atoirement sur la banquise
-void addTraps(T_banquise *banquise)
-{
-    int loto_trap = rand() % RAND_MAX;
-    printf("loto_trap: %i\n", loto_trap);
-
-    do
-    {
-        for(int i = 0; i < banquise->size; i++)
-        {
-            for(int j = 0; j < banquise->size; j++)
-            {
-                if(loto_trap < 1 && IsCaseAvailable(banquise->grid[i][j]))
-                {
-                    banquise->grid[i][j].object = trap;
-                    return;
-                }
-
-
-                else
-                    loto_trap --;
-            }
-        }
-    }while(loto_trap > 5);
-    //Si la variable trap n'est pas en-dessous de 5, on recommence le parcours de la banquise => Je m'assure
-    //qu'un ressort sera toujours sur la banquise
-
-    /*srand(time(NULL));
-
-    for(int i = 0; i < banquise->size; i++)
-    {
-        for(int j = 0; j < banquise->size; j++)
-        {
-            int trap = rand() % RAND_MAX;
-
-            if(trap < 21 && banquise->grid[i][j].ice == 1)
-                banquise->grid[i][j].object = 5;
-        }
-    }*/
-}
 
 
 //Ajoute les points de départ et d'arrivé
@@ -207,119 +141,6 @@ void addFlags(T_banquise *banquise)
         Yb = rand() % BANQUISE_SIZE;
     }
     banquise->grid[Xb][Yb].B = 1;
-}
-
-//Teste si une case est disponible pour y placer un objet interactif ou un joueur
-//Renvoit 1 si la case est disponible, 0 sinon
-int IsCaseAvailable(T_case banquise_case)
-{
-    if((banquise_case.ice == ice && banquise_case.object == no_object) && (banquise_case.A != 1 && banquise_case.B != 1) && banquise_case.player == no_player)
-        return 1;
-
-    else
-        return 0;
-}
-
-
-//Recherche une position disponible dans une zone de recherche
-//Que la fonction incrémente au fur et à mesure, s'arrête quand toute la banquise a été explorée ou qu'une position a été trouvée
-int *searchAvailablePos(T_banquise *banquise, int Ligne_a, int Col_a)
-{
-    /*Initialisation des constantes et variables nécessaires*/
-    //pos_tab correspond aux positions qui seront
-    //dans les limites du tableau
-    int dist_A = 0;
-    int found = 0;
-    int ligne_max = BANQUISE_SIZE - 1;
-    int col_max  = BANQUISE_SIZE - 1;
-    int col_min  = 0;
-    int *pos_tab = (int *) malloc(sizeof(int) * NB_OF_COORDINATES);
-
-    do
-    {
-        /*Définition des limites de la zone de recherche*/
-        //Positionnement des indices lignes/colonnes par rapport à A (Col_a, Ligne_a)
-        //Et par rapport au rayon de recherche autour de A (dist_A)
-        //Rectification de ces indices si ces-derniers dépassent le plateau de jeu
-        int col_begin = Col_a - dist_A;
-        int col_end = Col_a + dist_A;
-        int ligne_begin = Ligne_a - dist_A;
-        int ligne_end = Ligne_a + dist_A;
-
-        while(ligne_end > ligne_max)
-            ligne_end--;
-
-        while(col_begin < col_min)
-            col_begin++;
-
-        while(col_end > col_max)
-            col_end--;
-
-
-        /*Balayage de la zone de recherche du haut en bas, de la gauche vers la droite*/
-        //Sauvegarde des positions dans le tableau au fur et à mesure de la recherche et que celles-ci sont libres
-        //Sauvegarde de la taille du tableau avec la variable size au fur et à mesure qu'on rajoute des positions
-        for(int ligne_index = ligne_begin; ligne_index <= ligne_end; ligne_index++)
-        {
-            for(int col_index = col_begin; col_index <= col_end; col_index++)
-            {
-                if(IsCaseAvailable(banquise->grid[ligne_index][col_index]))
-                {
-                    pos_tab[0] = ligne_index;
-                    pos_tab[1] = col_index;
-                    found = 1;
-                    break;
-                }
-            }
-
-            if(found == 1)
-                break;
-        }
-
-        /*Extension de la zone et boucle si aucune position de trouvée*/
-        if(found == 0)
-            dist_A++;
-
-        /*Arrêt de la recherche si on est parti du coin haut gauche du plateau et qu'on n'a rien trouvé par balayage*/
-        if((col_begin == 0 && ligne_begin == 0) && found == 0)
-        {
-            fprintf(stderr, "No available position to place player\(s)\n");
-            exit(EXIT_FAILURE);
-        }
-    }while(found == 0);
-
-    return pos_tab;
-}
-
-//Ajoute les joueurs au plus près du point A sur la banquise
-void addPlayers(T_banquise *banquise, int nb_players)
-{
-    /*Recherche point A (rappel: ne peut être que dans les trois dernières lignes)*/
-    int Col_a = 0;
-    int Ligne_a = 0;
-
-    for(int ligne = BANQUISE_SIZE - 1; ligne > BANQUISE_SIZE - 4; ligne--)
-    {
-        for(int col = 0; col < BANQUISE_SIZE; col++)
-        {
-            if(banquise->grid[ligne][col].A == 1)
-            {
-                Col_a = col;
-                Ligne_a = ligne;
-            }
-        }
-    }
-
-    /*Positionnement des joueurs*/
-    //Boucle -> recherche d'une position la plus proche, ajout joueur, etc.
-    for(int i = 1; i <= nb_players; i++)
-    {
-        int *found_pos = searchAvailablePos(banquise, Ligne_a, Col_a);
-        int available_line = found_pos[0];
-        int available_col = found_pos[1];
-        banquise->grid[available_line][available_col].player = i;
-        free(found_pos);
-    }
 }
 
 

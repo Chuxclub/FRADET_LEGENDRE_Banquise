@@ -6,6 +6,23 @@
 #include "glacon.h"
 //#include "termcolor.h"
 
+
+//ajoute un glacon alÃ©atoirement sur la banquise
+//object = 0 pour un glacon
+void addFlakes(T_banquise *banquise)
+{
+    for(int i = 0; i < banquise->size; i++)
+    {
+        for(int j = 0; j < banquise->size; j++)
+        {
+            int snow = rand() % RAND_MAX;
+
+            if(snow < 21 && banquise->grid[i][j].ice == ice)
+                banquise->grid[i][j].object = flake;
+        }
+    }
+}
+
 /*
 //Lorsque le joueur se trouve à un endroit où se situe un glacon
 //Effectue le deplacement du glacon

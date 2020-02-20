@@ -1,6 +1,11 @@
 #ifndef JOUEUR_H_INCLUDED
 #define JOUEUR_H_INCLUDED
 
+
+/* ============================================ */
+/* ============ TYPES UTILISATEURS ============ */
+/* ============================================ */
+
 typedef enum {rouge = 1, bleu, vert, jaune} T_couleur;
 
 typedef struct{
@@ -38,6 +43,15 @@ typedef struct
 /* ========== Nombre de joueurs================ */
 /* ============================================ */
 int HowManyPlayers();
+
+
+
+/* ============================================ */
+/* ========= INITIALISATION JOUEURS =========== */
+/* ============================================ */
+
+int *searchAvailablePos(T_banquise *banquise, int Ligne_a, int Col_a);
+void addPlayers(T_banquise *banquise, int nb_players);
 
 
 #endif // JOUEUR_H_INCLUDED
