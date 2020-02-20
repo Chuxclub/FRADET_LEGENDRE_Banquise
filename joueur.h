@@ -1,6 +1,6 @@
 #ifndef JOUEUR_H_INCLUDED
 #define JOUEUR_H_INCLUDED
-
+#include "banquise.h"
 
 /* ============================================ */
 /* ============ TYPES UTILISATEURS ============ */
@@ -9,8 +9,8 @@
 typedef enum {rouge = 1, bleu, vert, jaune} T_couleur;
 
 typedef struct{
-    int pos_x;
-    int pos_y;
+    int px;
+    int py;
 } T_position;
 
 typedef struct{
@@ -26,12 +26,24 @@ typedef struct {
 
 typedef struct{
     char nom[50];
-    T_couleur color;
-    int id;
+    T_couleur couleur;
     T_position pos;
-    T_vecteur vector;
-    T_score score_j;
-} T_player;
+    T_vecteur vecteur;
+    T_score score;
+} T_data;
+
+typedef struct
+{
+    T_data **grid;
+    int id;
+}T_joueur;
+
+
+/* ============================================ */
+/* ========== Nombre de joueurs================ */
+/* ============================================ */
+int HowManyPlayers();
+
 
 
 /* ============================================ */

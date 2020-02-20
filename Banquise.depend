@@ -1,3 +1,102 @@
+<<<<<<< HEAD
+# depslib dependency file v1.0
+1582142316 source:c:\users\flori\desktop\root\banquise\banquise\main.c
+	<stdio.h>
+	<stdlib.h>
+	"banquise.h"
+
+1582137847 c:\users\flori\desktop\root\banquise\banquise\banquise.h
+
+1582142172 source:c:\users\flori\desktop\root\banquise\banquise\banquise.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"banquise.h"
+	"windows_colors.h"
+
+1581707510 source:c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\main.c
+	<stdio.h>
+	<stdlib.h>
+	"banquise.h"
+
+1581707841 c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\banquise.h
+
+1581707042 source:c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\banquise.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"banquise.h"
+
+1581701788 source:c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\glacon.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"banquise.h"
+	"joueur.h"
+	"glacon.h"
+
+1581701688 c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\joueur.h
+
+1581701788 c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\glacon.h
+	"banquise.h"
+	"joueur.h"
+
+1581701796 source:c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\joueur.c
+	<stdio.h>
+	<stdlib.h>
+	"banquise.h"
+	"joueur.h"
+	"glacon.h"
+	"banquise.c"
+	"glacon.c"
+
+1581702624 c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\banquise.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"banquise.h"
+
+1581701788 c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\glacon.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"banquise.h"
+	"joueur.h"
+	"glacon.h"
+
+1582138895 source:c:\users\flori\desktop\root\banquise\banquise\windows_colors.c
+	<windows.h>
+
+1582138809 c:\users\flori\desktop\root\banquise\banquise\windows_colors.h
+
+1582191525 source:c:\users\amandine\desktop\l2 informatique\test\fradet_legendre_banquise\banquise.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"banquise.h"
+	"windows_colors.h"
+
+1582124980 c:\users\amandine\desktop\l2 informatique\test\fradet_legendre_banquise\banquise.h
+
+1582191525 c:\users\amandine\desktop\l2 informatique\test\fradet_legendre_banquise\windows_colors.h
+
+1582193880 source:c:\users\amandine\desktop\l2 informatique\test\fradet_legendre_banquise\main.c
+	<stdio.h>
+	<stdlib.h>
+	"banquise.h"
+	"joueur.c"
+
+1582191525 source:c:\users\amandine\desktop\l2 informatique\test\fradet_legendre_banquise\windows_colors.c
+	<windows.h>
+
+1582194632 c:\users\amandine\desktop\l2 informatique\test\fradet_legendre_banquise\joueur.h
+
+1582194632 c:\users\amandine\desktop\l2 informatique\test\fradet_legendre_banquise\joueur.c
+	<stdio.h>
+	<stdlib.h>
+	"joueur.h"
+
+=======
 # depslib dependency file v1.0
 1582190889 source:c:\users\flori\desktop\root\banquise\banquise\main.c
 	<stdio.h>
@@ -115,3 +214,4 @@
 
 1582190889 c:\users\flori\desktop\root\banquise\banquise\utils.h
 
+>>>>>>> master

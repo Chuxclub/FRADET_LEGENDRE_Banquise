@@ -11,6 +11,7 @@
 #include "ressort.h"
 #include "utils.h"
 #include "piege.h"
+#include "glacon.h"
 
 #define RAND_MAX 101
 #define BANQUISE_SIZE 10
@@ -43,8 +44,8 @@ T_banquise *initRawBanquise(int size)
 
             //res.grid[i][j].glacon.pos.px = 0;
             //res.grid[i][j].glacon.pos.py = 0;
-            //res.grid[i][j].glacon.vectordx = 0;
-            //res.grid[i][j].glacon.vectordy = 0;
+            //res.grid[i][j].glacon.vecteur.dx = 0;
+            //res.grid[i][j].glacon.vecteur.dy = 0;
 
             res->grid[i][j].A = 0;
             res->grid[i][j].B = 0;
@@ -69,7 +70,6 @@ T_banquise *initBanquise(int size)
     addTraps(myBanquise);
 
     addFlags(myBanquise);
-    addPlayers(myBanquise, 4);
 
     return myBanquise;
 }
