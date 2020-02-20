@@ -4,11 +4,12 @@
 #include "banquise.h"
 #include "joueur.h"
 #include "glacon.h"
-//#include "termcolor.h"
+#include "utils.h"
+
+#define RAND_MAX 101
 
 
 //ajoute un glacon aléatoirement sur la banquise
-//object = 0 pour un glacon
 void addFlakes(T_banquise *banquise)
 {
     for(int i = 0; i < banquise->size; i++)
@@ -17,7 +18,7 @@ void addFlakes(T_banquise *banquise)
         {
             int snow = rand() % RAND_MAX;
 
-            if(snow < 21 && banquise->grid[i][j].ice == ice)
+            if(snow < 15 && IsCaseAvailable(banquise->grid[i][j]))
                 banquise->grid[i][j].object = flake;
         }
     }

@@ -111,8 +111,6 @@ void addRocks(T_banquise *banquise)
 }
 
 
-
-
 //Ajoute les points de départ et d'arrivé
 //Le point d'arrivé ne peut être qu'à trois lignes du haut du départ
 //Le point de départ dans les trois lignes en bas du tableau
