@@ -1,6 +1,6 @@
 #ifndef JOUEUR_H_INCLUDED
 #define JOUEUR_H_INCLUDED
-
+#include "banquise.h"
 
 /* ============================================ */
 /* ============ TYPES UTILISATEURS ============ */

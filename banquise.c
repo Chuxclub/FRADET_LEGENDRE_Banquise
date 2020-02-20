@@ -11,6 +11,7 @@
 #include "ressort.h"
 #include "utils.h"
 #include "piege.h"
+#include "glacon.h"
 
 #define RAND_MAX 101
 #define BANQUISE_SIZE 10
