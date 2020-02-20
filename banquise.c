@@ -40,8 +40,8 @@ T_banquise *initRawBanquise(int size)
 
             //res.grid[i][j].glacon.pos.px = 0;
             //res.grid[i][j].glacon.pos.py = 0;
-            //res.grid[i][j].glacon.vectordx = 0;
-            //res.grid[i][j].glacon.vectordy = 0;
+            //res.grid[i][j].glacon.vecteur.dx = 0;
+            //res.grid[i][j].glacon.vecteur.dy = 0;
 
             res->grid[i][j].A = 0;
             res->grid[i][j].B = 0;

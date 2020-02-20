@@ -1,22 +1,31 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "banquise.h"
 #include "joueur.h"
-#include "glacon.h"
-#include "banquise.c"
-#include "glacon.c"
-
-/*
-//variable stockant le nombre de joueur
-int how_many = 0;
 
 //demande et stocke le nombre de joueur
 int HowManyPlayers()
 {
+    int nb_player;
     printf("Combien de joueurs êtes-vous ?\n");
-    scanf("%d", &how_many);
-    return how_many;
+    scanf("%d", &nb_player);
+    return nb_player;
+}
+//effectue le deplacement des jours pour un tour
+/*T_banquise move(T, int nb_player)
+{
+    for (int i = 1; i <= nb_player; i++)
+    {
+        char move[1];
+        printf("C'est au tour du joueur %d\n", i);
+        scanf("%c", &move);
+        switch(move[0])
+        {
+        case 'H':
+
+            break;
+        }
+
+    }
 }
 
-//
 */

@@ -68,3 +68,30 @@
 
 1582138809 c:\users\flori\desktop\root\banquise\banquise\windows_colors.h
 
+1582191525 source:c:\users\amandine\desktop\l2 informatique\test\fradet_legendre_banquise\banquise.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	"banquise.h"
+	"windows_colors.h"
+
+1582124980 c:\users\amandine\desktop\l2 informatique\test\fradet_legendre_banquise\banquise.h
+
+1582191525 c:\users\amandine\desktop\l2 informatique\test\fradet_legendre_banquise\windows_colors.h
+
+1582193880 source:c:\users\amandine\desktop\l2 informatique\test\fradet_legendre_banquise\main.c
+	<stdio.h>
+	<stdlib.h>
+	"banquise.h"
+	"joueur.c"
+
+1582191525 source:c:\users\amandine\desktop\l2 informatique\test\fradet_legendre_banquise\windows_colors.c
+	<windows.h>
+
+1582194632 c:\users\amandine\desktop\l2 informatique\test\fradet_legendre_banquise\joueur.h
+
+1582194632 c:\users\amandine\desktop\l2 informatique\test\fradet_legendre_banquise\joueur.c
+	<stdio.h>
+	<stdlib.h>
+	"joueur.h"
+
