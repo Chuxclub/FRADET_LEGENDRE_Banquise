@@ -1,16 +1,17 @@
 # depslib dependency file v1.0
-1581668579 source:c:\users\flori\desktop\root\banquise\banquise\main.c
+1582142316 source:c:\users\flori\desktop\root\banquise\banquise\main.c
 	<stdio.h>
 	<stdlib.h>
 	"banquise.h"
 
-1581666830 c:\users\flori\desktop\root\banquise\banquise\banquise.h
+1582137847 c:\users\flori\desktop\root\banquise\banquise\banquise.h
 
-1581675557 source:c:\users\flori\desktop\root\banquise\banquise\banquise.c
+1582142172 source:c:\users\flori\desktop\root\banquise\banquise\banquise.c
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
 	"banquise.h"
+	"windows_colors.h"
 
 1581707510 source:c:\users\flori\onedrive\documents\mega\bureau\etudes\ue3_c\projet_prog\fradet_legendre_banquise\main.c
 	<stdio.h>
@@ -61,4 +62,9 @@
 	"banquise.h"
 	"joueur.h"
 	"glacon.h"
+
+1582138895 source:c:\users\flori\desktop\root\banquise\banquise\windows_colors.c
+	<windows.h>
+
+1582138809 c:\users\flori\desktop\root\banquise\banquise\windows_colors.h
 

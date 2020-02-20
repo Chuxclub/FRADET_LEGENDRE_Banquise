@@ -1,4 +1,4 @@
-									Feuille de route: Banquise Game
+﻿									Feuille de route: Banquise Game
 									     (Certifié Franglish!)
 
 =======================================================================================================================================================================
@@ -16,7 +16,7 @@ Fait:
 6) Ajouter sur ce plateau des flocons de manière aléatoire
 
 A faire:
-7) Ajouter sur ce plateau un ressort et un marteau de manière aléatoire => prévoir la possibilité d'en mettre plusieurs plus tard
+7) Ajouter sur ce plateau un ressort, un piège et un marteau de manière aléatoire => prévoir la possibilité d'en mettre plusieurs plus tard
 
 
 Phase 2 -> Ajout de toutes les interactions

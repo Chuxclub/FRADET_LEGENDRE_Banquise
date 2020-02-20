@@ -49,6 +49,12 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="termcolor.h" />
+		<Unit filename="windows_colors.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="windows_colors.h">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Extensions>
 			<code_completion />
 			<envvars />

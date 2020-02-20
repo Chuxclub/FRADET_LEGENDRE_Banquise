@@ -6,11 +6,10 @@
 #include <stdlib.h>
 #include <time.h>
 #include "banquise.h"
-#include <windows.h>
+#include "windows_colors.h" //Ajoute des couleurs au terminal Windows
 //#include "termcolor.h"
 
 #define RAND_MAX 101
-
 #define BANQUISE_SIZE 10
 #define NB_OF_COORDINATES 2
 
@@ -61,8 +60,6 @@ T_banquise *initRawBanquise(int size)
 //Ajoute de l'eau aléatoirement dans la banquise, remplace la glace
 void addWater(T_banquise *banquise)
 {
-    srand(time(NULL));
-
     for(int i = 0; i < banquise->size; i++)
     {
         for(int j = 0; j < banquise->size; j++)
@@ -79,8 +76,6 @@ void addWater(T_banquise *banquise)
 //Mais ne remplace pas l'eau! Code pour rocher: object = 1
 void addRocks(T_banquise *banquise)
 {
-    srand(time(NULL));
-
     for(int i = 0; i < banquise->size; i++)
     {
         for(int j = 0; j < banquise->size; j++)
@@ -98,8 +93,6 @@ void addRocks(T_banquise *banquise)
 //object = 0 pour un glacon
 void addFlakes(T_banquise *banquise)
 {
-    srand(time(NULL));
-
     for(int i = 0; i < banquise->size; i++)
     {
         for(int j = 0; j < banquise->size; j++)
@@ -112,30 +105,66 @@ void addFlakes(T_banquise *banquise)
     }
 }
 
-/*
+
 //ajoute un ressort alÃ©atoirement sur la banquise
 //object = 3 pour un glacon
 void addSprings(T_banquise *banquise)
 {
-    srand(time(NULL));
+    int loto_spring = rand() % RAND_MAX;
+    printf("loto_spring: %i\n", loto_spring);
 
-    for(int i = 0; i < banquise->size; i++)
+    do
     {
-        for(int j = 0; j < banquise->size; j++)
+        for(int i = 0; i < banquise->size; i++)
         {
-            int spring = rand() % RAND_MAX;
+            for(int j = 0; j < banquise->size; j++)
+            {
+                if(loto_spring < 5 && IsCaseAvailable(banquise->grid[i][j]))
+                {
+                    banquise->grid[i][j].object = spring;
+                    return;
+                }
 
-            if(spring < 21 && banquise->grid[i][j].ice == 1)
-                banquise->grid[i][j].object = 3;
+
+                else
+                    loto_spring --;
+            }
         }
-    }
+    }while(loto_spring > 5);
+    //Si Spring n'est pas en-dessous de 5, on recommence le parcours de la banquise => Je m'assure
+    //qu'un ressort sera toujours sur la banquise
+
 }
 
+
 //ajoute un piege alÃ©atoirement sur la banquise
-//object = 4 pour un piege
 void addTraps(T_banquise *banquise)
 {
-    srand(time(NULL));
+    int loto_trap = rand() % RAND_MAX;
+    printf("loto_trap: %i\n", loto_trap);
+
+    do
+    {
+        for(int i = 0; i < banquise->size; i++)
+        {
+            for(int j = 0; j < banquise->size; j++)
+            {
+                if(loto_trap < 1 && IsCaseAvailable(banquise->grid[i][j]))
+                {
+                    banquise->grid[i][j].object = trap;
+                    return;
+                }
+
+
+                else
+                    loto_trap --;
+            }
+        }
+    }while(loto_trap > 5);
+    //Si la variable trap n'est pas en-dessous de 5, on recommence le parcours de la banquise => Je m'assure
+    //qu'un ressort sera toujours sur la banquise
+
+    /*srand(time(NULL));
 
     for(int i = 0; i < banquise->size; i++)
     {
@@ -146,17 +175,15 @@ void addTraps(T_banquise *banquise)
             if(trap < 21 && banquise->grid[i][j].ice == 1)
                 banquise->grid[i][j].object = 5;
         }
-    }
+    }*/
 }
-*/
+
 
 //Ajoute les points de départ et d'arrivé
 //Le point d'arrivé ne peut être qu'à trois lignes du haut du départ
 //Le point de départ dans les trois lignes en bas du tableau
 void addFlags(T_banquise *banquise)
 {
-    srand(time(NULL));
-
     int Xa = BANQUISE_SIZE - 1 - (rand() % 3);
     int Ya = rand() % BANQUISE_SIZE;
 
@@ -256,7 +283,7 @@ int *searchAvailablePos(T_banquise *banquise, int Ligne_a, int Col_a)
         /*Arrêt de la recherche si on est parti du coin haut gauche du plateau et qu'on n'a rien trouvé par balayage*/
         if((col_begin == 0 && ligne_begin == 0) && found == 0)
         {
-            fprintf(stderr, "No available position to place player\(s\)\n");
+            fprintf(stderr, "No available position to place player\(s)\n");
             exit(EXIT_FAILURE);
         }
     }while(found == 0);
@@ -308,7 +335,9 @@ void printCase(T_case banquise_case)
     //Si c'est de l'eau inutile de chercher plus loins, on l'affiche
     if(banquise_case.ice == 0)
     {
+        color(9, 9); //En bleu, fond bleu
         printf("~"); //text_blue(stdout)
+        color(15, 0); //Couleur d'origine de la console = reset de la couleur
         printf(" | "); //text_white(stdout)
     }
 
@@ -321,27 +350,37 @@ void printCase(T_case banquise_case)
             switch(banquise_case.object)
             {
                 case flake:
+                    color(11, 0); //En turquoise
                     printf("*"); //text_yellow(stdout)
+                    color(15, 0);
                     printf(" | "); //text_white(stdout)
                     break;
 
                 case rock:
+                    color(6, 6); //En kaki, fond kaki
                     printf("o"); //text_yellow(stdout)
+                    color(15, 0);
                     printf(" | "); //text_white(stdout)
                     break;
 
                 case spring:
+                    color(2, 0); //En vert
                     printf("@"); //text_blue(stdout)
+                    color(15, 0);
                     printf(" | "); //text_white(stdout)
                     break;
 
                 case hammer:
+                    color(2, 0); //En vert
                     printf("m"); //text_blue(stdout)
+                    color(15, 0);
                     printf(" | "); //text_white(stdout)
                     break;
 
                 case trap:
+                    color(4, 0); //En marron
                     printf("!"); //text_blue(stdout)
+                    color(15, 0);
                     printf(" | "); //text_white(stdout)
                     break;
 
@@ -357,13 +396,17 @@ void printCase(T_case banquise_case)
             {
                if(banquise_case.A == 1)
                 {
+                    color(5, 0);
                     printf("A"); //text_purple(stdout)
+                    color(15, 0);
                     printf(" | "); //text_white(stdout)
                 }
 
                 else
                 {
+                    color(5, 0); //En violet
                     printf("B"); //text_purple(stdout)
+                    color(15, 0);
                     printf(" | "); //text_white(stdout)
                 }
             }
@@ -374,22 +417,30 @@ void printCase(T_case banquise_case)
             switch(banquise_case.player)
             {
                 case player_1:
+                    color(12, 0); //En rouge
                     printf("1"); //text_purple(stdout)
+                    color(15, 0);
                     printf(" | "); //text_white(stdout)
                     break;
 
                 case player_2:
+                    color(12, 0);
                     printf("2"); //text_purple(stdout)
+                    color(15, 0);
                     printf(" | "); //text_white(stdout)
                     break;
 
                 case player_3:
+                    color(12, 0);
                     printf("3"); //text_purple(stdout)
+                    color(15, 0);
                     printf(" | "); //text_white(stdout)
                     break;
 
                 case player_4:
+                    color(12, 0);
                     printf("4"); //text_purple(stdout)
+                    color(15, 0);
                     printf(" | "); //text_white(stdout)
                     break;
 
@@ -404,7 +455,9 @@ void printCase(T_case banquise_case)
     //S'il n'y a ni eau, ni objet/drapeau/joueur, c'est de la glace
     else
         {
+            color(15, 15); //En blanc, fond blanc
             printf("#"); //text_bold(stdout)
+            color(15, 0);
             printf(" | "); //text_white(stdout)
         }
 
