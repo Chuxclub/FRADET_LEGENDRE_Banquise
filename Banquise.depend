@@ -10,7 +10,7 @@
 
 1582190889 c:\users\flori\desktop\root\banquise\banquise\banquise.h
 
-1582195362 source:c:\users\flori\desktop\root\banquise\banquise\banquise.c
+1582196036 source:c:\users\flori\desktop\root\banquise\banquise\banquise.c
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
@@ -82,13 +82,14 @@
 
 1582190889 c:\users\flori\desktop\root\banquise\banquise\joueur.h
 
-1582195568 source:c:\users\flori\desktop\root\banquise\banquise\glacon.c
+1582196036 source:c:\users\flori\desktop\root\banquise\banquise\glacon.c
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
 	"banquise.h"
 	"joueur.h"
 	"glacon.h"
+	"utils.h"
 
 1582190889 source:c:\users\flori\desktop\root\banquise\banquise\joueur.c
 	<stdio.h>
