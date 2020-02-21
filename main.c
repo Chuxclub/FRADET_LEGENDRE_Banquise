@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "banquise.h"
 #include "glacon.h"
 #include "piege.h"
@@ -18,28 +19,33 @@ int main()
     T_banquise *myBanquise = initBanquise(BANQUISE_SIZE);
 
     //Initialise une variable avec le nombre de joueurs
-    int nb_player = HowManyPlayers();
+    int nb_players = HowManyPlayers();
 
+    T_player **players = initPlayers(nb_players);
 
-    addPlayers(myBanquise, nb_player);
+    addPlayers(myBanquise, players, nb_players);
 
     //Affichage
     printBanquise(myBanquise);
 
 
- /*   //Début du jeu
+   //Début du jeu
     char move;
     int end = 0;
 
-    do
+    while(!(end))
     {
+        getchar();
+        scanf("%c", &move);
+
         switch(move)
         {
             case 'z':
-                moveUp(player);
+                moveUp(players[0], myBanquise);
+                printBanquise(myBanquise);
                 break;
 
-            case 'q':
+            /*case 'q':
                 moveLeft(player);
                 break;
 
@@ -49,7 +55,7 @@ int main()
 
             case 'd':
                 moveRight(player);
-                break;
+                break;*/
 
             default:
                 perror("wrong input");
@@ -57,7 +63,7 @@ int main()
                 break;
         }
 
-    }while(scanf("%c", move) && !(end))
-*/
+    }
+
     return 0;
 }

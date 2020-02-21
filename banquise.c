@@ -39,7 +39,7 @@ T_banquise *initRawBanquise(int size)
         for(int j = 0; j < size; j++)
         {
             res->grid[i][j].ice = ice;
-            res->grid[i][j].player = no_player;
+            res->grid[i][j].player = NULL;
             res->grid[i][j].object = no_object;
 
             //res.grid[i][j].glacon.pos.px = 0;
@@ -231,32 +231,32 @@ void printCase(T_case banquise_case)
             }
 
         //Soit un joueur
-        else if(banquise_case.player > 0)
+        else if(banquise_case.player != NULL)
         {
-            switch(banquise_case.player)
+            switch(banquise_case.player->id)
             {
-                case player_1:
+                case 1:
                     color(12, 0); //En rouge
                     printf("1"); //text_purple(stdout)
                     color(15, 0);
                     printf(" | "); //text_white(stdout)
                     break;
 
-                case player_2:
+                case 2:
                     color(12, 0);
                     printf("2"); //text_purple(stdout)
                     color(15, 0);
                     printf(" | "); //text_white(stdout)
                     break;
 
-                case player_3:
+                case 3:
                     color(12, 0);
                     printf("3"); //text_purple(stdout)
                     color(15, 0);
                     printf(" | "); //text_white(stdout)
                     break;
 
-                case player_4:
+                case 4:
                     color(12, 0);
                     printf("4"); //text_purple(stdout)
                     color(15, 0);

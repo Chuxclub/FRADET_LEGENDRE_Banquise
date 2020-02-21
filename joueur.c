@@ -4,10 +4,31 @@
 #include "glacon.h"
 #include "banquise.h"
 #include "glacon.h"
+#include "utils.h"
 
 #define BANQUISE_SIZE 10
 #define NB_OF_COORDINATES 2
 
+
+/* ============================================ */
+/* ========== INITIALISATION JOUEURS ========== */
+/* ============================================ */
+
+T_player **initPlayers(int nb_players)
+{
+    T_player **players = (int **) malloc(sizeof(T_player *) * nb_players);
+
+    for(int i = 0; i < nb_players; i++)
+        players[i] = (int *) malloc(sizeof(T_player));
+
+
+    for(int i = 0; i < nb_players; i++)
+    {
+        players[i]->id = (i + 1);
+    }
+
+    return players;
+}
 
 //Recherche une position disponible dans une zone de recherche
 //Que la fonction incr�mente au fur et � mesure, s'arr�te quand toute la banquise a �t� explor�e ou qu'une position a �t� trouv�e
@@ -80,7 +101,8 @@ int *searchAvailablePos(T_banquise *banquise, int Ligne_a, int Col_a)
 }
 
 //Ajoute les joueurs au plus pr�s du point A sur la banquise
-void addPlayers(T_banquise *banquise, int nb_players)
+//Renvoit les positions où elle a ajouté les joueurs
+void addPlayers(T_banquise *banquise, T_player **players, int nb_players)
 {
     /*Recherche point A (rappel: ne peut �tre que dans les trois derni�res lignes)*/
     int Col_a = 0;
@@ -98,14 +120,20 @@ void addPlayers(T_banquise *banquise, int nb_players)
         }
     }
 
+
     /*Positionnement des joueurs*/
     //Boucle -> recherche d'une position la plus proche, ajout joueur, etc.
-    for(int i = 1; i <= nb_players; i++)
+    for(int i = 0; i < nb_players; i++)
     {
         int *found_pos = searchAvailablePos(banquise, Ligne_a, Col_a);
         int available_line = found_pos[0];
         int available_col = found_pos[1];
-        banquise->grid[available_line][available_col].player = i;
+
+        players[i]->details.pos.py = available_line;
+        players[i]->details.pos.px = available_col;
+
+        banquise->grid[available_line][available_col].player = players[i];
+        //printf("What is banquise_case.player->id ? %i\n", banquise->grid[available_line][available_col].player->id);
         free(found_pos);
     }
 }
@@ -119,6 +147,33 @@ int HowManyPlayers()
     scanf("%d", &nb_player);
     return nb_player;
 }
+
+
+
+/* ============================================ */
+/* =========== DEPLACEMENT JOUEURS ============ */
+/* ============================================ */
+
+void moveUp(T_player *player, T_banquise *banquise)
+{
+    int previous_line = player->details.pos.py;
+    int previous_col = player->details.pos.px;
+
+    int new_line = previous_line - 1;
+    /*printf("previous_line: %i\n", previous_line);
+    printf("previous_col: %i\n", previous_col);
+    printf("new_col: %i\n", new_line);*/
+
+    banquise->grid[new_line][previous_col].player = player;
+    //printf("Hey");
+    banquise->grid[previous_line][previous_col].player = NULL;
+
+
+
+    player->details.pos.py = new_line;
+    player->details.pos.px = previous_col;
+}
+
 //effectue le deplacement des jours pour un tour
 /*T_banquise move(T, int nb_player)
 {
