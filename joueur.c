@@ -159,15 +159,30 @@ void moveUp(T_player *player, T_banquise *banquise)
     /* Passage du joueur en paramètre pour récupérer sa position */
     int previous_line = player->details.pos.py;
     int previous_col = player->details.pos.px;
-
-    /* Assignation à la case voulue du joueur sur la banquise*/
     int new_line = previous_line - 1;
-    banquise->grid[new_line][previous_col].player = player;
-    banquise->grid[previous_line][previous_col].player = NULL;
 
-    /* Modification de la position du joueur */
-    player->details.pos.py = new_line;
-    player->details.pos.px = previous_col;
+    if(IsInbound(banquise->size, new_line, previous_col))
+    {
+        if(IsCaseAvailable(banquise->grid[new_line][previous_col]))
+        {
+            /* Assignation à la case voulue du joueur sur la banquise*/
+            banquise->grid[new_line][previous_col].player = player;
+            banquise->grid[previous_line][previous_col].player = NULL;
+
+            /* Modification de la position du joueur */
+            player->details.pos.py = new_line;
+            player->details.pos.px = previous_col;
+        }
+
+        else
+        {
+            if(IsFlake(banquise->grid[new_line][previous_col]))
+            {
+            }
+
+        }
+    }
+
 }
 
 void moveLeft(T_player *player, T_banquise *banquise)
@@ -175,15 +190,30 @@ void moveLeft(T_player *player, T_banquise *banquise)
     /* Passage du joueur en paramètre pour récupérer sa position */
     int previous_line = player->details.pos.py;
     int previous_col = player->details.pos.px;
-
-    /* Assignation à la case voulue du joueur sur la banquise*/
     int new_col = previous_col - 1;
-    banquise->grid[previous_line][new_col].player = player;
-    banquise->grid[previous_line][previous_col].player = NULL;
 
-    /* Modification de la position du joueur */
-    player->details.pos.py = previous_line;
-    player->details.pos.px = new_col;
+    if(IsInbound(banquise->size, previous_line, new_col))
+    {
+        if(IsCaseAvailable(banquise->grid[previous_line][new_col]))
+        {
+            /* Assignation à la case voulue du joueur sur la banquise*/
+
+            banquise->grid[previous_line][new_col].player = player;
+            banquise->grid[previous_line][previous_col].player = NULL;
+
+            /* Modification de la position du joueur */
+            player->details.pos.py = previous_line;
+            player->details.pos.px = new_col;
+        }
+
+        else
+        {
+            if(IsFlake(banquise->grid[previous_line][new_col]))
+            {
+            }
+
+        }
+    }
 }
 
 void moveDown(T_player *player, T_banquise *banquise)
@@ -191,15 +221,29 @@ void moveDown(T_player *player, T_banquise *banquise)
     /* Passage du joueur en paramètre pour récupérer sa position */
     int previous_line = player->details.pos.py;
     int previous_col = player->details.pos.px;
-
-    /* Assignation à la case voulue du joueur sur la banquise*/
     int new_line = previous_line + 1;
-    banquise->grid[new_line][previous_col].player = player;
-    banquise->grid[previous_line][previous_col].player = NULL;
 
-    /* Modification de la position du joueur */
-    player->details.pos.py = new_line;
-    player->details.pos.px = previous_col;
+    if(IsInbound(banquise->size, new_line, previous_col))
+    {
+        if(IsCaseAvailable(banquise->grid[new_line][previous_col]))
+        {
+            /* Assignation à la case voulue du joueur sur la banquise*/
+            banquise->grid[new_line][previous_col].player = player;
+            banquise->grid[previous_line][previous_col].player = NULL;
+
+            /* Modification de la position du joueur */
+            player->details.pos.py = new_line;
+            player->details.pos.px = previous_col;
+        }
+
+        else
+        {
+            if(IsFlake(banquise->grid[new_line][previous_col]))
+            {
+            }
+
+        }
+    }
 }
 
 void moveRight(T_player *player, T_banquise *banquise)
@@ -207,15 +251,29 @@ void moveRight(T_player *player, T_banquise *banquise)
     /* Passage du joueur en paramètre pour récupérer sa position */
     int previous_line = player->details.pos.py;
     int previous_col = player->details.pos.px;
-
-    /* Assignation à la case voulue du joueur sur la banquise*/
     int new_col = previous_col + 1;
-    banquise->grid[previous_line][new_col].player = player;
-    banquise->grid[previous_line][previous_col].player = NULL;
 
-    /* Modification de la position du joueur */
-    player->details.pos.py = previous_line;
-    player->details.pos.px = new_col;
+    if(IsInbound(banquise->size, previous_line, new_col))
+    {
+        if(IsCaseAvailable(banquise->grid[previous_line][new_col]))
+        {
+            /* Assignation à la case voulue du joueur sur la banquise*/
+            banquise->grid[previous_line][new_col].player = player;
+            banquise->grid[previous_line][previous_col].player = NULL;
+
+            /* Modification de la position du joueur */
+            player->details.pos.py = previous_line;
+            player->details.pos.px = new_col;
+        }
+
+        else
+        {
+            if(IsFlake(banquise->grid[previous_line][new_col]))
+            {
+            }
+
+        }
+    }
 }
 //effectue le deplacement des jours pour un tour
 /*T_banquise move(T, int nb_player)

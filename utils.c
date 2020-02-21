@@ -11,3 +11,21 @@ int IsCaseAvailable(T_case banquise_case)
     else
         return 0;
 }
+
+int IsFlake(T_case banquise_case)
+{
+    if(banquise_case.object == flake)
+        return 1;
+
+    else
+        return 0;
+}
+
+int IsInbound(int banquise_size, int line, int col)
+{
+    if((line >= 0 && line < banquise_size) && (col >= 0 && col < banquise_size))
+        return 1;
+
+    else
+        return 0;
+}
