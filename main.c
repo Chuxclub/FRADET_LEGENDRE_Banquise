@@ -35,35 +35,38 @@ int main()
 
     while(!(end))
     {
-        getchar();
-        scanf("%c", &move);
-
-        switch(move)
+        for(int i = 0; i < nb_players; i++)
         {
-            case 'z':
-                moveUp(players[0], myBanquise);
-                printBanquise(myBanquise);
-                break;
+            getchar();
+            scanf("%c", &move);
 
-            case 'q':
-                moveLeft(players[0], myBanquise);
-                printBanquise(myBanquise);
-                break;
+            switch(move)
+            {
+                case 'z':
+                    moveUp(players[i], myBanquise);
+                    printBanquise(myBanquise);
+                    break;
 
-            case 's':
-                moveDown(players[0], myBanquise);
-                printBanquise(myBanquise);
-                break;
+                case 'q':
+                    moveLeft(players[i], myBanquise);
+                    printBanquise(myBanquise);
+                    break;
 
-            case 'd':
-                moveRight(players[0], myBanquise);
-                printBanquise(myBanquise);
-                break;
+                case 's':
+                    moveDown(players[i], myBanquise);
+                    printBanquise(myBanquise);
+                    break;
 
-            default:
-                perror("wrong input");
-                exit(EXIT_FAILURE);
-                break;
+                case 'd':
+                    moveRight(players[i], myBanquise);
+                    printBanquise(myBanquise);
+                    break;
+
+                default:
+                    perror("wrong input");
+                    exit(EXIT_FAILURE);
+                    break;
+            }
         }
 
     }

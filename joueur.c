@@ -16,10 +16,10 @@
 
 T_player **initPlayers(int nb_players)
 {
-    T_player **players = (int **) malloc(sizeof(T_player *) * nb_players);
+    T_player **players = (T_player **) malloc(sizeof(T_player *) * nb_players);
 
     for(int i = 0; i < nb_players; i++)
-        players[i] = (int *) malloc(sizeof(T_player));
+        players[i] = (T_player *) malloc(sizeof(T_player));
 
 
     for(int i = 0; i < nb_players; i++)
