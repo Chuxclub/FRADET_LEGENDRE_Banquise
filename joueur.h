@@ -1,7 +1,14 @@
 #ifndef JOUEUR_H_INCLUDED
 #define JOUEUR_H_INCLUDED
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "user_types.h"
+#include "glacon.h"
+#include "banquise.h"
+#include "glacon.h"
+#include "utils.h"
+#include "constants.h"
 
 
 

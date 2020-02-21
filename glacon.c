@@ -1,25 +1,55 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include "banquise.h"
-#include "joueur.h"
 #include "glacon.h"
-#include "utils.h"
 
-#define RAND_MAX 101
-
-
-//ajoute un glacon aléatoirement sur la banquise
-void addFlakes(T_banquise *banquise)
+T_object **initFlakes(int nb_flakes)
 {
-    for(int i = 0; i < banquise->size; i++)
-    {
-        for(int j = 0; j < banquise->size; j++)
-        {
-            int snow = rand() % RAND_MAX;
+    T_object **flakes = (T_object **) malloc(sizeof(T_object *) * nb_flakes);
 
-            if(snow < 15 && IsCaseAvailable(banquise->grid[i][j]))
-                banquise->grid[i][j].object = flake;
+    for(int i = 0; i < nb_flakes; i++)
+        flakes[i] = (T_object *) malloc(sizeof(T_object));
+
+
+    for(int i = 0; i < nb_flakes; i++)
+    {
+        flakes[i]->object_type = flake;
+
+        flakes[i]->flake.pos.line = 0;
+        flakes[i]->flake.pos.col = 0;
+        flakes[i]->flake.vect.d_line = 0;
+        flakes[i]->flake.vect.d_col = 0;
+
+        flakes[i]->spring.pos.line = 0;
+        flakes[i]->spring.pos.col = 0;
+
+        flakes[i]->trap.pos.line = 0;
+        flakes[i]->trap.pos.col = 0;
+    }
+
+    return flakes;
+}
+
+void addFlakes(T_banquise *banquise, T_object **flakes, int nb_flakes)
+{
+    int counter = nb_flakes - 1;
+
+    while(counter >= 0)
+    {
+        for(int i = 0; i < banquise->size; i++)
+        {
+            for(int j = 0; j < banquise->size; j++)
+            {
+                int loto_flake = rand() % PERCENT;
+
+                if(counter < 0)
+                    return;
+
+                else if(loto_flake < 5 && IsCaseAvailable(banquise->grid[i][j]))
+                {
+                    flakes[counter]->flake.pos.line = i;
+                    flakes[counter]->flake.pos.col = j;
+                    banquise->grid[i][j].object = flakes[counter];
+                    counter--;
+                }
+            }
         }
     }
 }

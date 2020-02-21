@@ -1,20 +1,22 @@
 #include <stdlib.h>
-#include "banquise.h"
+
+#include "user_types.h"
 
 //Teste si une case est disponible pour y placer un objet interactif ou un joueur
 //Renvoit 1 si la case est disponible, 0 sinon
 int IsCaseAvailable(T_case banquise_case)
 {
-    if((banquise_case.ice == ice && banquise_case.object == no_object) && (banquise_case.A != 1 && banquise_case.B != 1) && banquise_case.player == NULL)
+    if((banquise_case.ground == ice && banquise_case.object == NULL) && (banquise_case.flag == no_flag) && banquise_case.player == NULL)
         return 1;
 
     else
         return 0;
 }
 
+
 int IsFlake(T_case banquise_case)
 {
-    if(banquise_case.object == flake)
+    if(banquise_case.object->object_type == flake)
         return 1;
 
     else

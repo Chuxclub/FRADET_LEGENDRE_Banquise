@@ -7,9 +7,8 @@
 #include "ressort.h"
 #include "utils.h"
 #include "joueur.h"
+#include "constants.h"
 
-#define BANQUISE_SIZE 10
-#define BANQUISE_CASES (BANQUISE_SIZE * BANQUISE_SIZE)
 
 int main()
 {
@@ -18,15 +17,26 @@ int main()
     //Initialisation de la banquise (que de la glace)
     T_banquise *myBanquise = initBanquise(BANQUISE_SIZE);
 
-    //Initialise une variable avec le nombre de joueurs
+
+    //Initialisation des objets
+    T_object **flakes = initFlakes(NB_FLAKES);
+    addFlakes(myBanquise, flakes, NB_FLAKES);
+
+    T_object **traps = initTraps(NB_TRAPS);
+    addTraps(myBanquise, traps, NB_TRAPS);
+
+    T_object **springs = initSprings(NB_SPRINGS);
+    addSprings(myBanquise, springs, NB_SPRINGS);
+
+
+    //Initialisation des joueurs
     int nb_players = HowManyPlayers();
-
     T_player **players = initPlayers(nb_players);
-
     addPlayers(myBanquise, players, nb_players);
 
-    //Affichage
+    //Affichage initial
     printBanquise(myBanquise);
+
 
 
    //Début du jeu

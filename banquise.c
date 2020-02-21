@@ -1,21 +1,8 @@
 //
 // Created by florian on 13/02/20.
 //
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
 #include "banquise.h"
-#include "windows_colors.h" //Ajoute des couleurs au terminal Windows
-#include "joueur.h"
-#include "ressort.h"
-#include "utils.h"
-#include "piege.h"
-#include "glacon.h"
 
-#define RAND_MAX 101
-#define BANQUISE_SIZE 10
-#define NB_OF_COORDINATES 2
 
 
 /* ============================================ */
@@ -38,17 +25,10 @@ T_banquise *initRawBanquise(int size)
     {
         for(int j = 0; j < size; j++)
         {
-            res->grid[i][j].ice = ice;
+            res->grid[i][j].ground = ice;
             res->grid[i][j].player = NULL;
-            res->grid[i][j].object = no_object;
-
-            //res.grid[i][j].glacon.pos.px = 0;
-            //res.grid[i][j].glacon.pos.py = 0;
-            //res.grid[i][j].glacon.vecteur.dx = 0;
-            //res.grid[i][j].glacon.vecteur.dy = 0;
-
-            res->grid[i][j].A = 0;
-            res->grid[i][j].B = 0;
+            res->grid[i][j].object = NULL;
+            res->grid[i][j].flag = no_flag;
         }
 
     }
@@ -63,12 +43,8 @@ T_banquise *initBanquise(int size)
     T_banquise *myBanquise = initRawBanquise(size);
 
     //Génération aléatoire des éléments du terrain
-    addWater(myBanquise);
-    addRocks(myBanquise);
-    addFlakes(myBanquise);
-    addSprings(myBanquise);
-    addTraps(myBanquise);
-
+    addWater(myBanquise, NB_WATER);
+    addRocks(myBanquise, NB_ROCKS);
     addFlags(myBanquise);
 
     return myBanquise;
@@ -80,34 +56,59 @@ T_banquise *initBanquise(int size)
 /* ============================================ */
 
 //Ajoute de l'eau aléatoirement dans la banquise, remplace la glace
-void addWater(T_banquise *banquise)
+void addWater(T_banquise *banquise, int nb_water)
 {
-    for(int i = 0; i < banquise->size; i++)
-    {
-        for(int j = 0; j < banquise->size; j++)
-        {
-            int loto = rand() % RAND_MAX;
+    int counter = nb_water;
 
-            if(loto < 10)
-                banquise->grid[i][j].ice = water;
+    while(counter > 0)
+    {
+        for(int i = 0; i < banquise->size; i++)
+        {
+            for(int j = 0; j < banquise->size; j++)
+            {
+                int loto = rand() % PERCENT;
+
+                if(counter == 0)
+                    return;
+
+                else if(loto < 10 && IsCaseAvailable(banquise->grid[i][j]))
+                {
+                    banquise->grid[i][j].ground = water;
+                    counter --;
+                }
+
+            }
         }
     }
 }
 
 //Ajoute des rochers aléatoirement sur la banquise, remplace la glace
 //Mais ne remplace pas l'eau! Code pour rocher: object = 1
-void addRocks(T_banquise *banquise)
+void addRocks(T_banquise *banquise, int nb_rocks)
 {
-    for(int i = 0; i < banquise->size; i++)
-    {
-        for(int j = 0; j < banquise->size; j++)
-        {
-            int loto = rand() % RAND_MAX;
+    int counter = nb_rocks;
 
-            if(loto < 10 && banquise->grid[i][j].ice == 1)
-                banquise->grid[i][j].object = rock;
+    while(counter > 0)
+    {
+        for(int i = 0; i < banquise->size; i++)
+        {
+            for(int j = 0; j < banquise->size; j++)
+            {
+                int loto = rand() % PERCENT;
+
+                if(counter == 0)
+                    return;
+
+                else if(loto < 10 && IsCaseAvailable(banquise->grid[i][j]))
+                {
+                    banquise->grid[i][j].ground = rock;
+                    counter --;
+                }
+
+            }
         }
     }
+
 }
 
 
@@ -124,21 +125,21 @@ void addFlags(T_banquise *banquise)
 
     //Si la position de A définie ci-dessus comporte un objet ou de l'eau on redéfinit jusqu'à
     //ce que ce soit bon!
-    while(banquise->grid[Xa][Ya].object > 0 || banquise->grid[Xa][Ya].ice == 0)
+    while(!(IsCaseAvailable(banquise->grid[Xa][Ya])))
     {
         Xa = BANQUISE_SIZE - 1 - (rand() % 3);
         Ya = rand() % BANQUISE_SIZE;
     }
-    banquise->grid[Xa][Ya].A = 1;
+    banquise->grid[Xa][Ya].flag = A;
 
 
     //Même chose pour B
-    while((banquise->grid[Xb][Yb].object > 0 || banquise->grid[Xb][Yb].ice == 0))
+    while(!(IsCaseAvailable(banquise->grid[Xb][Yb])))
     {
         Xb = 0 + (rand() % 3);
         Yb = rand() % BANQUISE_SIZE;
     }
-    banquise->grid[Xb][Yb].B = 1;
+    banquise->grid[Xb][Yb].flag = B;
 }
 
 
@@ -151,8 +152,8 @@ void addFlags(T_banquise *banquise)
 //Suit ordre logique: A/B > object > player > ice
 void printCase(T_case banquise_case)
 {
-    //Si c'est de l'eau inutile de chercher plus loins, on l'affiche
-    if(banquise_case.ice == 0)
+    //Si c'est de l'eau ou un rocher inutile de chercher plus loin, on l'affiche
+    if(banquise_case.ground == water)
     {
         color(9, 9); //En bleu, fond bleu
         printf("~"); //text_blue(stdout)
@@ -160,24 +161,25 @@ void printCase(T_case banquise_case)
         printf(" | "); //text_white(stdout)
     }
 
+    else if(banquise_case.ground == rock)
+    {
+        color(6, 6); //En kaki, fond kaki
+        printf("o");
+        color(15, 0);
+        printf(" | ");
+    }
+
     //S'il y a un objet, un drapeau ou un joueur on va l'afficher
-    else if(banquise_case.object > 0 || banquise_case.A > 0 || banquise_case.B > 0 || banquise_case.player > 0)
+    else if(banquise_case.object != NULL || banquise_case.flag != no_flag || banquise_case.player != NULL)
     {
         //C'est soit un objet...
-        if(banquise_case.object > 0)
+        if(banquise_case.object != NULL)
         {
-            switch(banquise_case.object)
+            switch(banquise_case.object->object_type)
             {
                 case flake:
                     color(11, 0); //En turquoise
                     printf("*"); //text_yellow(stdout)
-                    color(15, 0);
-                    printf(" | "); //text_white(stdout)
-                    break;
-
-                case rock:
-                    color(6, 6); //En kaki, fond kaki
-                    printf("o"); //text_yellow(stdout)
                     color(15, 0);
                     printf(" | "); //text_white(stdout)
                     break;
@@ -211,9 +213,9 @@ void printCase(T_case banquise_case)
         }
 
         //Soit un drapeau
-        else if(banquise_case.A > 0 || banquise_case.B > 0)
+        else if(banquise_case.flag != no_flag)
             {
-               if(banquise_case.A == 1)
+               if(banquise_case.flag == A)
                 {
                     color(5, 0);
                     printf("A"); //text_purple(stdout)
@@ -330,6 +332,7 @@ void printBanquise(T_banquise *banquise)
 /* =================== FONTE ================== */
 /* ============================================ */
 
+/*
 //Calcule la fonte de la banquise => Pour le besoin des tests, ne pas y faire appel maintenant
 T_banquise Fontebanquise (T_banquise *banquise)
 {
@@ -351,3 +354,4 @@ T_banquise Fontebanquise (T_banquise *banquise)
 
     return *banquise;
 }
+*/

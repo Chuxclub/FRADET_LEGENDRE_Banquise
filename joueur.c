@@ -1,13 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "joueur.h"
-#include "glacon.h"
-#include "banquise.h"
-#include "glacon.h"
-#include "utils.h"
 
-#define BANQUISE_SIZE 10
-#define NB_OF_COORDINATES 2
 
 
 /* ============================================ */
@@ -108,14 +100,14 @@ void addPlayers(T_banquise *banquise, T_player **players, int nb_players)
     int Col_a = 0;
     int Ligne_a = 0;
 
-    for(int ligne = BANQUISE_SIZE - 1; ligne > BANQUISE_SIZE - 4; ligne--)
+    for(int line = BANQUISE_SIZE - 1; line > BANQUISE_SIZE - 4; line--)
     {
         for(int col = 0; col < BANQUISE_SIZE; col++)
         {
-            if(banquise->grid[ligne][col].A == 1)
+            if(banquise->grid[line][col].flag == A)
             {
                 Col_a = col;
-                Ligne_a = ligne;
+                Ligne_a = line;
             }
         }
     }
@@ -129,11 +121,12 @@ void addPlayers(T_banquise *banquise, T_player **players, int nb_players)
         int available_line = found_pos[0];
         int available_col = found_pos[1];
 
-        players[i]->details.pos.py = available_line;
-        players[i]->details.pos.px = available_col;
+        /* On mémorise dans le joueur sa position... */
+        players[i]->details.pos.line = available_line;
+        players[i]->details.pos.col = available_col;
 
+        /* Puis on assigne le joueur à la banquise, à la position correspondante */
         banquise->grid[available_line][available_col].player = players[i];
-        //printf("What is banquise_case.player->id ? %i\n", banquise->grid[available_line][available_col].player->id);
         free(found_pos);
     }
 }
@@ -157,8 +150,8 @@ int HowManyPlayers()
 void moveUp(T_player *player, T_banquise *banquise)
 {
     /* Passage du joueur en paramètre pour récupérer sa position */
-    int previous_line = player->details.pos.py;
-    int previous_col = player->details.pos.px;
+    int previous_line = player->details.pos.line;
+    int previous_col = player->details.pos.col;
     int new_line = previous_line - 1;
 
     if(IsInbound(banquise->size, new_line, previous_col))
@@ -170,16 +163,12 @@ void moveUp(T_player *player, T_banquise *banquise)
             banquise->grid[previous_line][previous_col].player = NULL;
 
             /* Modification de la position du joueur */
-            player->details.pos.py = new_line;
-            player->details.pos.px = previous_col;
+            player->details.pos.line = new_line;
+            player->details.pos.col = previous_col;
         }
 
         else
         {
-            if(IsFlake(banquise->grid[new_line][previous_col]))
-            {
-            }
-
         }
     }
 
@@ -188,8 +177,8 @@ void moveUp(T_player *player, T_banquise *banquise)
 void moveLeft(T_player *player, T_banquise *banquise)
 {
     /* Passage du joueur en paramètre pour récupérer sa position */
-    int previous_line = player->details.pos.py;
-    int previous_col = player->details.pos.px;
+    int previous_line = player->details.pos.line;
+    int previous_col = player->details.pos.col;
     int new_col = previous_col - 1;
 
     if(IsInbound(banquise->size, previous_line, new_col))
@@ -202,16 +191,12 @@ void moveLeft(T_player *player, T_banquise *banquise)
             banquise->grid[previous_line][previous_col].player = NULL;
 
             /* Modification de la position du joueur */
-            player->details.pos.py = previous_line;
-            player->details.pos.px = new_col;
+            player->details.pos.line = previous_line;
+            player->details.pos.col = new_col;
         }
 
         else
         {
-            if(IsFlake(banquise->grid[previous_line][new_col]))
-            {
-            }
-
         }
     }
 }
@@ -219,8 +204,8 @@ void moveLeft(T_player *player, T_banquise *banquise)
 void moveDown(T_player *player, T_banquise *banquise)
 {
     /* Passage du joueur en paramètre pour récupérer sa position */
-    int previous_line = player->details.pos.py;
-    int previous_col = player->details.pos.px;
+    int previous_line = player->details.pos.line;
+    int previous_col = player->details.pos.col;
     int new_line = previous_line + 1;
 
     if(IsInbound(banquise->size, new_line, previous_col))
@@ -232,16 +217,12 @@ void moveDown(T_player *player, T_banquise *banquise)
             banquise->grid[previous_line][previous_col].player = NULL;
 
             /* Modification de la position du joueur */
-            player->details.pos.py = new_line;
-            player->details.pos.px = previous_col;
+            player->details.pos.line = new_line;
+            player->details.pos.col = previous_col;
         }
 
         else
         {
-            if(IsFlake(banquise->grid[new_line][previous_col]))
-            {
-            }
-
         }
     }
 }
@@ -249,8 +230,8 @@ void moveDown(T_player *player, T_banquise *banquise)
 void moveRight(T_player *player, T_banquise *banquise)
 {
     /* Passage du joueur en paramètre pour récupérer sa position */
-    int previous_line = player->details.pos.py;
-    int previous_col = player->details.pos.px;
+    int previous_line = player->details.pos.line;
+    int previous_col = player->details.pos.col;
     int new_col = previous_col + 1;
 
     if(IsInbound(banquise->size, previous_line, new_col))
@@ -262,35 +243,12 @@ void moveRight(T_player *player, T_banquise *banquise)
             banquise->grid[previous_line][previous_col].player = NULL;
 
             /* Modification de la position du joueur */
-            player->details.pos.py = previous_line;
-            player->details.pos.px = new_col;
+            player->details.pos.line = previous_line;
+            player->details.pos.col = new_col;
         }
 
         else
         {
-            if(IsFlake(banquise->grid[previous_line][new_col]))
-            {
-            }
-
         }
     }
 }
-//effectue le deplacement des jours pour un tour
-/*T_banquise move(T, int nb_player)
-{
-    for (int i = 1; i <= nb_player; i++)
-    {
-        char move[1];
-        printf("C'est au tour du joueur %d\n", i);
-        scanf("%c", &move);
-        switch(move[0])
-        {
-        case 'H':
-
-            break;
-        }
-
-    }
-}
-
-*/
