@@ -13,6 +13,14 @@ int IsCaseAvailable(T_case banquise_case)
         return 0;
 }
 
+int IsObject(T_case banquise_case)
+{
+    if(banquise_case.object != NULL)
+        return 1;
+
+    else
+        return 0;
+}
 
 int IsFlake(T_case banquise_case)
 {
