@@ -44,7 +44,6 @@ typedef struct
 /* ============== TYPES BANQUISE ============== */
 /* ============================================ */
 typedef enum{water = 0, ice} T_ice;
-//typedef enum{no_player = 0, player_1, player_2, player_3, player_4} T_players;
 typedef enum{no_object = 0, flake, rock, spring, hammer, trap} T_object;
 
 typedef struct
