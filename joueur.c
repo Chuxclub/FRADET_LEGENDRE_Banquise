@@ -156,24 +156,67 @@ int HowManyPlayers()
 
 void moveUp(T_player *player, T_banquise *banquise)
 {
+    /* Passage du joueur en paramètre pour récupérer sa position */
     int previous_line = player->details.pos.py;
     int previous_col = player->details.pos.px;
 
+    /* Assignation à la case voulue du joueur sur la banquise*/
     int new_line = previous_line - 1;
-    /*printf("previous_line: %i\n", previous_line);
-    printf("previous_col: %i\n", previous_col);
-    printf("new_col: %i\n", new_line);*/
-
     banquise->grid[new_line][previous_col].player = player;
-    //printf("Hey");
     banquise->grid[previous_line][previous_col].player = NULL;
 
-
-
+    /* Modification de la position du joueur */
     player->details.pos.py = new_line;
     player->details.pos.px = previous_col;
 }
 
+void moveLeft(T_player *player, T_banquise *banquise)
+{
+    /* Passage du joueur en paramètre pour récupérer sa position */
+    int previous_line = player->details.pos.py;
+    int previous_col = player->details.pos.px;
+
+    /* Assignation à la case voulue du joueur sur la banquise*/
+    int new_col = previous_col - 1;
+    banquise->grid[previous_line][new_col].player = player;
+    banquise->grid[previous_line][previous_col].player = NULL;
+
+    /* Modification de la position du joueur */
+    player->details.pos.py = previous_line;
+    player->details.pos.px = new_col;
+}
+
+void moveDown(T_player *player, T_banquise *banquise)
+{
+    /* Passage du joueur en paramètre pour récupérer sa position */
+    int previous_line = player->details.pos.py;
+    int previous_col = player->details.pos.px;
+
+    /* Assignation à la case voulue du joueur sur la banquise*/
+    int new_line = previous_line + 1;
+    banquise->grid[new_line][previous_col].player = player;
+    banquise->grid[previous_line][previous_col].player = NULL;
+
+    /* Modification de la position du joueur */
+    player->details.pos.py = new_line;
+    player->details.pos.px = previous_col;
+}
+
+void moveRight(T_player *player, T_banquise *banquise)
+{
+    /* Passage du joueur en paramètre pour récupérer sa position */
+    int previous_line = player->details.pos.py;
+    int previous_col = player->details.pos.px;
+
+    /* Assignation à la case voulue du joueur sur la banquise*/
+    int new_col = previous_col + 1;
+    banquise->grid[previous_line][new_col].player = player;
+    banquise->grid[previous_line][previous_col].player = NULL;
+
+    /* Modification de la position du joueur */
+    player->details.pos.py = previous_line;
+    player->details.pos.px = new_col;
+}
 //effectue le deplacement des jours pour un tour
 /*T_banquise move(T, int nb_player)
 {

@@ -88,7 +88,7 @@ void addWater(T_banquise *banquise)
         {
             int loto = rand() % RAND_MAX;
 
-            if(loto < 15)
+            if(loto < 10)
                 banquise->grid[i][j].ice = water;
         }
     }
@@ -104,7 +104,7 @@ void addRocks(T_banquise *banquise)
         {
             int loto = rand() % RAND_MAX;
 
-            if(loto < 25 && banquise->grid[i][j].ice == 1)
+            if(loto < 10 && banquise->grid[i][j].ice == 1)
                 banquise->grid[i][j].object = rock;
         }
     }

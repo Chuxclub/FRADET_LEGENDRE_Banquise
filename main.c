@@ -45,17 +45,20 @@ int main()
                 printBanquise(myBanquise);
                 break;
 
-            /*case 'q':
-                moveLeft(player);
+            case 'q':
+                moveLeft(players[0], myBanquise);
+                printBanquise(myBanquise);
                 break;
 
             case 's':
-                moveDown(player);
+                moveDown(players[0], myBanquise);
+                printBanquise(myBanquise);
                 break;
 
             case 'd':
-                moveRight(player);
-                break;*/
+                moveRight(players[0], myBanquise);
+                printBanquise(myBanquise);
+                break;
 
             default:
                 perror("wrong input");
