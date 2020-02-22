@@ -81,6 +81,15 @@ void addFlakes(T_banquise *banquise, T_object **flakes, int nb_flakes)
 /* =========== INTERACTIONS GLACONS =========== */
 /* ============================================ */
 
+void BecomeIce(T_object *bumped_flake, T_banquise *banquise)
+{
+    int flake_line = bumped_flake->flake->pos.line;
+    int flake_col = bumped_flake->flake->pos.col;
+
+    banquise->grid[flake_line][flake_col].object = NULL;
+    banquise->grid[flake_line][flake_col].ground = ice;
+}
+
 void moveFlakeUp(T_object *bumped_flake, T_banquise *banquise)
 {
     /*Récupération des coordonnées du glaçon*/
@@ -104,18 +113,34 @@ void moveFlakeUp(T_object *bumped_flake, T_banquise *banquise)
                     break;
             }
 
-            /*Arrêt du glaçon*/
-            bumped_flake->flake->vect.d_col = 0;
 
-            /*Modification des coordonnées internes du glaçon*/
-            bumped_flake->flake->pos.line = new_line;
-            bumped_flake->flake->pos.col = previous_col;
+            if(IsWater(banquise->grid[new_line - 1][previous_col]))
+            {
+                new_line += bumped_flake->flake->vect.d_line;
+                bumped_flake->flake->pos.line = new_line;
 
-            /*Ajout du glaçon sur la banquise, sur sa nouvelle position calculée*/
-            banquise->grid[new_line][previous_col].object = bumped_flake;
+                BecomeIce(bumped_flake, banquise);
 
-            /*Suppression du glaçon sur la banquise, à sa position précédente*/
-            banquise->grid[previous_line][previous_col].object = NULL;
+                banquise->grid[previous_line][previous_col].object = NULL;
+                free(bumped_flake);
+            }
+
+
+            else
+            {
+                /*Annulation de la vitesse du glaçon*/
+                bumped_flake->flake->vect.d_col = 0;
+
+               /*Modification des coordonnées internes du glaçon*/
+                bumped_flake->flake->pos.line = new_line;
+                bumped_flake->flake->pos.col = previous_col;
+
+                /*Ajout du glaçon sur la banquise, sur sa nouvelle position calculée*/
+                banquise->grid[new_line][previous_col].object = bumped_flake;
+
+                /*Suppression du glaçon sur la banquise, à sa position précédente*/
+                banquise->grid[previous_line][previous_col].object = NULL;
+            }
         }
     }
 }
@@ -143,16 +168,30 @@ void moveFlakeLeft(T_object *bumped_flake, T_banquise *banquise)
                     break;
             }
 
-            /*Arrêt du glaçon et modification de ses coordonnées internes*/
-            bumped_flake->flake->vect.d_col = 0;
-            bumped_flake->flake->pos.line = previous_line;
-            bumped_flake->flake->pos.col = new_col;
+            if(IsWater(banquise->grid[previous_line][new_col - 1]))
+            {
+                new_col += bumped_flake->flake->vect.d_col;
+                bumped_flake->flake->pos.col = new_col;
 
-            /*Ajout du glaçon sur la banquise, sur sa nouvelle position calculée*/
-            banquise->grid[previous_line][new_col].object = bumped_flake;
+                BecomeIce(bumped_flake, banquise);
 
-            /*Suppression du glaçon sur la banquise, à sa position précédente*/
-            banquise->grid[previous_line][previous_col].object = NULL;
+                banquise->grid[previous_line][previous_col].object = NULL;
+                free(bumped_flake);
+            }
+
+            else
+            {
+                /*Arrêt du glaçon et modification de ses coordonnées internes*/
+                bumped_flake->flake->vect.d_col = 0;
+                bumped_flake->flake->pos.line = previous_line;
+                bumped_flake->flake->pos.col = new_col;
+
+                /*Ajout du glaçon sur la banquise, sur sa nouvelle position calculée*/
+                banquise->grid[previous_line][new_col].object = bumped_flake;
+
+                /*Suppression du glaçon sur la banquise, à sa position précédente*/
+                banquise->grid[previous_line][previous_col].object = NULL;
+            }
         }
     }
 }

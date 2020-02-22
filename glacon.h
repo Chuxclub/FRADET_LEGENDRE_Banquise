@@ -22,6 +22,7 @@ void addFlakes(T_banquise *banquise, T_object **flakes, int nb_flakes);
 /* =========== INTERACTIONS GLACONS =========== */
 /* ============================================ */
 
+void BecomeIce(T_object *bumped_flake, T_banquise *banquise);
 void moveFlakeUp(T_object *bumped_flake, T_banquise *banquise);
 void moveFlakeLeft(T_object *bumped_flake, T_banquise *banquise);
 void moveFlakeDown(T_object *bumped_flake, T_banquise *banquise);
