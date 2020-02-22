@@ -36,7 +36,7 @@ T_banquise *initRawBanquise(int size)
     return res;
 }
 
-//Crée une banquise prête pour démarrer le jeu
+//Crée une banquise avec un terrain généré aléatoirement
 T_banquise *initBanquise(int size)
 {
     //Initialisation de la banquise (que de la glace)

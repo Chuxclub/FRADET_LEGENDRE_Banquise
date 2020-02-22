@@ -4,18 +4,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include "banquise.h"
-#include "joueur.h"
 #include "user_types.h"
 #include "utils.h"
 #include "constants.h"
+
 
 /* ============================================ */
 /* ========== INITIALISATION GLACONS ========== */
 /* ============================================ */
 
+T_flake *initFlake();
 T_object **initFlakes(int nb_flakes);
 void addFlakes(T_banquise *banquise, T_object **flakes, int nb_flakes);
+
+
+/* ============================================ */
+/* =========== INTERACTIONS GLACONS =========== */
+/* ============================================ */
+
+void moveFlakeUp(T_object *bumped_flake, T_banquise *banquise);
+void moveFlakeLeft(T_object *bumped_flake, T_banquise *banquise);
+void moveFlakeDown(T_object *bumped_flake, T_banquise *banquise);
+void moveFlakeRight(T_object *bumped_flake, T_banquise *banquise);
+
+
+
 //rencontre entre un glacon et un joueur
 /*T_banquise MeetAFlake(T_player *banquise.grid.player, T_flake *banquise.grid.glacon);
 

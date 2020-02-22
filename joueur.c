@@ -172,22 +172,8 @@ void moveUp(T_player *player, T_banquise *banquise)
             if(IsObject(banquise->grid[new_line][previous_col]))
             {
                 if(IsFlake(banquise->grid[new_line][previous_col]))
-                {
-                    int d_col = -1;
-                    T_object *bumped_flake = banquise->grid[new_line][previous_col].object;
-                    banquise->grid[new_line][previous_col].object = NULL;
-
-                    while(IsCaseAvailable(banquise->grid[new_line - 1][previous_col]))
-                        new_line += d_col;
-
-                    bumped_flake->flake.pos.line = new_line;
-                    bumped_flake->flake.pos.col = previous_col;
-
-                    banquise->grid[new_line][previous_col].object = bumped_flake;
-
-                }
+                    moveFlakeUp(banquise->grid[new_line][previous_col].object, banquise);
             }
-
         }
     }
 
@@ -216,6 +202,11 @@ void moveLeft(T_player *player, T_banquise *banquise)
 
         else
         {
+            if(IsObject(banquise->grid[previous_line][new_col]))
+            {
+                if(IsFlake(banquise->grid[previous_line][new_col]))
+                    moveFlakeLeft(banquise->grid[previous_line][new_col].object, banquise);
+            }
         }
     }
 }
@@ -242,6 +233,11 @@ void moveDown(T_player *player, T_banquise *banquise)
 
         else
         {
+            if(IsObject(banquise->grid[new_line][previous_col]))
+            {
+                if(IsFlake(banquise->grid[new_line][previous_col]))
+                    moveFlakeDown(banquise->grid[new_line][previous_col].object, banquise);
+            }
         }
     }
 }
@@ -268,6 +264,11 @@ void moveRight(T_player *player, T_banquise *banquise)
 
         else
         {
+            if(IsObject(banquise->grid[previous_line][new_col]))
+            {
+                if(IsFlake(banquise->grid[previous_line][new_col]))
+                    moveFlakeRight(banquise->grid[previous_line][new_col].object, banquise);
+            }
         }
     }
 }

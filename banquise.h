@@ -11,9 +11,6 @@
 #include "user_types.h"
 #include "windows_colors.h" //Ajoute des couleurs au terminal Windows
 #include "constants.h"
-#include "ressort.h"
-#include "piege.h"
-#include "utils.h"
 
 
 

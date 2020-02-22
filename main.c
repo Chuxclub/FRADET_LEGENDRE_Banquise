@@ -3,11 +3,9 @@
 #include <time.h>
 #include "banquise.h"
 #include "glacon.h"
+#include "joueur.h"
 #include "piege.h"
 #include "ressort.h"
-#include "utils.h"
-#include "joueur.h"
-#include "constants.h"
 
 
 int main()
@@ -28,16 +26,12 @@ int main()
     T_object **springs = initSprings(NB_SPRINGS);
     addSprings(myBanquise, springs, NB_SPRINGS);
 
-    //T_object ***objects = (T_object **) malloc(sizeof(T_object) * 3);
-    //objects[0] = flakes;
-    //objects[1] = traps;
-    //objects[2] = springs;
-
 
     //Initialisation des joueurs
     int nb_players = HowManyPlayers();
     T_player **players = initPlayers(nb_players);
     addPlayers(myBanquise, players, nb_players);
+
 
     //Affichage initial
     printBanquise(myBanquise);

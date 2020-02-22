@@ -45,9 +45,9 @@ typedef enum{no_object = 0, flake, spring, hammer, trap} T_object_type;
 typedef struct
 {
     T_object_type object_type;
-    T_flake flake;
-    T_trap trap;
-    T_spring spring;
+    T_flake *flake;
+    T_trap *trap;
+    T_spring *spring;
 } T_object;
 
 /* ============================================ */
