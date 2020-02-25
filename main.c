@@ -12,8 +12,11 @@ int main()
 {
     srand(time(NULL));
 
+    T_flag_test *flag_test = initTabFlag();
+
+
     //Initialisation de la banquise (que de la glace)
-    T_banquise *myBanquise = initBanquise(BANQUISE_SIZE);
+    T_banquise *myBanquise = initBanquise(BANQUISE_SIZE, flag_test);
 
 
     //Initialisation des objets
@@ -26,6 +29,10 @@ int main()
     T_object **springs = initSprings(NB_SPRINGS);
     addSprings(myBanquise, springs, NB_SPRINGS);
 
+    //Copie de la banquise pour tester isARoad
+    T_banquise *testBanquise = myBanquise;
+    isARoad(testBanquise, flag_test);
+    a_test(flag_test.find);
 
     //Initialisation des joueurs
     int nb_players = HowManyPlayers();

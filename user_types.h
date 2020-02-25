@@ -99,4 +99,14 @@ typedef struct
     int size;
 }T_banquise;
 
+
+
+/* ============================================ */
+/* ============== TYPES DRAPEAUX ============== */
+/* ============================================ */
+typedef struct
+{
+    T_pos *ptr_pos;
+    int find;
+}T_flag_test;
 #endif // USER_TYPES_H_INCLUDED
