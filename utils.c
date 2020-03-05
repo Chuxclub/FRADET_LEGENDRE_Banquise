@@ -48,3 +48,5 @@ int IsInbound(int banquise_size, int line, int col)
     else
         return 0;
 }
+
+

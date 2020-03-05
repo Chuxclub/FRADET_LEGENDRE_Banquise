@@ -2,8 +2,78 @@
 // Created by florian on 13/02/20.
 //
 #include "banquise.h"
+//
+
+//Initialise un tableau pour sauvegarder la position ultérieure des drapeaux
+T_flag_test *initTabFlag()
+{
+    T_flag_test *test;
+    test = ( T_flag_test* ) malloc(sizeof(T_flag_test));
+
+    test->find = 0;
+    test->ptr_pos = (T_pos *) malloc(sizeof(T_pos ) * 2);
+
+    for(int i = 0; i < 2; i++)
+    {
+        test->ptr_pos[i].col = 0;
+        test->ptr_pos[i].line = 0;
+    }
+
+    return test;
+}
 
 
+//Cherche l'existence d'un chemin allant d'un point de départ A à un point d'arrivée B
+//Renvoit 1 si il existe un chemin, 0 sinon
+int isARoad(T_banquise banquise, T_flag_test *flag_test)
+{
+    int Xa = flag_test->ptr_pos[0].col;
+    int Ya = flag_test->ptr_pos[0].line;
+    int Xb = flag_test->ptr_pos[1].col;
+    int Yb = flag_test->ptr_pos[1].line;
+
+    if (( Xa == Xb) && (Ya == Yb))
+    {
+        flag_test->find = 1;
+        return flag_test->find;
+    }
+
+    else
+    {
+
+    if((banquise.grid[Xa][Ya - 1].ground == ice) && (banquise.grid[Xa][Ya - 1].object == NULL) && (banquise.grid[Xa][Ya - 1].flag == 0))
+    {
+        banquise.grid[Xa][Ya - 1].flag = 1;
+        flag_test->ptr_pos[0].line = Ya - 1;
+        isARoad(banquise, flag_test);
+    }
+    if((banquise.grid[Xa][Ya + 1].ground == ice) && (banquise.grid[Xa][Ya + 1].object == NULL) && (banquise.grid[Xa][Ya + 1].player == 0))
+    {
+        banquise.grid[Xa][Ya + 1].flag = 1;
+        flag_test->ptr_pos[0].line = Ya + 1;
+        isARoad(banquise, flag_test);
+    }
+    if((banquise.grid[Xa - 1][Ya].ground == ice) && (banquise.grid[Xa - 1][Ya].object == NULL) && (banquise.grid[Xa - 1][Ya].player == 0))
+    {
+        banquise.grid[Xa - 1][Ya].flag = 1;
+        flag_test->ptr_pos[0].col = Xa - 1;
+        isARoad(banquise, flag_test);
+    }
+    if((banquise.grid[Xa + 1][Ya].ground == ice) && (banquise.grid[Xa + 1][Ya].object == NULL) && (banquise.grid[Xa + 1][Ya].player == 0))
+    {
+        banquise.grid[Xa + 1][Ya].flag = 1;
+        flag_test->ptr_pos[0].col = Xa + 1;
+        isARoad(banquise, flag_test);
+    }
+
+    return flag_test->find;
+    }
+}
+
+void a_test(int findme)
+{
+    printf("%d\n", findme);
+}
 
 /* ============================================ */
 /* ========= INITIALISATION BANQUISE ========== */
@@ -37,7 +107,7 @@ T_banquise *initRawBanquise(int size)
 }
 
 //Crée une banquise avec un terrain généré aléatoirement
-T_banquise *initBanquise(int size)
+T_banquise *initBanquise(int size, T_flag_test *flag)
 {
     //Initialisation de la banquise (que de la glace)
     T_banquise *myBanquise = initRawBanquise(size);
@@ -45,7 +115,7 @@ T_banquise *initBanquise(int size)
     //Génération aléatoire des éléments du terrain
     addWater(myBanquise, NB_WATER);
     addRocks(myBanquise, NB_ROCKS);
-    addFlags(myBanquise);
+    addFlags(myBanquise, flag);
 
     return myBanquise;
 }
@@ -112,10 +182,11 @@ void addRocks(T_banquise *banquise, int nb_rocks)
 }
 
 
-//Ajoute les points de départ et d'arrivé
+//Ajoute les points de départ et d'arrivée
 //Le point d'arrivé ne peut être qu'à trois lignes du haut du départ
 //Le point de départ dans les trois lignes en bas du tableau
-void addFlags(T_banquise *banquise)
+
+void addFlags(T_banquise *banquise, T_flag_test *flag)
 {
     int Xa = BANQUISE_SIZE - 1 - (rand() % 3);
     int Ya = rand() % BANQUISE_SIZE;
@@ -132,6 +203,10 @@ void addFlags(T_banquise *banquise)
     }
     banquise->grid[Xa][Ya].flag = A;
 
+    //Sauvegarde de la position de A pour le test isARoad
+    flag->ptr_pos[0].col = Xa;
+    flag->ptr_pos[0].line = Ya;
+
 
     //Même chose pour B
     while(!(IsCaseAvailable(banquise->grid[Xb][Yb])))
@@ -140,6 +215,12 @@ void addFlags(T_banquise *banquise)
         Yb = rand() % BANQUISE_SIZE;
     }
     banquise->grid[Xb][Yb].flag = B;
+
+    //Sauvegarde de la position de B pour le test isARoad
+    flag->ptr_pos[1].col = Xb;
+    flag->ptr_pos[1].line = Yb;
+
+
 }
 
 
@@ -324,7 +405,6 @@ void printBanquise(T_banquise *banquise)
     //Newline
     printf("\n");
 }
-
 
 
 
