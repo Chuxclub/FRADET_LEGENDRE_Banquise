@@ -2,3 +2,9 @@ Banquise.layout
 bin/Debug/Banquise.exe
 obj/Debug/glacon.o
 obj/Debug/utils.o
+obj/Debug/banquise.o
+obj/Debug/joueur.o
+obj/Debug/piege.o
+obj/Debug/ressort.o
+obj/Debug/main.o
+

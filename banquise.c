@@ -10,7 +10,7 @@ T_flag_test *initTabFlag()
     T_flag_test *test;
     test = ( T_flag_test* ) malloc(sizeof(T_flag_test));
 
-    test->find = 0;
+    test->find2 = 0;
     test->ptr_pos = (T_pos *) malloc(sizeof(T_pos ) * 2);
 
     for(int i = 0; i < 2; i++)
@@ -34,8 +34,8 @@ int isARoad(T_banquise banquise, T_flag_test *flag_test)
 
     if (( Xa == Xb) && (Ya == Yb))
     {
-        flag_test->find = 1;
-        return flag_test->find;
+        flag_test->find2 = 1;
+        return flag_test->find2;
     }
 
     else
@@ -66,7 +66,7 @@ int isARoad(T_banquise banquise, T_flag_test *flag_test)
         isARoad(banquise, flag_test);
     }
 
-    return flag_test->find;
+    return flag_test->find2;
     }
 }
 

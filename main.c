@@ -30,9 +30,9 @@ int main()
     addSprings(myBanquise, springs, NB_SPRINGS);
 
     //Copie de la banquise pour tester isARoad
-    T_banquise *testBanquise = myBanquise;
-    isARoad(testBanquise, flag_test);
-    a_test(flag_test.find);
+    /*T_banquise *testBanquise = myBanquise;
+    isARoad(*testBanquise, flag_test);
+    a_test(flag_test->find2);*/
 
     //Initialisation des joueurs
     int nb_players = HowManyPlayers();

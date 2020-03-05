@@ -107,6 +107,6 @@ typedef struct
 typedef struct
 {
     T_pos *ptr_pos;
-    int find;
+    int find2;
 }T_flag_test;
 #endif // USER_TYPES_H_INCLUDED
