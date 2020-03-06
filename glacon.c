@@ -104,8 +104,14 @@ void accelerateRight(T_object *bumped_flake)
     bumped_flake->flake->vect.d_col = +1;
 }
 
+void accelerateOpposite(T_object *bumped_flake)
+{
+    /*Assignation d'une vitesse au glaçon bougé (ou 'bumpé'...)*/
+    bumped_flake->flake->vect.d_line *= -1;
+    bumped_flake->flake->vect.d_col *= -1;
+}
 
-// ------------> Réactions à l'environnement
+// ------------> Réactions aux objets et à l'environnement
 void BecomeIce(T_object *bumped_flake, int water_line, int water_col, T_banquise *banquise)
 {
     int flake_line = bumped_flake->flake->pos.line;
@@ -120,16 +126,27 @@ void BecomeIce(T_object *bumped_flake, int water_line, int water_col, T_banquise
     banquise->grid[water_line][water_col].ground = ice;
 }
 
+void BumpSpring(T_object *bumped_flake)
+{
+    accelerateOpposite(bumped_flake);
+}
+
 void FlakeInteraction(T_object *bumped_flake, int neighbour_line, int neighbour_col, T_banquise *banquise)
 {
     if(IsWater(banquise->grid[neighbour_line][neighbour_col]))
     {
         BecomeIce(bumped_flake, neighbour_line, neighbour_col, banquise);
     }
+
+    else if(IsObject(banquise->grid[neighbour_line][neighbour_col]))
+    {
+        //Il y aura un switch_case ici
+        BumpSpring(bumped_flake);
+    }
 }
 
 
-// ------------> Regroupement déplacements et réactions à l'environnement
+// ------------> Regroupement déplacements et réactions aux objets et à l'environnement
 void updateFlakes(int nb_flakes, T_object **flakes,  T_banquise *banquise)
 {
     for(int i = 0; i < nb_flakes; i++)

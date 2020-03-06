@@ -22,17 +22,21 @@ void addFlakes(T_banquise *banquise, T_object **flakes, int nb_flakes);
 /* =========== INTERACTIONS GLACONS =========== */
 /* ============================================ */
 
-void FlakeInteraction(T_object *bumped_flake, int neighbour_line, int neighbour_col, T_banquise *banquise);
-void BecomeIce(T_object *bumped_flake, int water_line, int water_col, T_banquise *banquise);
 
-void updateFlakes(int nb_flakes, T_object **flakes,  T_banquise *banquise);
+// ------------> Déplacements
 void accelerateUp(T_object *bumped_flake);
+void accelerateLeft(T_object *bumped_flake);
+void accelerateDown(T_object *bumped_flake);
+void accelerateRight(T_object *bumped_flake);
+void accelerateOpposite(T_object *bumped_flake);
 
-void moveFlakeUp(T_object *bumped_flake, T_banquise *banquise);
-void moveFlakeLeft(T_object *bumped_flake, T_banquise *banquise);
-void moveFlakeDown(T_object *bumped_flake, T_banquise *banquise);
-void moveFlakeRight(T_object *bumped_flake, T_banquise *banquise);
+// ------------> Réactions aux objets et à l'environnement
+void BecomeIce(T_object *bumped_flake, int water_line, int water_col, T_banquise *banquise);
+void BumpSpring(T_object *bumped_flake);
+void FlakeInteraction(T_object *bumped_flake, int neighbour_line, int neighbour_col, T_banquise *banquise);
 
+// ------------> Regroupement déplacements et réactions aux objets et à l'environnement
+void updateFlakes(int nb_flakes, T_object **flakes,  T_banquise *banquise);
 
 
 //rencontre entre un glacon et un joueur
