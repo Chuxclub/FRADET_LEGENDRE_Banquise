@@ -20,6 +20,9 @@ int IsInbound(int banquise_size, int line, int col);
 //Détermine s'il y a un T_object présent à la case indiquée
 int IsObject(T_case banquise_case);
 
+//Détermine s'il y a un ressort présent à la case indiquée
+int IsSpring(T_case banquise_case);
+
 //Détermine s'il y a de l'eau à la case indiquée
 int IsWater(T_case banquise_case);
 

@@ -157,8 +157,20 @@ void updateFlakes(int nb_flakes, T_object **flakes,  T_banquise *banquise)
             banquise->grid[flakes[i]->flake->pos.line][flakes[i]->flake->pos.col].object = NULL;
 
             /* Calcul des nouvelles positions des flocons par rapport à leurs vecteurs vitesse */
-            int new_line = flakes[i]->flake->pos.line + flakes[i]->flake->vect.d_line;
-            int new_col = flakes[i]->flake->pos.col + flakes[i]->flake->vect.d_col;
+            int new_line = 0;
+            int new_col = 0;
+
+            if(flakes[i]->flake->vect.d_line != 0)
+                new_line = flakes[i]->flake->pos.line + flakes[i]->flake->vect.d_line;
+
+            else
+                new_line = flakes[i]->flake->pos.line;
+
+            if(flakes[i]->flake->vect.d_col != 0)
+                new_col = flakes[i]->flake->pos.col + flakes[i]->flake->vect.d_col;
+
+            else
+                new_col = flakes[i]->flake->pos.col;
 
             /* Vérification de la validité des nouvelles positions calculées*/
             if(IsInbound(BANQUISE_SIZE, new_line, new_col))
@@ -173,25 +185,27 @@ void updateFlakes(int nb_flakes, T_object **flakes,  T_banquise *banquise)
 
                 //Si la case n'est pas disponible car il y a un objet interagissable: lancement de l'interaction
                 else if(IsFlakeIN(BANQUISE_SIZE, banquise, new_line, new_col))
-                {
-                    flakes[i]->flake->vect.d_line = 0;
-                    flakes[i]->flake->vect.d_col = 0;
-
                     FlakeInteraction(flakes[i], new_line, new_col, banquise);
-                }
 
-                //Sinon, arrêt du glaçon. Ce-dernier préserve ainsi ses anciennes positions
+                //Sinon, c'est un rocher ou un drapeau, on arrête le glaçon et on conserve l'ancienne position
                 else
                 {
                     flakes[i]->flake->vect.d_line = 0;
                     flakes[i]->flake->vect.d_col = 0;
+
                     banquise->grid[flakes[i]->flake->pos.line][flakes[i]->flake->pos.col].object = flakes[i];
                 }
              }
 
-             /* Si la nouvelle position calculée est en-dehors du plateau on conserve l'ancienne position */
+             /* Si la nouvelle position calculée est en-dehors du plateau on arrête le flocon et on conserve l'ancienne position */
              else
-                banquise->grid[flakes[i]->flake->pos.line][flakes[i]->flake->pos.col].object = flakes[i];
+             {
+                 flakes[i]->flake->vect.d_line = 0;
+                 flakes[i]->flake->vect.d_col = 0;
+
+                 banquise->grid[flakes[i]->flake->pos.line][flakes[i]->flake->pos.col].object = flakes[i];
+             }
+
         }
     }
 }

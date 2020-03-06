@@ -38,5 +38,7 @@ void moveLeft(T_player *player, T_banquise *banquise);
 void moveDown(T_player *player, T_banquise *banquise);
 void moveRight(T_player *player, T_banquise *banquise);
 
+void updatePlayer(T_player *myPlayer, int previous_line, int previous_col, T_banquise *banquise);
+
 
 #endif // JOUEUR_H_INCLUDED

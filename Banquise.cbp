@@ -60,6 +60,10 @@
 		</Unit>
 		<Unit filename="ressort.h" />
 		<Unit filename="termcolor.h" />
+		<Unit filename="test_funcs.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="test_funcs.h" />
 		<Unit filename="user_types.h" />
 		<Unit filename="utils.c">
 			<Option compilerVar="CC" />

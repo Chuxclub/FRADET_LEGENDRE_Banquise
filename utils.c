@@ -41,6 +41,14 @@ int IsObject(T_case banquise_case)
         return 0;
 }
 
+int IsSpring(T_case banquise_case)
+{
+    if(banquise_case.object != NULL && banquise_case.object->object_type == spring)
+        return 1;
+
+    else
+        return 0;
+}
 
 int IsWater(T_case banquise_case)
 {
@@ -56,7 +64,7 @@ int IsFlakeIN(int banquise_size, T_banquise *banquise, int neighbour_line, int n
 {
     if(IsInbound(BANQUISE_SIZE, neighbour_line, neighbour_col))
     {
-        if (IsWater(banquise->grid[neighbour_line][neighbour_col]))
+        if (IsWater(banquise->grid[neighbour_line][neighbour_col]) || IsSpring(banquise->grid[neighbour_line][neighbour_col]))
             return 1;
     }
 

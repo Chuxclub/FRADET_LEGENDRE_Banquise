@@ -163,7 +163,6 @@ int HowManyPlayers()
 /* ============================================ */
 /* =========== DEPLACEMENT JOUEURS ============ */
 /* ============================================ */
-
 void moveUp(T_player *player, T_banquise *banquise)
 {
     /* Passage du joueur en paramètre pour récupérer sa position */
@@ -175,13 +174,12 @@ void moveUp(T_player *player, T_banquise *banquise)
     {
         if(IsCaseAvailable(banquise->grid[new_line][previous_col]))
         {
-            /* Assignation à la case voulue du joueur sur la banquise*/
-            banquise->grid[new_line][previous_col].player = player;
-            banquise->grid[previous_line][previous_col].player = NULL;
-
             /* Modification de la position du joueur */
             player->details.pos.line = new_line;
             player->details.pos.col = previous_col;
+
+            /* Assignation à la case voulue du joueur sur la banquise*/
+            updatePlayer(player, previous_line, previous_col, banquise);
         }
 
         else
@@ -207,14 +205,12 @@ void moveLeft(T_player *player, T_banquise *banquise)
     {
         if(IsCaseAvailable(banquise->grid[previous_line][new_col]))
         {
-            /* Assignation à la case voulue du joueur sur la banquise*/
-
-            banquise->grid[previous_line][new_col].player = player;
-            banquise->grid[previous_line][previous_col].player = NULL;
-
             /* Modification de la position du joueur */
             player->details.pos.line = previous_line;
             player->details.pos.col = new_col;
+
+            /* Assignation à la case voulue du joueur sur la banquise*/
+            updatePlayer(player, previous_line, previous_col, banquise);
         }
 
         else
@@ -239,13 +235,12 @@ void moveDown(T_player *player, T_banquise *banquise)
     {
         if(IsCaseAvailable(banquise->grid[new_line][previous_col]))
         {
-            /* Assignation à la case voulue du joueur sur la banquise*/
-            banquise->grid[new_line][previous_col].player = player;
-            banquise->grid[previous_line][previous_col].player = NULL;
-
             /* Modification de la position du joueur */
             player->details.pos.line = new_line;
             player->details.pos.col = previous_col;
+
+            /* Assignation à la case voulue du joueur sur la banquise*/
+            updatePlayer(player, previous_line, previous_col, banquise);
         }
 
         else
@@ -270,13 +265,12 @@ void moveRight(T_player *player, T_banquise *banquise)
     {
         if(IsCaseAvailable(banquise->grid[previous_line][new_col]))
         {
-            /* Assignation à la case voulue du joueur sur la banquise*/
-            banquise->grid[previous_line][new_col].player = player;
-            banquise->grid[previous_line][previous_col].player = NULL;
-
             /* Modification de la position du joueur */
             player->details.pos.line = previous_line;
             player->details.pos.col = new_col;
+
+            /* Assignation à la case voulue du joueur sur la banquise*/
+            updatePlayer(player, previous_line, previous_col, banquise);
         }
 
         else
@@ -288,4 +282,13 @@ void moveRight(T_player *player, T_banquise *banquise)
             }
         }
     }
+}
+
+
+//Met à jour la banquise en fonction des nouvelles positions du joueur
+//Les anciennes coordonnées du joueurs doivent être données
+void updatePlayer(T_player *myPlayer, int previous_line, int previous_col, T_banquise *banquise)
+{
+    banquise->grid[previous_line][previous_col].player = NULL;
+    banquise->grid[myPlayer->details.pos.line][myPlayer->details.pos.col].player = myPlayer;
 }
