@@ -1,8 +1,8 @@
 //
 // Created by florian on 13/02/20.
 //
+
 #include "banquise.h"
-//
 
 //Initialise un tableau pour sauvegarder la position ultérieure des drapeaux
 T_flag_test *initTabFlag()

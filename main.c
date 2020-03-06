@@ -6,20 +6,27 @@
 #include "joueur.h"
 #include "piege.h"
 #include "ressort.h"
+#include "menus.h"
 
 
 int main()
 {
     srand(time(NULL));
 
-    T_flag_test *flag_test = initTabFlag();
+    //Menu d'accueil, demande un nombre de joueurs
+    int nb_players = main_menu();
+    T_player **players = initPlayers(nb_players);
+
 
 
     //Initialisation de la banquise (que de la glace)
+    T_flag_test *flag_test = initTabFlag();
     T_banquise *myBanquise = initBanquise(BANQUISE_SIZE, flag_test);
 
+    //Ajout des joueurs sur la banquise
+    addPlayers(myBanquise, players, nb_players);
 
-    //Initialisation des objets
+    //Initialisation et ajout des objets sur la banquise
     T_object **flakes = initFlakes(NB_FLAKES);
     addFlakes(myBanquise, flakes, NB_FLAKES);
 
@@ -29,15 +36,11 @@ int main()
     T_object **springs = initSprings(NB_SPRINGS);
     addSprings(myBanquise, springs, NB_SPRINGS);
 
+
     //Copie de la banquise pour tester isARoad
     /*T_banquise *testBanquise = myBanquise;
     isARoad(*testBanquise, flag_test);
     a_test(flag_test->find2);*/
-
-    //Initialisation des joueurs
-    int nb_players = HowManyPlayers();
-    T_player **players = initPlayers(nb_players);
-    addPlayers(myBanquise, players, nb_players);
 
 
     //Affichage initial
@@ -45,7 +48,7 @@ int main()
 
 
 
-   //Début du jeu
+   //Boucle du jeu
     char move;
     int end = 0;
 

@@ -13,6 +13,25 @@ int IsCaseAvailable(T_case banquise_case)
         return 0;
 }
 
+int IsFlake(T_case banquise_case)
+{
+    if(banquise_case.object->object_type == flake)
+        return 1;
+
+    else
+        return 0;
+}
+
+
+int IsInbound(int banquise_size, int line, int col)
+{
+    if((line >= 0 && line < banquise_size) && (col >= 0 && col < banquise_size))
+        return 1;
+
+    else
+        return 0;
+}
+
 int IsObject(T_case banquise_case)
 {
     if(banquise_case.object != NULL)
@@ -22,14 +41,6 @@ int IsObject(T_case banquise_case)
         return 0;
 }
 
-int IsFlake(T_case banquise_case)
-{
-    if(banquise_case.object->object_type == flake)
-        return 1;
-
-    else
-        return 0;
-}
 
 int IsWater(T_case banquise_case)
 {
@@ -40,13 +51,19 @@ int IsWater(T_case banquise_case)
         return 0;
 }
 
-int IsInbound(int banquise_size, int line, int col)
+
+int IsFlakeIN(int banquise_size, T_banquise *banquise, int neighbour_line, int neighbour_col)
 {
-    if((line >= 0 && line < banquise_size) && (col >= 0 && col < banquise_size))
-        return 1;
+    if(IsInbound(BANQUISE_SIZE, neighbour_line, neighbour_col))
+    {
+        if (IsWater(banquise->grid[neighbour_line][neighbour_col]))
+            return 1;
+    }
 
     else
         return 0;
 }
+
+
 
 

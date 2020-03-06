@@ -135,10 +135,27 @@ void addPlayers(T_banquise *banquise, T_player **players, int nb_players)
 //demande et stocke le nombre de joueur
 int HowManyPlayers()
 {
-    int nb_player;
-    printf("Combien de joueurs etes-vous ?\n");
-    scanf("%d", &nb_player);
-    return nb_player;
+    int nb_players;
+    nb_players = 0;
+
+    printf("Combien de joueurs etes-vous ?\n\n");
+    printf("-> 0 pour quitter le jeu\n");
+    printf("-> 1 joueur\n");
+    printf("-> 2 joueurs\n");
+    printf("-> 3 joueurs\n");
+    printf("-> 4 joueurs\n\n");
+
+    scanf("%d", &nb_players);
+
+    //Dans le cas où l'input ne correspond pas à un bon nombre de joueur
+    //Ou à l'input correspondant à une sortie du jeu immédiate
+    while(nb_players < 0 || nb_players > 4)
+    {
+        printf("Veuillez entrer une valeur correcte (1 ou 2 ou 3 ou 4) : ");
+        scanf("%d", &nb_players);
+    }
+
+    return nb_players;
 }
 
 

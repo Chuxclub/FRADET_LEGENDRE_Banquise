@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "user_types.h"
+#include "utils.h"
 #include "windows_colors.h" //Ajoute des couleurs au terminal Windows
 #include "constants.h"
 
