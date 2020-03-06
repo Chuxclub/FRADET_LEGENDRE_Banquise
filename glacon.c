@@ -4,8 +4,6 @@
 /* ============================================ */
 /* ========== INITIALISATION GLACONS ========== */
 /* ============================================ */
-
-
 T_flake *initFlake()
 {
     T_flake *res = (T_flake *) malloc(sizeof(T_flake));
@@ -81,216 +79,45 @@ void addFlakes(T_banquise *banquise, T_object **flakes, int nb_flakes)
 /* =========== INTERACTIONS GLACONS =========== */
 /* ============================================ */
 
-void moveFlakeUp(T_object *bumped_flake, T_banquise *banquise)
+// ------------> Déplacements
+void accelerateUp(T_object *bumped_flake)
 {
-    /*Récupération des coordonnées de la case où se trouve initialement le glaçon*/
-    int previous_line = bumped_flake->flake->pos.line;
-    int previous_col = bumped_flake->flake->pos.col;
-    int new_line = previous_line;
-
     /*Assignation d'une vitesse au glaçon bougé (ou 'bumpé'...)*/
     bumped_flake->flake->vect.d_line = -1;
-
-    /*Déplacement du glaçon tant qu'il peut se déplacer*/
-    while(IsInbound(BANQUISE_SIZE, new_line - 1, previous_col))
-    {
-        if(IsCaseAvailable(banquise->grid[new_line - 1][previous_col]))
-            new_line += bumped_flake->flake->vect.d_line;
-        else
-            break;
-    }
-
-
-    /*Lorsque le glaçon s'arrête on vérifie si l'arrêt a été provoqué par un voisin avec lequel il peut interagir...*/
-    if(IsFlakeIN(BANQUISE_SIZE, banquise, new_line - 1, previous_col))
-    {
-        //Le glaçon s'arrête avant l'objet avec lequel interagir
-        bumped_flake->flake->vect.d_line = 0;
-        bumped_flake->flake->pos.line = new_line;
-
-        //L'interaction est réalisée
-        FlakeInteraction(bumped_flake, new_line - 1, previous_col, banquise);
-
-        //Le glaçon est détruit de la banquise puis de la mémoire
-        banquise->grid[previous_line][previous_col].object = NULL;
-        free(bumped_flake);
-    }
-
-
-    /* ... Ou pas */
-    else
-    {
-        //Annulation de la vitesse du glaçon
-        bumped_flake->flake->vect.d_line = 0;
-
-        //Modification de la ligne où se trouve à présent le glaçon
-        bumped_flake->flake->pos.line = new_line;
-
-        //Suppression du glaçon sur la banquise, à sa position précédente
-        banquise->grid[previous_line][previous_col].object = NULL;
-
-        //Ajout du glaçon sur la banquise, sur sa nouvelle position calculée
-        banquise->grid[new_line][previous_col].object = bumped_flake;
-    }
 }
 
-void moveFlakeLeft(T_object *bumped_flake, T_banquise *banquise)
+void accelerateLeft(T_object *bumped_flake)
 {
-    /*Récupération des coordonnées de la case où se trouve initialement le glaçon*/
-    int previous_line = bumped_flake->flake->pos.line;
-    int previous_col = bumped_flake->flake->pos.col;
-    int new_col = previous_col;
-
     /*Assignation d'une vitesse au glaçon bougé (ou 'bumpé'...)*/
     bumped_flake->flake->vect.d_col = -1;
-
-    /*Déplacement du glaçon tant qu'il peut se déplacer*/
-    while(IsInbound(BANQUISE_SIZE, previous_line, new_col - 1))
-    {
-        if(IsCaseAvailable(banquise->grid[previous_line][new_col - 1]))
-            new_col += bumped_flake->flake->vect.d_col;
-        else
-            break;
-    }
-
-
-    /*Lorsque le glaçon s'arrête on vérifie si l'arrêt a été provoqué par un voisin avec lequel il peut interagir...*/
-    if(IsFlakeIN(BANQUISE_SIZE, banquise, previous_line, new_col - 1))
-    {
-        //Le glaçon s'arrête avant l'objet avec lequel interagir
-        bumped_flake->flake->vect.d_line = 0;
-        bumped_flake->flake->pos.col = new_col;
-
-        //L'interaction est réalisée
-        FlakeInteraction(bumped_flake, previous_line, new_col - 1, banquise);
-
-        //Le glaçon est détruit de la banquise puis de la mémoire
-        banquise->grid[previous_line][previous_col].object = NULL;
-        free(bumped_flake);
-    }
-
-
-    /* ... Ou pas */
-    else
-    {
-        //Annulation de la vitesse du glaçon
-        bumped_flake->flake->vect.d_col = 0;
-
-        //Modification de la ligne où se trouve à présent le glaçon
-        bumped_flake->flake->pos.col = new_col;
-
-        //Suppression du glaçon sur la banquise, à sa position précédente
-        banquise->grid[previous_line][previous_col].object = NULL;
-
-        //Ajout du glaçon sur la banquise, sur sa nouvelle position calculée
-        banquise->grid[previous_line][new_col].object = bumped_flake;
-    }
 }
 
-void moveFlakeDown(T_object *bumped_flake, T_banquise *banquise)
+void accelerateDown(T_object *bumped_flake)
 {
-    /*Récupération des coordonnées de la case où se trouve initialement le glaçon*/
-    int previous_line = bumped_flake->flake->pos.line;
-    int previous_col = bumped_flake->flake->pos.col;
-    int new_line = previous_line;
-
     /*Assignation d'une vitesse au glaçon bougé (ou 'bumpé'...)*/
     bumped_flake->flake->vect.d_line = +1;
-
-    /*Déplacement du glaçon tant qu'il peut se déplacer*/
-    while(IsInbound(BANQUISE_SIZE, new_line + 1, previous_col))
-    {
-        if(IsCaseAvailable(banquise->grid[new_line + 1][previous_col]))
-            new_line += bumped_flake->flake->vect.d_line;
-        else
-            break;
-    }
-
-
-    /*Lorsque le glaçon s'arrête on vérifie si l'arrêt a été provoqué par un voisin avec lequel il peut interagir...*/
-    if(IsFlakeIN(BANQUISE_SIZE, banquise, new_line + 1, previous_col))
-    {
-        //Le glaçon s'arrête avant l'objet avec lequel interagir
-        bumped_flake->flake->vect.d_line = 0;
-        bumped_flake->flake->pos.line = new_line;
-
-        //L'interaction est réalisée
-        FlakeInteraction(bumped_flake, new_line + 1, previous_col, banquise);
-
-        //Le glaçon est détruit de la banquise puis de la mémoire
-        banquise->grid[previous_line][previous_col].object = NULL;
-        free(bumped_flake);
-    }
-
-
-    /* ... Ou pas */
-    else
-    {
-        //Annulation de la vitesse du glaçon
-        bumped_flake->flake->vect.d_line = 0;
-
-        //Modification de la ligne où se trouve à présent le glaçon
-        bumped_flake->flake->pos.line = new_line;
-
-        //Suppression du glaçon sur la banquise, à sa position précédente
-        banquise->grid[previous_line][previous_col].object = NULL;
-
-        //Ajout du glaçon sur la banquise, sur sa nouvelle position calculée
-        banquise->grid[new_line][previous_col].object = bumped_flake;
-    }
 }
 
-void moveFlakeRight(T_object *bumped_flake, T_banquise *banquise)
+void accelerateRight(T_object *bumped_flake)
 {
-    /*Récupération des coordonnées de la case où se trouve initialement le glaçon*/
-    int previous_line = bumped_flake->flake->pos.line;
-    int previous_col = bumped_flake->flake->pos.col;
-    int new_col = previous_col;
-
     /*Assignation d'une vitesse au glaçon bougé (ou 'bumpé'...)*/
     bumped_flake->flake->vect.d_col = +1;
-
-    /*Déplacement du glaçon tant qu'il peut se déplacer*/
-    while(IsInbound(BANQUISE_SIZE, previous_line, new_col + 1))
-    {
-        if(IsCaseAvailable(banquise->grid[previous_line][new_col + 1]))
-            new_col += bumped_flake->flake->vect.d_col;
-        else
-            break;
-    }
+}
 
 
-    /*Lorsque le glaçon s'arrête on vérifie si l'arrêt a été provoqué par un voisin avec lequel il peut interagir...*/
-    if(IsFlakeIN(BANQUISE_SIZE, banquise, previous_line, new_col + 1))
-    {
-        //Le glaçon s'arrête avant l'objet avec lequel interagir
-        bumped_flake->flake->vect.d_line = 0;
-        bumped_flake->flake->pos.col = new_col;
+// ------------> Réactions à l'environnement
+void BecomeIce(T_object *bumped_flake, int water_line, int water_col, T_banquise *banquise)
+{
+    int flake_line = bumped_flake->flake->pos.line;
+    int flake_col = bumped_flake->flake->pos.col;
 
-        //L'interaction est réalisée
-        FlakeInteraction(bumped_flake, previous_line, new_col + 1, banquise);
+    /*"Suppression" du glaçon. Pour pouvoir vraiment le supprimer il faudrait une pile
+    et le supprimer dans la fonction UpdateFlakes()...*/
+    bumped_flake->object_type = no_object;
+    bumped_flake->flake = NULL;
+    banquise->grid[flake_line][flake_col].object = NULL;
 
-        //Le glaçon est détruit de la banquise puis de la mémoire
-        banquise->grid[previous_line][previous_col].object = NULL;
-        free(bumped_flake);
-    }
-
-
-    /* ... Ou pas */
-    else
-    {
-        //Annulation de la vitesse du glaçon
-        bumped_flake->flake->vect.d_col = 0;
-
-        //Modification de la ligne où se trouve à présent le glaçon
-        bumped_flake->flake->pos.col = new_col;
-
-        //Suppression du glaçon sur la banquise, à sa position précédente
-        banquise->grid[previous_line][previous_col].object = NULL;
-
-        //Ajout du glaçon sur la banquise, sur sa nouvelle position calculée
-        banquise->grid[previous_line][new_col].object = bumped_flake;
-    }
+    banquise->grid[water_line][water_col].ground = ice;
 }
 
 void FlakeInteraction(T_object *bumped_flake, int neighbour_line, int neighbour_col, T_banquise *banquise)
@@ -301,11 +128,53 @@ void FlakeInteraction(T_object *bumped_flake, int neighbour_line, int neighbour_
     }
 }
 
-void BecomeIce(T_object *bumped_flake, int water_line, int water_col, T_banquise *banquise)
-{
-    int flake_line = bumped_flake->flake->pos.line;
-    int flake_col = bumped_flake->flake->pos.col;
 
-    banquise->grid[flake_line][flake_col].object = NULL;
-    banquise->grid[water_line][water_col].ground = ice;
+// ------------> Regroupement déplacements et réactions à l'environnement
+void updateFlakes(int nb_flakes, T_object **flakes,  T_banquise *banquise)
+{
+    for(int i = 0; i < nb_flakes; i++)
+    {
+        if(flakes[i]->object_type != no_object)
+        {
+            /* Suppression sur la banquise des flocons de leurs anciennes positions */
+            banquise->grid[flakes[i]->flake->pos.line][flakes[i]->flake->pos.col].object = NULL;
+
+            /* Calcul des nouvelles positions des flocons par rapport à leurs vecteurs vitesse */
+            int new_line = flakes[i]->flake->pos.line + flakes[i]->flake->vect.d_line;
+            int new_col = flakes[i]->flake->pos.col + flakes[i]->flake->vect.d_col;
+
+            /* Vérification de la validité des nouvelles positions calculées*/
+            if(IsInbound(BANQUISE_SIZE, new_line, new_col))
+            {
+                //Si la case est disponible: déplacement du glaçon sur cette case
+                if(IsCaseAvailable(banquise->grid[new_line][new_col]))
+                {
+                    flakes[i]->flake->pos.line = new_line;
+                    flakes[i]->flake->pos.col = new_col;
+                    banquise->grid[flakes[i]->flake->pos.line][flakes[i]->flake->pos.col].object = flakes[i];
+                }
+
+                //Si la case n'est pas disponible car il y a un objet interagissable: lancement de l'interaction
+                else if(IsFlakeIN(BANQUISE_SIZE, banquise, new_line, new_col))
+                {
+                    flakes[i]->flake->vect.d_line = 0;
+                    flakes[i]->flake->vect.d_col = 0;
+
+                    FlakeInteraction(flakes[i], new_line, new_col, banquise);
+                }
+
+                //Sinon, arrêt du glaçon. Ce-dernier préserve ainsi ses anciennes positions
+                else
+                {
+                    flakes[i]->flake->vect.d_line = 0;
+                    flakes[i]->flake->vect.d_col = 0;
+                    banquise->grid[flakes[i]->flake->pos.line][flakes[i]->flake->pos.col].object = flakes[i];
+                }
+             }
+
+             /* Si la nouvelle position calculée est en-dehors du plateau on conserve l'ancienne position */
+             else
+                banquise->grid[flakes[i]->flake->pos.line][flakes[i]->flake->pos.col].object = flakes[i];
+        }
+    }
 }

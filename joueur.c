@@ -189,7 +189,7 @@ void moveUp(T_player *player, T_banquise *banquise)
             if(IsObject(banquise->grid[new_line][previous_col]))
             {
                 if(IsFlake(banquise->grid[new_line][previous_col]))
-                    moveFlakeUp(banquise->grid[new_line][previous_col].object, banquise);
+                    accelerateUp(banquise->grid[new_line][previous_col].object);
             }
         }
     }
@@ -222,7 +222,7 @@ void moveLeft(T_player *player, T_banquise *banquise)
             if(IsObject(banquise->grid[previous_line][new_col]))
             {
                 if(IsFlake(banquise->grid[previous_line][new_col]))
-                    moveFlakeLeft(banquise->grid[previous_line][new_col].object, banquise);
+                    accelerateLeft(banquise->grid[previous_line][new_col].object);
             }
         }
     }
@@ -253,7 +253,7 @@ void moveDown(T_player *player, T_banquise *banquise)
             if(IsObject(banquise->grid[new_line][previous_col]))
             {
                 if(IsFlake(banquise->grid[new_line][previous_col]))
-                    moveFlakeDown(banquise->grid[new_line][previous_col].object, banquise);
+                    accelerateDown(banquise->grid[new_line][previous_col].object);
             }
         }
     }
@@ -284,7 +284,7 @@ void moveRight(T_player *player, T_banquise *banquise)
             if(IsObject(banquise->grid[previous_line][new_col]))
             {
                 if(IsFlake(banquise->grid[previous_line][new_col]))
-                    moveFlakeRight(banquise->grid[previous_line][new_col].object, banquise);
+                    accelerateRight(banquise->grid[previous_line][new_col].object);
             }
         }
     }

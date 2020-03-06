@@ -56,6 +56,8 @@ int main()
     {
         for(int i = 0; i < nb_players; i++)
         {
+
+            //Mise à jour du déplacement du joueur par le joueur
             getchar();
             scanf("%c", &move);
 
@@ -63,29 +65,35 @@ int main()
             {
                 case 'z':
                     moveUp(players[i], myBanquise);
-                    printBanquise(myBanquise);
                     break;
 
                 case 'q':
                     moveLeft(players[i], myBanquise);
-                    printBanquise(myBanquise);
                     break;
 
                 case 's':
                     moveDown(players[i], myBanquise);
-                    printBanquise(myBanquise);
                     break;
 
                 case 'd':
                     moveRight(players[i], myBanquise);
-                    printBanquise(myBanquise);
+                    break;
+
+                case 'p':
                     break;
 
                 default:
                     perror("wrong input");
                     exit(EXIT_FAILURE);
                     break;
+
             }
+
+            //Mise à jour, par le calcul, des positions des objets mouvants
+            updateFlakes(NB_FLAKES, flakes, myBanquise);
+
+            //Rafraîchissement banquise
+            printBanquise(myBanquise);
         }
 
     }

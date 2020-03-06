@@ -24,6 +24,10 @@ void addFlakes(T_banquise *banquise, T_object **flakes, int nb_flakes);
 
 void FlakeInteraction(T_object *bumped_flake, int neighbour_line, int neighbour_col, T_banquise *banquise);
 void BecomeIce(T_object *bumped_flake, int water_line, int water_col, T_banquise *banquise);
+
+void updateFlakes(int nb_flakes, T_object **flakes,  T_banquise *banquise);
+void accelerateUp(T_object *bumped_flake);
+
 void moveFlakeUp(T_object *bumped_flake, T_banquise *banquise);
 void moveFlakeLeft(T_object *bumped_flake, T_banquise *banquise);
 void moveFlakeDown(T_object *bumped_flake, T_banquise *banquise);

@@ -24,9 +24,9 @@ Fait:
 1) Menu principal sélection nombre de joueurs
 2) Boucle déplacement des joueurs + mise à jour affichage à chaque déplacement (jeu au tour par tour...) => pour l'instant les joueurs peuvent aller sur tout et partout
 3) Restriction des déplacements des joueurs selon les éléments sur le terrain
+4) Interaction joueur/flocons et flocons/environnement (environnement = eau/roche)
 
 A faire:
-4) Interaction joueur/flocons et flocons/environnement (environnement = eau/roche)
 5) Interaction flocons/ressort
 6) Interaction flocon/marteau
 

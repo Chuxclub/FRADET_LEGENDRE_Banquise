@@ -6,6 +6,7 @@
 #include "user_types.h"
 #include "utils.h"
 #include "constants.h"
+#include "joueur.h"
 
 int main_menu();
 
