@@ -36,6 +36,13 @@ int main()
     T_object **springs = initSprings(NB_SPRINGS);
     addSprings(myBanquise, springs, NB_SPRINGS);
 
+    //Rassemblement des parties du jeu pour les fonctions admins utiles aux tests
+    T_game_parts game_parts;
+    game_parts.banquise = myBanquise;
+    game_parts.players = players;
+    game_parts.flakes = flakes;
+    game_parts.springs = springs;
+    game_parts.traps = traps;
 
     //Copie de la banquise pour tester isARoad
     /*T_banquise *testBanquise = myBanquise;
@@ -82,6 +89,10 @@ int main()
                 case 'p':
                     break;
 
+                case '$':
+                    adminPrivileges(game_parts);
+                    break;
+
                 default:
                     perror("wrong input");
                     exit(EXIT_FAILURE);
@@ -89,8 +100,9 @@ int main()
 
             }
 
-            //Mise à jour, par le calcul, des positions des objets mouvants
-            updateFlakes(NB_FLAKES, flakes, myBanquise);
+            //Mise à jour, par le calcul, des positions des objets mouvants (s'il n'y a pas eu de commandes admin...
+            if(move != '$')
+                updateFlakes(NB_FLAKES, flakes, myBanquise);
 
             //Rafraîchissement banquise
             printBanquise(myBanquise);

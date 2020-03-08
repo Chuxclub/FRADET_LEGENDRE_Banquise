@@ -2,7 +2,7 @@
 #define USER_TYPES_H_INCLUDED
 
 /* ============================================ */
-/* ============== TYPES GENERAUX ============== */
+/* =============== TYPES UTILES =============== */
 /* ============================================ */
 
 typedef struct
@@ -16,7 +16,6 @@ typedef struct
     int d_line;
     int d_col;
 } T_vector;
-
 
 
 /* ============================================ */
@@ -109,4 +108,19 @@ typedef struct
     T_pos *ptr_pos;
     int find2;
 }T_flag_test;
+
+
+/* ============================================ */
+/* =============== AUTRES TYPES =============== */
+/* ============================================ */
+
+typedef struct
+{
+    T_banquise *banquise;
+    T_player **players;
+    T_object **flakes;
+    T_object **springs;
+    T_object **traps;
+} T_game_parts;
+
 #endif // USER_TYPES_H_INCLUDED

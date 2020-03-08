@@ -79,6 +79,7 @@ void addFlakes(T_banquise *banquise, T_object **flakes, int nb_flakes)
 /* =========== INTERACTIONS GLACONS =========== */
 /* ============================================ */
 
+
 // ------------> Déplacements
 void accelerateUp(T_object *bumped_flake)
 {
@@ -111,6 +112,7 @@ void accelerateOpposite(T_object *bumped_flake)
     bumped_flake->flake->vect.d_col *= -1;
 }
 
+
 // ------------> Réactions aux objets et à l'environnement
 void BecomeIce(T_object *bumped_flake, int water_line, int water_col, T_banquise *banquise)
 {
@@ -140,10 +142,28 @@ void FlakeInteraction(T_object *bumped_flake, int neighbour_line, int neighbour_
 
     else if(IsObject(banquise->grid[neighbour_line][neighbour_col]))
     {
-        //Il y aura un switch_case ici
-        BumpSpring(bumped_flake);
+        switch(banquise->grid[neighbour_line][neighbour_col].object->object_type)
+        {
+            case spring:
+                BumpSpring(bumped_flake);
+
+                banquise->grid[bumped_flake->flake->pos.line][bumped_flake->flake->pos.col].object = NULL;
+                bumped_flake->flake->pos.line += bumped_flake->flake->vect.d_line;
+                bumped_flake->flake->pos.col += bumped_flake->flake->vect.d_col;
+                banquise->grid[bumped_flake->flake->pos.line][bumped_flake->flake->pos.col].object = bumped_flake;
+                break;
+
+            case hammer:
+                printf("\n\nThis is a hammer!\n");
+                break;
+
+            default:
+                printf("\n\n Something unknown\n");
+                break;
+        }
     }
 }
+
 
 
 // ------------> Regroupement déplacements et réactions aux objets et à l'environnement
@@ -153,9 +173,6 @@ void updateFlakes(int nb_flakes, T_object **flakes,  T_banquise *banquise)
     {
         if(flakes[i]->object_type != no_object)
         {
-            /* Suppression sur la banquise des flocons de leurs anciennes positions */
-            banquise->grid[flakes[i]->flake->pos.line][flakes[i]->flake->pos.col].object = NULL;
-
             /* Calcul des nouvelles positions des flocons par rapport à leurs vecteurs vitesse */
             int new_line = 0;
             int new_col = 0;
@@ -176,8 +193,10 @@ void updateFlakes(int nb_flakes, T_object **flakes,  T_banquise *banquise)
             if(IsInbound(BANQUISE_SIZE, new_line, new_col))
             {
                 //Si la case est disponible: déplacement du glaçon sur cette case
+                //On a donc: modification des coordonnées du glaçon et débranchement/branchement sur banquise
                 if(IsCaseAvailable(banquise->grid[new_line][new_col]))
                 {
+                    banquise->grid[flakes[i]->flake->pos.line][flakes[i]->flake->pos.col].object = NULL;
                     flakes[i]->flake->pos.line = new_line;
                     flakes[i]->flake->pos.col = new_col;
                     banquise->grid[flakes[i]->flake->pos.line][flakes[i]->flake->pos.col].object = flakes[i];
