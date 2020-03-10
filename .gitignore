@@ -10,4 +10,6 @@ obj/Debug/ressort.o
 obj/Debug/main.o
 obj/Debug/menus.o
 obj/Debug/test_funcs.o
+obj/Debug/windows_colors.o
+
 
