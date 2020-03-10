@@ -27,5 +27,4 @@ int IsSpring(T_case banquise_case);
 int IsWater(T_case banquise_case);
 
 
-
 #endif // UTILS_H_INCLUDED

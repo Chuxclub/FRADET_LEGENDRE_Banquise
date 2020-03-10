@@ -1,7 +1,6 @@
 #include "joueur.h"
 
 
-
 /* ============================================ */
 /* ========== INITIALISATION JOUEURS ========== */
 /* ============================================ */
@@ -21,6 +20,7 @@ T_player **initPlayers(int nb_players)
 
     return players;
 }
+
 
 //Recherche une position disponible dans une zone de recherche
 //Que la fonction incr�mente au fur et � mesure, s'arr�te quand toute la banquise a �t� explor�e ou qu'une position a �t� trouv�e
@@ -91,6 +91,7 @@ int *searchAvailablePos(T_banquise *banquise, int Ligne_a, int Col_a)
 
     return pos_tab;
 }
+
 
 //Ajoute les joueurs au plus pr�s du point A sur la banquise
 //Renvoit les positions où elle a ajouté les joueurs

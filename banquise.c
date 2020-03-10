@@ -83,6 +83,7 @@ void a_test(int findme)
 T_banquise *initRawBanquise(int size)
 {
     T_banquise *res;
+
     res = ( T_banquise* ) malloc(sizeof(T_banquise));
 
     res->size = size;
@@ -201,6 +202,7 @@ void addFlags(T_banquise *banquise, T_flag_test *flag)
         Xa = BANQUISE_SIZE - 1 - (rand() % 3);
         Ya = rand() % BANQUISE_SIZE;
     }
+
     banquise->grid[Xa][Ya].flag = A;
 
     //Sauvegarde de la position de A pour le test isARoad
@@ -214,6 +216,7 @@ void addFlags(T_banquise *banquise, T_flag_test *flag)
         Xb = 0 + (rand() % 3);
         Yb = rand() % BANQUISE_SIZE;
     }
+
     banquise->grid[Xb][Yb].flag = B;
 
     //Sauvegarde de la position de B pour le test isARoad
@@ -222,7 +225,6 @@ void addFlags(T_banquise *banquise, T_flag_test *flag)
 
 
 }
-
 
 
 /* ============================================ */

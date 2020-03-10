@@ -15,8 +15,6 @@
 
 T_flag_test *initTabFlag();
 
-
-
 /* ============================================ */
 /* ========= INITIALISATION BANQUISE ========== */
 /* ============================================ */
@@ -30,8 +28,6 @@ T_banquise *initBanquise(int size, T_flag_test *flag);
 void addWater(T_banquise *banquise, int nb_water);
 void addRocks(T_banquise *banquise, int nb_rocks);
 void addFlags(T_banquise *banquise, T_flag_test *flag);
-
-
 int isARoad(T_banquise banquise, T_flag_test *flag_test);
 void a_test(int findme);
 

@@ -107,7 +107,6 @@ int main()
             //Rafraîchissement banquise
             printBanquise(myBanquise);
         }
-
     }
 
     return 0;

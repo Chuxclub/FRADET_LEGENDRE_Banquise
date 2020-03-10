@@ -13,6 +13,7 @@ int IsCaseAvailable(T_case banquise_case)
         return 0;
 }
 
+
 int IsFlake(T_case banquise_case)
 {
     if(banquise_case.object->object_type == flake)
@@ -21,7 +22,6 @@ int IsFlake(T_case banquise_case)
     else
         return 0;
 }
-
 
 int IsInbound(int banquise_size, int line, int col)
 {
@@ -32,6 +32,7 @@ int IsInbound(int banquise_size, int line, int col)
         return 0;
 }
 
+
 int IsObject(T_case banquise_case)
 {
     if(banquise_case.object != NULL)
@@ -40,6 +41,7 @@ int IsObject(T_case banquise_case)
     else
         return 0;
 }
+
 
 int IsSpring(T_case banquise_case)
 {
@@ -71,7 +73,3 @@ int IsFlakeIN(int banquise_size, T_banquise *banquise, int neighbour_line, int n
     else
         return 0;
 }
-
-
-
-
