@@ -51,6 +51,7 @@ int main()
 
 
     //Affichage initial
+    system("@cls||clear");
     printBanquise(myBanquise);
 
 
@@ -105,6 +106,7 @@ int main()
                 updateFlakes(NB_FLAKES, flakes, myBanquise);
 
             //Rafraîchissement banquise
+            system("@cls||clear");
             printBanquise(myBanquise);
         }
     }
