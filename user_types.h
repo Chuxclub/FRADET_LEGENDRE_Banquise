@@ -38,6 +38,33 @@ typedef struct
 }T_spring;
 
 
+//------------> Marteau
+typedef enum {horizontal = 0, vertical} T_aspect;
+
+typedef struct
+{
+    T_pos pos;
+    T_aspect aspect;
+} T_hammer_handle;
+
+typedef struct
+{
+    T_vector up_face;
+    T_vector left_face;
+    T_vector right_face;
+    T_pos pos;
+    int momentum;
+    int rot_dir;
+} T_hammer_head;
+
+typedef struct
+{
+    T_hammer_handle handle;
+    T_hammer_head head;
+} T_hammer;
+//------------> Fin Marteau
+
+
 typedef enum{no_object = 0, flake, spring, hammer, trap} T_object_type;
 
 

@@ -1,5 +1,6 @@
 Banquise.layout
 Banquise.depend
+obj/
 bin/Debug/Banquise.exe
 obj/Debug/glacon.o
 obj/Debug/utils.o
