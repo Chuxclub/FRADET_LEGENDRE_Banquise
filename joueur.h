@@ -4,9 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "user_types.h"
-/*#include "glacon.h"
-#include "banquise.h"
-#include "glacon.h"*/
 #include "utils.h"
 #include "constants.h"
 

@@ -40,6 +40,8 @@ typedef struct
 
 //------------> Marteau
 typedef enum {horizontal = 0, vertical} T_aspect;
+typedef enum {no_rotation = 0, clockwise = 90, anticlockwise = -90} T_rot_dir;
+typedef enum {no_momentum = 0, momentum_1, momentum_2, full_momentum = 3} T_momentum;
 
 typedef struct
 {
@@ -53,8 +55,8 @@ typedef struct
     T_vector left_face;
     T_vector right_face;
     T_pos pos;
-    int momentum;
-    int rot_dir;
+    T_momentum momentum;
+    T_rot_dir rot_dir;
 } T_hammer_head;
 
 typedef struct
@@ -74,6 +76,7 @@ typedef struct
     T_flake *flake;
     T_trap *trap;
     T_spring *spring;
+    T_hammer *hammer;
 } T_object;
 
 /* ============================================ */
@@ -147,6 +150,7 @@ typedef struct
     T_object **flakes;
     T_object **springs;
     T_object **traps;
+    T_object **hammers;
 } T_game_parts;
 
 #endif // USER_TYPES_H_INCLUDED

@@ -7,6 +7,7 @@
 #include "piege.h"
 #include "ressort.h"
 #include "menus.h"
+#include "marteau.h"
 
 
 int main()
@@ -17,8 +18,6 @@ int main()
     int nb_players = main_menu();
     T_player **players = initPlayers(nb_players);
 
-
-
     //Initialisation de la banquise (que de la glace)
     T_flag_test *flag_test = initTabFlag();
     T_banquise *myBanquise = initBanquise(BANQUISE_SIZE, flag_test);
@@ -27,6 +26,9 @@ int main()
     addPlayers(myBanquise, players, nb_players);
 
     //Initialisation et ajout des objets sur la banquise
+    T_object **hammers = initHammers(NB_HAMMERS);
+    addHammers(myBanquise, hammers, NB_HAMMERS);
+
     T_object **flakes = initFlakes(NB_FLAKES);
     addFlakes(myBanquise, flakes, NB_FLAKES);
 
@@ -43,6 +45,7 @@ int main()
     game_parts.flakes = flakes;
     game_parts.springs = springs;
     game_parts.traps = traps;
+    game_parts.hammers = hammers;
 
     //Copie de la banquise pour tester isARoad
     /*T_banquise *testBanquise = myBanquise;
@@ -103,11 +106,13 @@ int main()
 
             //Mise à jour, par le calcul, des positions des objets mouvants (s'il n'y a pas eu de commandes admin...
             if(move != '$')
+            {
                 updateFlakes(NB_FLAKES, flakes, myBanquise);
 
-            //Rafraîchissement banquise
-            system("@cls||clear");
-            printBanquise(myBanquise);
+                //Rafraîchissement banquise
+                system("@cls||clear");
+                printBanquise(myBanquise);
+            }
         }
     }
 
