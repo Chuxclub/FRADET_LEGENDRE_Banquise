@@ -86,7 +86,7 @@ T_banquise *initRawBanquise(int size)
 
     res = ( T_banquise* ) malloc(sizeof(T_banquise));
 
-    res->size = size;
+    res->sizeB = size;
     res->grid = (T_case **) malloc(sizeof(T_case *) * size);
 
     for(int i = 0; i < size;  i++)
@@ -133,9 +133,9 @@ void addWater(T_banquise *banquise, int nb_water)
 
     while(counter > 0)
     {
-        for(int i = 0; i < banquise->size; i++)
+        for(int i = 0; i < banquise->sizeB; i++)
         {
-            for(int j = 0; j < banquise->size; j++)
+            for(int j = 0; j < banquise->sizeB; j++)
             {
                 int loto = rand() % PERCENT;
 
@@ -161,9 +161,9 @@ void addRocks(T_banquise *banquise, int nb_rocks)
 
     while(counter > 0)
     {
-        for(int i = 0; i < banquise->size; i++)
+        for(int i = 0; i < banquise->sizeB; i++)
         {
-            for(int j = 0; j < banquise->size; j++)
+            for(int j = 0; j < banquise->sizeB; j++)
             {
                 int loto = rand() % PERCENT;
 
@@ -274,9 +274,16 @@ void printCase(T_case banquise_case)
                     printf(" | "); //text_white(stdout)
                     break;
 
-                case hammer:
+                case hammer_head:
                     color(2, 0); //En vert
-                    printf("m"); //text_blue(stdout)
+                    printf("o"); //text_blue(stdout)
+                    color(15, 0);
+                    printf(" | "); //text_white(stdout)
+                    break;
+
+                case hammer_handle:
+                    color(2, 0); //En vert
+                    printf("-"); //text_blue(stdout)
                     color(15, 0);
                     printf(" | "); //text_white(stdout)
                     break;
@@ -374,17 +381,17 @@ void printBanquise(T_banquise *banquise)
 {
     //Upper Border
     printf("\n");
-    for(int i = 0; i < banquise->size * 4 + 1; i++)
+    for(int i = 0; i < banquise->sizeB * 4 + 1; i++)
         printf("-"); //, text_white(stdout)
 
     //Grid
-    int counter = banquise->size;
+    int counter = banquise->sizeB;
 
-    for(int i = 0; i < banquise->size; i++)
+    for(int i = 0; i < banquise->sizeB; i++)
     {
-        for(int j = 0; j < banquise->size; j++)
+        for(int j = 0; j < banquise->sizeB; j++)
         {
-            if(counter == banquise->size)
+            if(counter == banquise->sizeB)
             {
                 printf("\n");
 
@@ -400,7 +407,7 @@ void printBanquise(T_banquise *banquise)
 
         //Mid-lines + Bottom border
         printf("\n");
-        for(int i = 0; i < banquise->size * 4 + 1; i++)
+        for(int i = 0; i < banquise->sizeB * 4 + 1; i++)
             printf("-");
     }
 

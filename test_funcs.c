@@ -174,8 +174,12 @@ void adminInfoCase(T_game_parts game_parts, int line, int col)
                 printf("\t Spring column : %i\n\n", object->spring->pos.col);
                 break;
 
-            case hammer:
-                printf("Object: hammer\n\n");
+            case hammer_head:
+                printf("Object: hammer head\n\n");
+                break;
+
+            case hammer_handle:
+                printf("Object: hammer handle\n\n");
                 break;
 
             default:

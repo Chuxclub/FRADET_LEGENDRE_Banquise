@@ -39,9 +39,9 @@ void addSprings(T_banquise *banquise, T_object **springs, int nb_springs)
 
     while(counter >= 0)
     {
-        for(int i = 0; i < banquise->size; i++)
+        for(int i = 0; i < banquise->sizeB; i++)
         {
-            for(int j = 0; j < banquise->size; j++)
+            for(int j = 0; j < banquise->sizeB; j++)
             {
                 int loto_spring = rand() % PERCENT;
 

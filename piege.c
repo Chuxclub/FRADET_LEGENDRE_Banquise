@@ -38,9 +38,9 @@ void addTraps(T_banquise *banquise, T_object **traps, int nb_traps)
 
     while(counter >= 0)
     {
-        for(int i = 0; i < banquise->size; i++)
+        for(int i = 0; i < banquise->sizeB; i++)
         {
-            for(int j = 0; j < banquise->size; j++)
+            for(int j = 0; j < banquise->sizeB; j++)
             {
                 int loto_trap = rand() % PERCENT;
 

@@ -171,7 +171,7 @@ void moveUp(T_player *player, T_banquise *banquise)
     int previous_col = player->details.pos.col;
     int new_line = previous_line - 1;
 
-    if(IsInbound(banquise->size, new_line, previous_col))
+    if(IsInbound(banquise->sizeB, new_line, previous_col))
     {
         if(IsCaseAvailable(banquise->grid[new_line][previous_col]))
         {
@@ -202,7 +202,7 @@ void moveLeft(T_player *player, T_banquise *banquise)
     int previous_col = player->details.pos.col;
     int new_col = previous_col - 1;
 
-    if(IsInbound(banquise->size, previous_line, new_col))
+    if(IsInbound(banquise->sizeB, previous_line, new_col))
     {
         if(IsCaseAvailable(banquise->grid[previous_line][new_col]))
         {
@@ -232,7 +232,7 @@ void moveDown(T_player *player, T_banquise *banquise)
     int previous_col = player->details.pos.col;
     int new_line = previous_line + 1;
 
-    if(IsInbound(banquise->size, new_line, previous_col))
+    if(IsInbound(banquise->sizeB, new_line, previous_col))
     {
         if(IsCaseAvailable(banquise->grid[new_line][previous_col]))
         {
@@ -262,7 +262,7 @@ void moveRight(T_player *player, T_banquise *banquise)
     int previous_col = player->details.pos.col;
     int new_col = previous_col + 1;
 
-    if(IsInbound(banquise->size, previous_line, new_col))
+    if(IsInbound(banquise->sizeB, previous_line, new_col))
     {
         if(IsCaseAvailable(banquise->grid[previous_line][new_col]))
         {

@@ -27,4 +27,10 @@ int IsSpring(T_case banquise_case);
 int IsWater(T_case banquise_case);
 
 
+/* =================================== */
+/* ============== MATHS ============== */
+/* =================================== */
+
+int scalar_product(T_vector A, T_vector B);
+
 #endif // UTILS_H_INCLUDED

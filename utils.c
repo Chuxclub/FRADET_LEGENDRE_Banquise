@@ -73,3 +73,12 @@ int IsFlakeIN(int banquise_size, T_banquise *banquise, int neighbour_line, int n
     else
         return 0;
 }
+
+/* =================================== */
+/* ============== MATHS ============== */
+/* =================================== */
+
+int scalar_product(T_vector A, T_vector B)
+{
+    return A.d_line * B.d_line + A.d_col * B.d_col;
+}

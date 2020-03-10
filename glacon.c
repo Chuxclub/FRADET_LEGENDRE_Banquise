@@ -52,9 +52,9 @@ void addFlakes(T_banquise *banquise, T_object **flakes, int nb_flakes)
 
     while(counter >= 0)
     {
-        for(int i = 0; i < banquise->size; i++)
+        for(int i = 0; i < banquise->sizeB; i++)
         {
-            for(int j = 0; j < banquise->size; j++)
+            for(int j = 0; j < banquise->sizeB; j++)
             {
                 int loto_flake = rand() % PERCENT;
 
@@ -153,8 +153,12 @@ void FlakeInteraction(T_object *bumped_flake, int neighbour_line, int neighbour_
                 banquise->grid[bumped_flake->flake->pos.line][bumped_flake->flake->pos.col].object = bumped_flake;
                 break;
 
-            case hammer:
-                printf("\n\nThis is a hammer!\n");
+            case hammer_handle:
+                printf("\n\nThis is a hammer handle!\n");
+                break;
+
+            case hammer_head:
+                printf("\n\nThis is a hammer head!\n");
                 break;
 
             default:

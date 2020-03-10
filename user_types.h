@@ -45,12 +45,14 @@ typedef enum {no_momentum = 0, momentum_1, momentum_2, full_momentum = 3} T_mome
 
 typedef struct
 {
+    int id;
     T_pos pos;
     T_aspect aspect;
 } T_hammer_handle;
 
 typedef struct
 {
+    int id;
     T_vector up_face;
     T_vector left_face;
     T_vector right_face;
@@ -61,13 +63,13 @@ typedef struct
 
 typedef struct
 {
-    T_hammer_handle handle;
-    T_hammer_head head;
+    T_hammer_handle *handle;
+    T_hammer_head *head;
 } T_hammer;
 //------------> Fin Marteau
 
 
-typedef enum{no_object = 0, flake, spring, hammer, trap} T_object_type;
+typedef enum{no_object = 0, flake, spring, hammer_handle, hammer_head, trap, reserved} T_object_type;
 
 
 typedef struct
@@ -76,7 +78,8 @@ typedef struct
     T_flake *flake;
     T_trap *trap;
     T_spring *spring;
-    T_hammer *hammer;
+    T_hammer_handle *hammer_handle;
+    T_hammer_head *hammer_head;
 } T_object;
 
 /* ============================================ */
@@ -125,7 +128,7 @@ typedef struct
 typedef struct
 {
     T_case **grid;
-    int size;
+    int sizeB;
 }T_banquise;
 
 
