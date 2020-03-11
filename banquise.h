@@ -13,13 +13,12 @@
 #include "windows_colors.h" //Ajoute des couleurs au terminal Windows
 #include "constants.h"
 
-T_flag_test *initTabFlag();
 
 /* ============================================ */
 /* ========= INITIALISATION BANQUISE ========== */
 /* ============================================ */
 T_banquise *initRawBanquise(int size);
-T_banquise *initBanquise(int size, T_flag_test *flag);
+T_banquise *initBanquise(int size);
 
 
 /* ============================================ */
@@ -27,9 +26,18 @@ T_banquise *initBanquise(int size, T_flag_test *flag);
 /* ============================================ */
 void addWater(T_banquise *banquise, int nb_water);
 void addRocks(T_banquise *banquise, int nb_rocks);
-void addFlags(T_banquise *banquise, T_flag_test *flag);
-int isARoad(T_banquise banquise, T_flag_test *flag_test);
-void a_test(int findme);
+void addFlags(T_banquise *banquise);
+
+
+/* ============================================ */
+/* ============ CHEMIN DE A VERS B ============ */
+/* ============================================ */
+T_test initTest(int size);
+void collectInfos(T_banquise *banquise, T_test T);
+void isARoad(T_test T, int col, int line);
+void withFlakes(T_test T, int col, int line);
+void aRoad(T_test T, int col, int line);
+
 
 /* ============================================ */
 /* ================ AFFICHAGES ================ */

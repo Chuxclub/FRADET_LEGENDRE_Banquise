@@ -19,8 +19,7 @@ int main()
     T_player **players = initPlayers(nb_players);
 
     //Initialisation de la banquise (que de la glace)
-    T_flag_test *flag_test = initTabFlag();
-    T_banquise *myBanquise = initBanquise(BANQUISE_SIZE, flag_test);
+    T_banquise *myBanquise = initBanquise(BANQUISE_SIZE);
 
     //Ajout des joueurs sur la banquise
     addPlayers(myBanquise, players, nb_players);
@@ -38,6 +37,12 @@ int main()
     T_object **springs = initSprings(NB_SPRINGS);
     addSprings(myBanquise, springs, NB_SPRINGS);
 
+    //Vérification d'un passage de A vers B
+    T_test T = initTest(BANQUISE_SIZE);
+    collectInfos(myBanquise, T);
+    isARoad(T, T.posA.col, T.posA.line);
+    printf("%d", T.find);
+
     //Rassemblement des parties du jeu pour les fonctions admins utiles aux tests
     T_game_parts game_parts;
     game_parts.banquise = myBanquise;
@@ -47,17 +52,10 @@ int main()
     game_parts.traps = traps;
     game_parts.hammers = hammers;
 
-    //Copie de la banquise pour tester isARoad
-    /*T_banquise *testBanquise = myBanquise;
-    isARoad(*testBanquise, flag_test);
-    a_test(flag_test->find2);*/
-
 
     //Affichage initial
     system("@cls||clear");
     printBanquise(myBanquise);
-
-
 
    //Boucle du jeu
     char move;
@@ -115,6 +113,5 @@ int main()
             }
         }
     }
-
     return 0;
 }

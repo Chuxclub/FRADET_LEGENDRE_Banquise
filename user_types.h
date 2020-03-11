@@ -133,16 +133,6 @@ typedef struct
 
 
 /* ============================================ */
-/* ============== TYPES DRAPEAUX ============== */
-/* ============================================ */
-typedef struct
-{
-    T_pos *ptr_pos;
-    int find2;
-}T_flag_test;
-
-
-/* ============================================ */
 /* =============== AUTRES TYPES =============== */
 /* ============================================ */
 
@@ -153,7 +143,13 @@ typedef struct
     T_object **flakes;
     T_object **springs;
     T_object **traps;
-    T_object **hammers;
 } T_game_parts;
+
+typedef struct
+{
+    int **grid;
+    T_pos posA;
+    int find;
+}T_test;
 
 #endif // USER_TYPES_H_INCLUDED

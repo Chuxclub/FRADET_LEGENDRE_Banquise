@@ -4,82 +4,12 @@
 
 #include "banquise.h"
 
-//Initialise un tableau pour sauvegarder la position ultérieure des drapeaux
-T_flag_test *initTabFlag()
-{
-    T_flag_test *test;
-    test = ( T_flag_test* ) malloc(sizeof(T_flag_test));
-
-    test->find2 = 0;
-    test->ptr_pos = (T_pos *) malloc(sizeof(T_pos ) * 2);
-
-    for(int i = 0; i < 2; i++)
-    {
-        test->ptr_pos[i].col = 0;
-        test->ptr_pos[i].line = 0;
-    }
-
-    return test;
-}
-
-
-//Cherche l'existence d'un chemin allant d'un point de départ A à un point d'arrivée B
-//Renvoit 1 si il existe un chemin, 0 sinon
-int isARoad(T_banquise banquise, T_flag_test *flag_test)
-{
-    int Xa = flag_test->ptr_pos[0].col;
-    int Ya = flag_test->ptr_pos[0].line;
-    int Xb = flag_test->ptr_pos[1].col;
-    int Yb = flag_test->ptr_pos[1].line;
-
-    if (( Xa == Xb) && (Ya == Yb))
-    {
-        flag_test->find2 = 1;
-        return flag_test->find2;
-    }
-
-    else
-    {
-
-    if((banquise.grid[Xa][Ya - 1].ground == ice) && (banquise.grid[Xa][Ya - 1].object == NULL) && (banquise.grid[Xa][Ya - 1].flag == 0))
-    {
-        banquise.grid[Xa][Ya - 1].flag = 1;
-        flag_test->ptr_pos[0].line = Ya - 1;
-        isARoad(banquise, flag_test);
-    }
-    if((banquise.grid[Xa][Ya + 1].ground == ice) && (banquise.grid[Xa][Ya + 1].object == NULL) && (banquise.grid[Xa][Ya + 1].player == 0))
-    {
-        banquise.grid[Xa][Ya + 1].flag = 1;
-        flag_test->ptr_pos[0].line = Ya + 1;
-        isARoad(banquise, flag_test);
-    }
-    if((banquise.grid[Xa - 1][Ya].ground == ice) && (banquise.grid[Xa - 1][Ya].object == NULL) && (banquise.grid[Xa - 1][Ya].player == 0))
-    {
-        banquise.grid[Xa - 1][Ya].flag = 1;
-        flag_test->ptr_pos[0].col = Xa - 1;
-        isARoad(banquise, flag_test);
-    }
-    if((banquise.grid[Xa + 1][Ya].ground == ice) && (banquise.grid[Xa + 1][Ya].object == NULL) && (banquise.grid[Xa + 1][Ya].player == 0))
-    {
-        banquise.grid[Xa + 1][Ya].flag = 1;
-        flag_test->ptr_pos[0].col = Xa + 1;
-        isARoad(banquise, flag_test);
-    }
-
-    return flag_test->find2;
-    }
-}
-
-void a_test(int findme)
-{
-    printf("%d\n", findme);
-}
 
 /* ============================================ */
 /* ========= INITIALISATION BANQUISE ========== */
 /* ============================================ */
 
-//Crée un simple tableau de glace uniquement
+//Crï¿½e un simple tableau de glace uniquement
 T_banquise *initRawBanquise(int size)
 {
     T_banquise *res;
@@ -107,16 +37,16 @@ T_banquise *initRawBanquise(int size)
     return res;
 }
 
-//Crée une banquise avec un terrain généré aléatoirement
-T_banquise *initBanquise(int size, T_flag_test *flag)
+//Crï¿½e une banquise avec un terrain gï¿½nï¿½rï¿½ alï¿½atoirement
+T_banquise *initBanquise(int size)
 {
     //Initialisation de la banquise (que de la glace)
     T_banquise *myBanquise = initRawBanquise(size);
 
-    //Génération aléatoire des éléments du terrain
+    //Gï¿½nï¿½ration alï¿½atoire des ï¿½lï¿½ments du terrain
     addWater(myBanquise, NB_WATER);
     addRocks(myBanquise, NB_ROCKS);
-    addFlags(myBanquise, flag);
+    addFlags(myBanquise);
 
     return myBanquise;
 }
@@ -126,7 +56,7 @@ T_banquise *initBanquise(int size, T_flag_test *flag)
 /* ========== MODIFICATIONS BANQUISE ========== */
 /* ============================================ */
 
-//Ajoute de l'eau aléatoirement dans la banquise, remplace la glace
+//Ajoute de l'eau alï¿½atoirement dans la banquise, remplace la glace
 void addWater(T_banquise *banquise, int nb_water)
 {
     int counter = nb_water;
@@ -153,7 +83,7 @@ void addWater(T_banquise *banquise, int nb_water)
     }
 }
 
-//Ajoute des rochers aléatoirement sur la banquise, remplace la glace
+//Ajoute des rochers alï¿½atoirement sur la banquise, remplace la glace
 //Mais ne remplace pas l'eau! Code pour rocher: object = 1
 void addRocks(T_banquise *banquise, int nb_rocks)
 {
@@ -183,11 +113,11 @@ void addRocks(T_banquise *banquise, int nb_rocks)
 }
 
 
-//Ajoute les points de départ et d'arrivée
-//Le point d'arrivé ne peut être qu'à trois lignes du haut du départ
-//Le point de départ dans les trois lignes en bas du tableau
+//Ajoute les points de dï¿½part et d'arrivï¿½e
+//Le point d'arrivï¿½ ne peut ï¿½tre qu'ï¿½ trois lignes du haut du dï¿½part
+//Le point de dï¿½part dans les trois lignes en bas du tableau
 
-void addFlags(T_banquise *banquise, T_flag_test *flag)
+void addFlags(T_banquise *banquise)
 {
     int Xa = BANQUISE_SIZE - 1 - (rand() % 3);
     int Ya = rand() % BANQUISE_SIZE;
@@ -195,7 +125,7 @@ void addFlags(T_banquise *banquise, T_flag_test *flag)
     int Xb = 0 + (rand() % 3);
     int Yb = rand() % BANQUISE_SIZE;
 
-    //Si la position de A définie ci-dessus comporte un objet ou de l'eau on redéfinit jusqu'à
+    //Si la position de A dï¿½finie ci-dessus comporte un objet ou de l'eau on redï¿½finit jusqu'ï¿½
     //ce que ce soit bon!
     while(!(IsCaseAvailable(banquise->grid[Xa][Ya])))
     {
@@ -205,27 +135,146 @@ void addFlags(T_banquise *banquise, T_flag_test *flag)
 
     banquise->grid[Xa][Ya].flag = A;
 
-    //Sauvegarde de la position de A pour le test isARoad
-    flag->ptr_pos[0].col = Xa;
-    flag->ptr_pos[0].line = Ya;
 
-
-    //Même chose pour B
+    //Mï¿½me chose pour B
     while(!(IsCaseAvailable(banquise->grid[Xb][Yb])))
     {
         Xb = 0 + (rand() % 3);
         Yb = rand() % BANQUISE_SIZE;
     }
-
     banquise->grid[Xb][Yb].flag = B;
+}
 
-    //Sauvegarde de la position de B pour le test isARoad
-    flag->ptr_pos[1].col = Xb;
-    flag->ptr_pos[1].line = Yb;
 
+/* ============================================ */
+/* ============ CHEMIN DE A VERS B ============ */
+/* ============================================ */
+
+//initialise la variable ï¿½ 1 pour tester la fonction isARoad ultï¿½rieurement
+// 1 signifiera que la case n'est pas disponible pour effectuer un dï¿½placement
+T_test initTest(int size)
+{
+    T_test T;
+
+    T.posA.line = 0;
+    T.posA.col = 0;
+
+    T.find = 0;
+
+    T.grid = (int **) malloc(sizeof(int *) * size);
+
+    for (int i = 0 ; i < size ; i++)
+    {
+        T.grid[i] = (int *) malloc(sizeof(int) * size);
+
+        for (int j = 0 ; j < size ; j++)
+        {
+            T.grid[i][j] = 0;
+        }
+    }
+    return T;
+}
+
+//transforme la banquise en 0, 1 ou 2 dans la variable T pour simplifier la recherche de la fonction isARoad
+void collectInfos(T_banquise *banquise, T_test T)
+{
+    for (int i = 0; i < BANQUISE_SIZE; i++)
+    {
+
+        for (int j = 0; j < BANQUISE_SIZE; j++)
+        {
+            //uniquement de la glace sur la case
+            if (IsCaseAvailable(banquise->grid[i][j]) == 1)
+            {
+            }
+            else
+            {
+                //le point d'arrivï¿½e B
+                if (banquise->grid[i][j].flag == 2)
+                {
+                    T.grid[i][j] = 2;
+                }
+
+                //le point de dï¿½part A
+                if (banquise->grid[i][j].flag == 1)
+                {
+                    T.grid[i][j] = 1;
+                    T.posA.col = i;
+                    T.posA.line = j;
+                }
+            }
+        }
+    }
+}
+
+//rï¿½cursive cherchant un chemin de A vers B
+//renvoit 1 si trouvï¿½
+//0 sinon
+void isARoad(T_test T, int col, int line)
+{
+    printf("1");
+    //vï¿½riie si il s'agit de B
+    if (((col - 1) > -1) && (T.grid[col - 1][line] == 2))
+    {
+        T.find = 1;
+        printf("2");
+    }
+    //vï¿½riie si la case est disponible pour opï¿½rer la rï¿½cursivitï¿½
+    else{
+            if (T.grid[col - 1][line] == 0)
+            {
+                T.grid[col - 1][line] = 1;
+                isARoad(T, col - 1, line);
+            }
+
+            if (((col + 1) < BANQUISE_SIZE) && (T.grid[col + 1][line] == 2))
+            {
+                T.find = 1;
+            }
+    else if (T.grid[col + 1][line] == 0)
+    {
+        T.grid[col + 1][line] = 1;
+        isARoad(T, col + 1, line);
+    }
+
+    if (((line - 1) > -1) && (T.grid[col][line - 1] == 2))
+    {
+        T.find = 1;
+        printf("1");
+    }
+    else if (T.grid[col][line - 1] == 0)
+    {
+        T.grid[col][line - 1] = 1;
+        isARoad(T, col, line - 1);
+    }
+
+    if (((line + 1) < BANQUISE_SIZE) && (T.grid[col][line + 1] == 2))
+    {
+        T.find = 1;
+        printf("1");
+    }
+    else if (T.grid[col][line + 1] == 0)
+    {
+        T.grid[col][line + 1] = 1;
+        isARoad(T, col, line + 1);
+    }
+}
+
+/*
+void withFlakes(T_test T, int col, int line)
+{
 
 }
 
+void aRoad(T_test T, int col, int line)
+{
+    isARoad(T, T.posA.col, T.posA.line);
+    if (T.find == 0)
+    {
+        withFlakes(T, T.posA.col, T.posA.line);
+    }
+
+}*/
 
 /* ============================================ */
 /* ================ AFFICHAGES ================ */
@@ -376,7 +425,7 @@ void printCase(T_case banquise_case)
 }
 
 
-//Affiche l'état de la banquise à l'instant de son appel
+//Affiche l'ï¿½tat de la banquise ï¿½ l'instant de son appel
 void printBanquise(T_banquise *banquise)
 {
     //Upper Border
