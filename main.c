@@ -112,7 +112,7 @@ int main()
                 updateFlakes(NB_FLAKES, flakes, myBanquise);
 
                 //Rafraîchissement banquise
-                system("@cls||clear");
+                //system("@cls||clear");
                 printBanquise(myBanquise);
             }
         }

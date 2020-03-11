@@ -112,6 +112,13 @@ void accelerateOpposite(T_object *bumped_flake)
     bumped_flake->flake->vect.d_col *= -1;
 }
 
+void stopFlake(T_object *bumped_flake)
+{
+    /*Assignation d'une vitesse au glaçon bougé (ou 'bumpé'...)*/
+    bumped_flake->flake->vect.d_line = 0;
+    bumped_flake->flake->vect.d_col = 0;
+}
+
 
 // ------------> Réactions aux objets et à l'environnement
 void BecomeIce(T_object *bumped_flake, int water_line, int water_col, T_banquise *banquise)
@@ -154,13 +161,28 @@ void FlakeInteraction(T_object *bumped_flake, int neighbour_line, int neighbour_
                 banquise->grid[bumped_flake->flake->pos.line][bumped_flake->flake->pos.col].object = bumped_flake;
                 break;
 
-            case hammer_handle:
-                printf("\n\nThis is a hammer handle!\n");
-                break;
-
             case hammer_head:
-                printf("\n\nThis is a hammer head!\n");
+            {
+                int scalar_left = scalar_product(bumped_flake->flake->vect, banquise->grid[neighbour_line][neighbour_col].object->hammer_head->left_face);
+                stopFlake(bumped_flake);
+
+                if(scalar_left != 0)
+                {
+                    if(scalar_left > 0)
+                    {
+                       banquise->grid[neighbour_line][neighbour_col].object->hammer_head->rot_dir = anticlockwise;
+                       banquise->grid[neighbour_line][neighbour_col].object->hammer_head->momentum = full_momentum;
+                    }
+
+
+                    else
+                    {
+                       banquise->grid[neighbour_line][neighbour_col].object->hammer_head->rot_dir = clockwise;
+                       banquise->grid[neighbour_line][neighbour_col].object->hammer_head->momentum = full_momentum;
+                    }
+                }
                 break;
+            }
 
             default:
                 printf("\n\n Something unknown\n");

@@ -176,6 +176,17 @@ void adminInfoCase(T_game_parts game_parts, int line, int col)
 
             case hammer_head:
                 printf("Object: hammer head\n\n");
+                printf("\t Hammer id : %i\n", object->hammer_head->id);
+                printf("\t Hammer momentum : %i\n\n", object->hammer_head->momentum);
+                printf("\t Hammer rotation direction : %i\n\n", object->hammer_head->rot_dir);
+                printf("\t Hammer line : %i\n", object->hammer_head->pos.line);
+                printf("\t Hammer column : %i\n", object->hammer_head->pos.col);
+                printf("\t Hammer up_face line : %i\n\n", object->hammer_head->up_face.d_line);
+                printf("\t Hammer up_face col : %i\n\n", object->hammer_head->up_face.d_col);
+                printf("\t Hammer left_face line : %i\n\n", object->hammer_head->left_face.d_line);
+                printf("\t Hammer left_face col : %i\n\n", object->hammer_head->left_face.d_col);
+                printf("\t Hammer right_face line : %i\n\n", object->hammer_head->right_face.d_line);
+                printf("\t Hammer right_face col : %i\n\n", object->hammer_head->right_face.d_col);
                 break;
 
             case hammer_handle:
