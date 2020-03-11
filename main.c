@@ -22,8 +22,6 @@ int main()
     T_flag_test *flag_test = initTabFlag();
     T_banquise *myBanquise = initBanquise(BANQUISE_SIZE, flag_test);
 
-    //Ajout des joueurs sur la banquise
-    addPlayers(myBanquise, players, nb_players);
 
     //Initialisation et ajout des objets sur la banquise
     T_object **hammers = initHammers(NB_HAMMERS);
@@ -37,6 +35,10 @@ int main()
 
     T_object **springs = initSprings(NB_SPRINGS);
     addSprings(myBanquise, springs, NB_SPRINGS);
+
+
+    //Ajout des joueurs sur la banquise
+    addPlayers(myBanquise, players, nb_players);
 
     //Rassemblement des parties du jeu pour les fonctions admins utiles aux tests
     T_game_parts game_parts;

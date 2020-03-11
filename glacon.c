@@ -133,6 +133,7 @@ void BumpSpring(T_object *bumped_flake)
     accelerateOpposite(bumped_flake);
 }
 
+
 void FlakeInteraction(T_object *bumped_flake, int neighbour_line, int neighbour_col, T_banquise *banquise)
 {
     if(IsWater(banquise->grid[neighbour_line][neighbour_col]))

@@ -8,6 +8,8 @@
 //Détermine si une case est disponible (c'est-à-dire sans objet, ni eau, ni roche, que de la glace)
 int IsCaseAvailable(T_case banquise_case);
 
+int AreSurroundingsAvailable(T_banquise *banquise, int line, int col);
+
 //Détermine s'il y a un glaçon à la case indiquée ou non
 int IsFlake(T_case banquise_case);
 

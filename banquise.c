@@ -253,10 +253,10 @@ void printCase(T_case banquise_case)
     }
 
     //S'il y a un objet, un drapeau ou un joueur on va l'afficher
-    else if(banquise_case.object != NULL || banquise_case.flag != no_flag || banquise_case.player != NULL)
+    else if((banquise_case.object != NULL && banquise_case.object->object_type != reserved) || banquise_case.flag != no_flag || banquise_case.player != NULL)
     {
         //C'est soit un objet...
-        if(banquise_case.object != NULL)
+        if(banquise_case.object != NULL && banquise_case.object->object_type != reserved)
         {
             switch(banquise_case.object->object_type)
             {

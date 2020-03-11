@@ -90,25 +90,23 @@ void addHammers(T_banquise *banquise, T_object **hammers, int nb_hammers)
                 if(counter < 0)
                     return;
 
-                else if(loto_hammer < 5 && IsCaseAvailable(banquise->grid[i][j]))
+                else if(loto_hammer < 5 && AreSurroundingsAvailable(banquise, i, j))
                 {
                     int hammer_head_line = i + hammers[counter - 1]->hammer_head->up_face.d_line;
                     int hammer_head_col = j + hammers[counter - 1]->hammer_head->up_face.d_col;
 
-                    if(IsCaseAvailable(banquise->grid[hammer_head_line][hammer_head_col]))
-                    {
-                       //On calcule d'abord la position de la tête du marteau puis celle de sa poignée
-                       hammers[counter - 1]->hammer_head->pos.line = hammer_head_line;
-                       hammers[counter - 1]->hammer_head->pos.col = hammer_head_col;
+                    //On calcule d'abord la position de la tête du marteau puis celle de sa poignée
+                    hammers[counter - 1]->hammer_head->pos.line = hammer_head_line;
+                    hammers[counter - 1]->hammer_head->pos.col = hammer_head_col;
 
-                       hammers[counter]->hammer_handle->pos.line = i;
-                       hammers[counter]->hammer_handle->pos.col = j;
+                    hammers[counter]->hammer_handle->pos.line = i;
+                    hammers[counter]->hammer_handle->pos.col = j;
 
-                       //Branchement sur la banquise
-                       banquise->grid[i][j].object = hammers[counter];
-                       banquise->grid[hammer_head_line][hammer_head_col].object = hammers[counter - 1];
-                       counter -= 2;
-                    }
+                    //Branchement sur la banquise
+                    PlaceReservedZone(banquise, i, j);
+                    banquise->grid[i][j].object = hammers[counter];
+                    banquise->grid[hammer_head_line][hammer_head_col].object = hammers[counter - 1];
+                    counter -= 2;
                 }
             }
         }

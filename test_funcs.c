@@ -182,6 +182,10 @@ void adminInfoCase(T_game_parts game_parts, int line, int col)
                 printf("Object: hammer handle\n\n");
                 break;
 
+            case reserved:
+                printf("Object: reserved case\n\n");
+                break;
+
             default:
                 color(12, 0);
                 printf("Something unknown\n\n");
