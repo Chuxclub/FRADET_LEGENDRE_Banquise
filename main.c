@@ -36,6 +36,12 @@ int main()
     addSprings(myBanquise, springs, NB_SPRINGS);
 
 
+    //Vérification d'un passage de A vers B
+    T_test T = collectInfos(myBanquise, initTest(BANQUISE_SIZE));
+    T_pos *tab = initTab();
+    isRoad(T, T.posA.line, T.posA.col, tab, 0);
+
+
     //Ajout des joueurs sur la banquise
     addPlayers(myBanquise, players, nb_players);
 
