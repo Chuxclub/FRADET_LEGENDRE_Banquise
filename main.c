@@ -21,8 +21,6 @@ int main()
     //Initialisation de la banquise (que de la glace)
     T_banquise *myBanquise = initBanquise(BANQUISE_SIZE);
 
-    //Ajout des joueurs sur la banquise
-    addPlayers(myBanquise, players, nb_players);
 
     //Initialisation et ajout des objets sur la banquise
     T_object **hammers = initHammers(NB_HAMMERS);
@@ -37,11 +35,9 @@ int main()
     T_object **springs = initSprings(NB_SPRINGS);
     addSprings(myBanquise, springs, NB_SPRINGS);
 
-    //Vérification d'un passage de A vers B
-    T_test T = initTest(BANQUISE_SIZE);
-    collectInfos(myBanquise, T);
-    isARoad(T, T.posA.col, T.posA.line);
-    printf("%d", T.find);
+
+    //Ajout des joueurs sur la banquise
+    addPlayers(myBanquise, players, nb_players);
 
     //Rassemblement des parties du jeu pour les fonctions admins utiles aux tests
     T_game_parts game_parts;
@@ -66,7 +62,7 @@ int main()
         for(int i = 0; i < nb_players; i++)
         {
 
-            //Mise à jour du déplacement du joueur par le joueur
+            //Mise ï¿½ jour du dï¿½placement du joueur par le joueur
             getchar();
             scanf("%c", &move);
 
@@ -102,13 +98,13 @@ int main()
 
             }
 
-            //Mise à jour, par le calcul, des positions des objets mouvants (s'il n'y a pas eu de commandes admin...
+            //Mise ï¿½ jour, par le calcul, des positions des objets mouvants (s'il n'y a pas eu de commandes admin...
             if(move != '$')
             {
                 updateFlakes(NB_FLAKES, flakes, myBanquise);
 
-                //Rafraîchissement banquise
-                system("@cls||clear");
+                //Rafraï¿½chissement banquise
+                //system("@cls||clear");
                 printBanquise(myBanquise);
             }
         }

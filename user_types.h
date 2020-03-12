@@ -149,7 +149,7 @@ typedef struct
 {
     int **grid;
     T_pos posA;
-    int find;
+    int B_find;
 }T_test;
 
 #endif // USER_TYPES_H_INCLUDED

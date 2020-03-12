@@ -33,10 +33,10 @@ void addFlags(T_banquise *banquise);
 /* ============ CHEMIN DE A VERS B ============ */
 /* ============================================ */
 T_test initTest(int size);
-void collectInfos(T_banquise *banquise, T_test T);
-void isARoad(T_test T, int col, int line);
-void withFlakes(T_test T, int col, int line);
-void aRoad(T_test T, int col, int line);
+T_test collectInfos(T_banquise *banquise, T_test T);
+T_pos *initTab();
+void isRoad(T_test T, int line, int col, T_pos *tab, int i);
+//void withFlakes(T_test T, int col, int line);
 
 
 /* ============================================ */
