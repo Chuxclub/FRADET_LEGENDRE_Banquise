@@ -52,7 +52,7 @@ int main()
     game_parts.flakes = flakes;
     game_parts.springs = springs;
     game_parts.traps = traps;
-    game_parts.hammers = hammers;
+//    game_parts.hammers = hammers;
 
 
     //Affichage initial

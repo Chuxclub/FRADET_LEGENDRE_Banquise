@@ -199,10 +199,8 @@ T_test collectInfos(T_banquise *banquise, T_test T)
             else if (banquise->grid[i][j].flag == 1)
             {
                 T.grid[i][j] = 0;
-    printf("%d, %d", i, j);
                 T.posA.line = i;
                 T.posA.col = j;
-                printf("position de A dans init : (%d, %d)\n", T.posA.line, T.posA.col);
             }
         }
     }
@@ -226,16 +224,10 @@ T_pos *initTab()
 //r�cursive cherchant un chemin de A vers B
 void isRoad(T_test T, int line, int col, T_pos *tab, int i)
 {
-        printf("Success: %d ", T.grid[line][col]);
 
         if (T.grid[line][col] == 2)
         {
             T.B_find = 1;
-            printf("\n %d find", T.B_find);
-           /* for (int k = 0; k < (i + 1); k++)
-            {
-                printf("%d, %d\n", tab[k].col, tab[k].line);
-            }*/
         }
         //si la case n'a jamais été visitée
         //lancement des récursives
@@ -243,59 +235,44 @@ void isRoad(T_test T, int line, int col, T_pos *tab, int i)
         //la case de gauche
         else if ( ((-1) < (col - 1)) && (T.grid[line][col - 1] != 1) )
         {
-            printf("a ");
-            printf(",%d, ", i);
             T.grid[line][col] = 1;
             tab[i].col = col;
             tab[i].line = line;
-            printf("(%d %d)", tab[i].line, tab[i].col);
             isRoad(T, line, col - 1, tab, i + 1);
         }
         //la case du haut
         else if ( ((-1) < (line - 1)) && (T.grid[line - 1][col] != 1) )
         {
-            printf("b ");
-            printf(",%d, ", i);
             T.grid[line][col] = 1;
             tab[i].col = col;
             tab[i].line = line;
-            printf("(%d %d)", tab[i].line, tab[i].col);
             isRoad(T, line - 1, col, tab, i + 1);
         }
 
         //la case de droite
         else if ( ((col + 1) < BANQUISE_SIZE) && (T.grid[line][col + 1] != 1) )
         {
-            printf("c ");
-            printf(",%d, ", i);
             T.grid[line][col] = 1;
             tab[i].col = col;
             tab[i].line = line;
-            printf("(%d %d)", tab[i].line, tab[i].col);
             isRoad(T, line, col + 1, tab, i + 1);
         }
         //la case du bas
         else if ( ((line + 1) < BANQUISE_SIZE) && (T.grid[line + 1][col] != 1) )
         {
-            printf("d ");
-            printf(",%d, ", i);
             T.grid[line][col] = 1;
             tab[i].col = col;
             tab[i].line = line;
-            printf("(%d %d)", tab[i].line, tab[i].col);
             isRoad(T, line + 1, col, tab, i + 1);
         }
         //cas où aucune de ces 4 possibilités ne fonctionne
         //on retourne sur la case précédente, enregistrée dans le tableau
         else if (i > 0)
         {
-            printf("e ");
-            printf(",%d, ", i);
             T.grid[line][col] = 1;
             i -= 1;
-           int  ncol = tab[i].col;
-           int  nline = tab[i].line;
-            printf("(%d %d)", tab[i].line, tab[i].col);
+            int  ncol = tab[i].col;
+            int  nline = tab[i].line;
             isRoad(T, nline, ncol, tab, i);
         }
 }
