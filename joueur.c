@@ -64,7 +64,7 @@ int *searchAvailablePos(T_banquise *banquise, int Ligne_a, int Col_a)
         {
             for(int col_index = col_begin; col_index <= col_end; col_index++)
             {
-                if(IsCaseAvailable(banquise->grid[ligne_index][col_index]))
+                if(IsPlacementAvailable(banquise->grid[ligne_index][col_index]))
                 {
                     pos_tab[0] = ligne_index;
                     pos_tab[1] = col_index;

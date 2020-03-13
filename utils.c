@@ -13,6 +13,15 @@ int IsCaseAvailable(T_case banquise_case)
         return 0;
 }
 
+int IsPlacementAvailable(T_case banquise_case)
+{
+    if((banquise_case.ground == ice && (banquise_case.object == NULL)) && (banquise_case.flag == no_flag && banquise_case.player == NULL))
+        return 1;
+
+    else
+        return 0;
+}
+
 int AreSurroundingsAvailable(T_banquise *banquise, int line, int col)
 {
     int res = 1;
@@ -25,7 +34,7 @@ int AreSurroundingsAvailable(T_banquise *banquise, int line, int col)
     {
         for(int current_col = start_col; current_col <= stop_col; current_col++)
         {
-            if(!(IsInbound(banquise->sizeB, current_line, current_col) && IsCaseAvailable(banquise->grid[current_line][current_col])))
+            if(!(IsInbound(banquise->sizeB, current_line, current_col) && IsPlacementAvailable(banquise->grid[current_line][current_col])))
                 res = 0;
         }
     }

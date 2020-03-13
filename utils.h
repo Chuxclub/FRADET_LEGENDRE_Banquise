@@ -10,6 +10,8 @@ int IsCaseAvailable(T_case banquise_case);
 
 int AreSurroundingsAvailable(T_banquise *banquise, int line, int col);
 
+void PlaceReservedZone(T_banquise *banquise, int line, int col);
+
 //Détermine s'il y a un glaçon à la case indiquée ou non
 int IsFlake(T_case banquise_case);
 

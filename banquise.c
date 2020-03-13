@@ -72,7 +72,7 @@ void addWater(T_banquise *banquise, int nb_water)
                 if(counter == 0)
                     return;
 
-                else if(loto < 10 && IsCaseAvailable(banquise->grid[i][j]))
+                else if(loto < 10 && IsPlacementAvailable(banquise->grid[i][j]))
                 {
                     banquise->grid[i][j].ground = water;
                     counter --;
@@ -100,7 +100,7 @@ void addRocks(T_banquise *banquise, int nb_rocks)
                 if(counter == 0)
                     return;
 
-                else if(loto < 10 && IsCaseAvailable(banquise->grid[i][j]))
+                else if(loto < 10 && IsPlacementAvailable(banquise->grid[i][j]))
                 {
                     banquise->grid[i][j].ground = rock;
                     counter --;
@@ -127,7 +127,7 @@ void addFlags(T_banquise *banquise)
 
     //Si la position de A dï¿½finie ci-dessus comporte un objet ou de l'eau on redï¿½finit jusqu'ï¿½
     //ce que ce soit bon!
-    while(!(IsCaseAvailable(banquise->grid[Xa][Ya])))
+    while(!(IsPlacementAvailable(banquise->grid[Xa][Ya])))
     {
         Xa = BANQUISE_SIZE - 1 - (rand() % 3);
         Ya = rand() % BANQUISE_SIZE;
@@ -136,8 +136,8 @@ void addFlags(T_banquise *banquise)
     banquise->grid[Xa][Ya].flag = A;
 
 
-    //Mï¿½me chose pour B
-    while(!(IsCaseAvailable(banquise->grid[Xb][Yb])))
+    //Même chose pour B
+    while(!(IsPlacementAvailable(banquise->grid[Xb][Yb])))
     {
         Xb = 0 + (rand() % 3);
         Yb = rand() % BANQUISE_SIZE;
