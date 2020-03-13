@@ -135,9 +135,30 @@ void BecomeIce(T_object *bumped_flake, int water_line, int water_col, T_banquise
     banquise->grid[water_line][water_col].ground = ice;
 }
 
-void BumpSpring(T_object *bumped_flake)
+void BumpSpring(T_object *bumped_flake, int neighbour_line, int neighbour_col, T_banquise *banquise)
 {
-    accelerateOpposite(bumped_flake);
+    int previous_flake_line = bumped_flake->flake->pos.line;
+    int previous_flake_col = bumped_flake->flake->pos.col;
+    banquise->grid[previous_flake_line][previous_flake_col].object = NULL;
+
+    int potential_new_flake_line = bumped_flake->flake->pos.line + (bumped_flake->flake->vect.d_line * -1);
+    int potential_new_flake_col = bumped_flake->flake->pos.col + (bumped_flake->flake->vect.d_col * -1);
+
+    if(IsPlayer(banquise->grid[potential_new_flake_line][potential_new_flake_col]))
+    {
+        banquise->grid[potential_new_flake_line][potential_new_flake_col].player->details.health = dead;
+        stopFlake(bumped_flake);
+        banquise->grid[previous_flake_line][previous_flake_col].object = bumped_flake;
+    }
+
+    else
+    {
+        accelerateOpposite(bumped_flake);
+        bumped_flake->flake->pos.line += bumped_flake->flake->vect.d_line;
+        bumped_flake->flake->pos.col += bumped_flake->flake->vect.d_col;
+
+        banquise->grid[bumped_flake->flake->pos.line][bumped_flake->flake->pos.col].object = bumped_flake;
+    }
 }
 
 
@@ -151,12 +172,7 @@ void FlakeInteraction(T_object *bumped_flake, int neighbour_line, int neighbour_
         switch(banquise->grid[neighbour_line][neighbour_col].object->object_type)
         {
             case spring:
-                BumpSpring(bumped_flake);
-
-                banquise->grid[bumped_flake->flake->pos.line][bumped_flake->flake->pos.col].object = NULL;
-                bumped_flake->flake->pos.line += bumped_flake->flake->vect.d_line;
-                bumped_flake->flake->pos.col += bumped_flake->flake->vect.d_col;
-                banquise->grid[bumped_flake->flake->pos.line][bumped_flake->flake->pos.col].object = bumped_flake;
+                BumpSpring(bumped_flake, neighbour_line, neighbour_col, banquise);
                 break;
 
             case hammer_head:
