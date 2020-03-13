@@ -5,6 +5,8 @@
 /* =============== TYPES UTILES =============== */
 /* ============================================ */
 
+typedef enum {false = 0, true} bool;
+
 typedef struct
 {
     int line;

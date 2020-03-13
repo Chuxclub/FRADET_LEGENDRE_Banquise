@@ -30,15 +30,17 @@ Fait:
 8) Mort du joueur par un flocon
 
 A faire:
+9) Mort du joueur par un marteau
 
 Phase 3 -> Détection de la fin de partie
 Fait:
 1) Détecter l'existence d'un chemin direct récursivement
+3) Détecter une fin de partie quand tous les joueurs sont morts
 
 A faire:
+2) Si aucun chemin direct n'existe, recréer une banquise viable pour les joueurs
+4) Détecter une fin de partie quand un joueur a atteint un drapeau
 
-2) Détecter la possibilité d'un chemin indirect
-3) Détecter une fin de partie
 
 Phase 4 -> Ajout du réchauffement climatique
 Fait:

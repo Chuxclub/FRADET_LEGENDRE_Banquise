@@ -206,7 +206,7 @@ void moveUp(T_player *player, T_banquise *banquise)
                 }
 
 
-                if(IsTrap(banquise->grid[new_line][previous_col]))
+                else if(IsTrap(banquise->grid[new_line][previous_col]))
                 {
                     /* Modification de la position du joueur */
                     player->details.pos.line = new_line;
@@ -263,7 +263,7 @@ void moveLeft(T_player *player, T_banquise *banquise)
                     player->details.health = dead;
                 }
 
-                if(IsTrap(banquise->grid[previous_line][new_col]))
+                else if(IsTrap(banquise->grid[previous_line][new_col]))
                 {
                     /* Modification de la position du joueur */
                     player->details.pos.line = previous_line;
@@ -320,7 +320,7 @@ void moveDown(T_player *player, T_banquise *banquise)
                     player->details.health = dead;
                 }
 
-                if(IsTrap(banquise->grid[new_line][previous_col]))
+                else if(IsTrap(banquise->grid[new_line][previous_col]))
                 {
                     /* Modification de la position du joueur */
                     player->details.pos.line = new_line;
@@ -376,7 +376,7 @@ void moveRight(T_player *player, T_banquise *banquise)
                     player->details.health = dead;
                 }
 
-                if(IsTrap(banquise->grid[previous_line][new_col]))
+                else if(IsTrap(banquise->grid[previous_line][new_col]))
                 {
                     /* Modification de la position du joueur */
                     player->details.pos.line = previous_line;

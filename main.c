@@ -25,9 +25,11 @@ int main()
    //Boucle du jeu
     char move;
     int end = 0;
+    bool wrong_input;
 
     while(!(end))
     {
+        /* On vérifie si au moins un joueur est encore en vie. Si c'est le cas, le jeu continue */
         end = 1;
 
         for(int i = 0; i < nb_players; i++)
@@ -36,53 +38,67 @@ int main()
                 end = 0;
         }
 
+        /* Boucle d'input au tour par tour des joueurs encore en vie */
         for(int i = 0; i < nb_players; i++)
         {
+            //Si le joueur i est mort on saute son tour
             if(theGame.players[i]->details.health == dead)
                 continue;
 
-            //Mise à jour du deplacement du joueur par le joueur
-            fflush(stdin);
-            scanf("%c", &move);
+                do
+                {
+                    wrong_input = false;
 
-            switch(move)
-            {
-                case 'z':
-                    moveUp(theGame.players[i], theGame.banquise);
-                    break;
+                    //Mise à jour du deplacement du joueur par le joueur
+                    fflush(stdin);
+                    scanf("%c", &move);
 
-                case 'q':
-                    moveLeft(theGame.players[i], theGame.banquise);
-                    break;
+                    switch(move)
+                    {
+                        case 'z':
+                            moveUp(theGame.players[i], theGame.banquise);
+                            break;
 
-                case 's':
-                    moveDown(theGame.players[i], theGame.banquise);
-                    break;
+                        case 'q':
+                            moveLeft(theGame.players[i], theGame.banquise);
+                            break;
 
-                case 'd':
-                    moveRight(theGame.players[i], theGame.banquise);
-                    break;
+                        case 's':
+                            moveDown(theGame.players[i], theGame.banquise);
+                            break;
 
-                case 'p':
-                    theGame.players[i]->details.freedom++;
+                        case 'd':
+                            moveRight(theGame.players[i], theGame.banquise);
+                            break;
 
-                    if(theGame.players[i]->details.freedom > 4)
-                        theGame.players[i]->details.freedom = 4;
+                        case 'p':
+                            theGame.players[i]->details.freedom++;
 
-                    break;
+                            if(theGame.players[i]->details.freedom > 4)
+                                theGame.players[i]->details.freedom = 4;
 
-                case '$':
-                    adminPrivileges(theGame);
-                    break;
+                            break;
 
-                default:
-                    perror("wrong input");
-                    exit(EXIT_FAILURE);
-                    break;
+                        case 'l':
+                            exit(EXIT_SUCCESS);
+                            break;
 
-            }
+                        case '$':
+                            adminPrivileges(theGame);
+                            break;
 
-            //Mise a jour, par le calcul, des positions des objets mouvants (s'il n'y a pas eu de commandes admin)...
+                        default:
+                            printf("Wrong input, please type in a valid command ('z', 'q', 's', 'd', 'p', 'l'): \n");
+                            wrong_input = true;
+                            break;
+
+                    }
+
+                } while(wrong_input);
+
+
+            //Si commande administrateur: pas de mise à jour des elements du jeu
+            //mais affichage banquise pour donner des informations au debuggeur
             if(move == '$')
                 printBanquise(theGame.banquise);
 
