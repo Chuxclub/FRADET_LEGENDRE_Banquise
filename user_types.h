@@ -89,6 +89,7 @@ typedef struct
 /* ============================================ */
 typedef enum {rouge = 1, bleu, vert, jaune} T_couleur;
 typedef enum {player_trapped = 0, cooldown3, cooldown2, cooldown1, player_free} T_free;
+typedef enum {dead = 0, full_health} T_health;
 
 
 
@@ -100,9 +101,9 @@ typedef struct {
 
 typedef struct{
     char nom[50];
-    T_couleur couleur;
     T_pos pos;
     T_free freedom;
+    T_health health;
     T_score score;
 } T_player_infos;
 
@@ -146,6 +147,7 @@ typedef struct
     T_object **flakes;
     T_object **springs;
     T_object **traps;
+    T_object **hammers;
 } T_game_parts;
 
 typedef struct

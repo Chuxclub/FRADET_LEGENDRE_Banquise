@@ -196,6 +196,14 @@ void FlakeInteraction(T_object *bumped_flake, int neighbour_line, int neighbour_
                 break;
         }
     }
+
+
+    else if(IsPlayer(banquise->grid[neighbour_line][neighbour_col]))
+    {
+        banquise->grid[neighbour_line][neighbour_col].player->details.health = dead;
+        stopFlake(bumped_flake);
+    }
+
 }
 
 

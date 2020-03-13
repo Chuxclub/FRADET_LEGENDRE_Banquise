@@ -47,7 +47,7 @@ void addTraps(T_banquise *banquise, T_object **traps, int nb_traps)
                 if(counter < 0)
                     return;
 
-                else if(loto_trap < 5 && IsCaseAvailable(banquise->grid[i][j]))
+                else if(loto_trap < 5 && IsPlacementAvailable(banquise->grid[i][j]))
                 {
                     traps[counter]->trap->pos.line = i;
                     traps[counter]->trap->pos.col = j;

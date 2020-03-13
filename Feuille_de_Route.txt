@@ -26,9 +26,10 @@ Fait:
 4) Interaction joueur/flocons et flocons/environnement (environnement = eau/roche)
 5) Interaction flocons/ressort
 6) Interaction flocon/marteau
+7) Interaction joueur/piège
+8) Mort du joueur par un flocon
 
 A faire:
-7) Interaction joueur/piège
 
 Phase 3 -> Détection de la fin de partie
 Fait:

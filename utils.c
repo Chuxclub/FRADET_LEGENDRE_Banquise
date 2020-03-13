@@ -86,6 +86,15 @@ int IsTrap(T_case banquise_case)
         return 0;
 }
 
+int IsPlayer(T_case banquise_case)
+{
+    if(banquise_case.player != NULL)
+        return 1;
+
+    else
+        return 0;
+}
+
 int IsInbound(int banquise_size, int line, int col)
 {
     if((line >= 0 && line < banquise_size) && (col >= 0 && col < banquise_size))
@@ -98,7 +107,7 @@ int IsInbound(int banquise_size, int line, int col)
 
 int IsObject(T_case banquise_case)
 {
-    if(banquise_case.object != NULL)
+    if(banquise_case.object != NULL && banquise_case.object->object_type != reserved)
         return 1;
 
     else
@@ -137,7 +146,7 @@ int IsFlakeIN(int banquise_size, T_banquise *banquise, int neighbour_line, int n
 {
     if(IsInbound(BANQUISE_SIZE, neighbour_line, neighbour_col))
     {
-        if (IsWater(banquise->grid[neighbour_line][neighbour_col]) || IsSpring(banquise->grid[neighbour_line][neighbour_col]) || IsHammerHead(banquise->grid[neighbour_line][neighbour_col]))
+        if (IsWater(banquise->grid[neighbour_line][neighbour_col]) || IsSpring(banquise->grid[neighbour_line][neighbour_col]) || IsHammerHead(banquise->grid[neighbour_line][neighbour_col]) || IsPlayer(banquise->grid[neighbour_line][neighbour_col]))
             return 1;
     }
 

@@ -8,12 +8,103 @@
 #include "ressort.h"
 #include "menus.h"
 #include "marteau.h"
+#include "jeu.h"
 
 
 int main()
 {
     srand(time(NULL));
 
+    int nb_players = main_menu();
+    T_game_parts theGame = initGame(nb_players);
+
+    //Affichage initial
+    system("@cls||clear");
+    printBanquise(theGame.banquise);
+
+   //Boucle du jeu
+    char move;
+    int end = 0;
+
+    while(!(end))
+    {
+        end = 1;
+
+        for(int i = 0; i < nb_players; i++)
+        {
+            if(theGame.players[i]->details.health == full_health)
+                end = 0;
+        }
+
+        for(int i = 0; i < nb_players; i++)
+        {
+            if(theGame.players[i]->details.health == dead)
+                continue;
+
+            //Mise à jour du dï¿½placement du joueur par le joueur
+            fflush(stdin);
+            scanf("%c", &move);
+
+
+            switch(move)
+            {
+                case 'z':
+                    moveUp(theGame.players[i], theGame.banquise);
+                    break;
+
+                case 'q':
+                    moveLeft(theGame.players[i], theGame.banquise);
+                    break;
+
+                case 's':
+                    moveDown(theGame.players[i], theGame.banquise);
+                    break;
+
+                case 'd':
+                    moveRight(theGame.players[i], theGame.banquise);
+                    break;
+
+                case 'p':
+                    theGame.players[i]->details.freedom++;
+
+                    if(theGame.players[i]->details.freedom > 4)
+                        theGame.players[i]->details.freedom = 4;
+
+                    break;
+
+                case '$':
+                    adminPrivileges(theGame);
+                    break;
+
+                default:
+                    perror("wrong input");
+                    exit(EXIT_FAILURE);
+                    break;
+
+            }
+            //Fontebanquise(myBanquise);
+            //Mise à jour, par le calcul, des positions des objets mouvants (s'il n'y a pas eu de commandes admin...
+            if(move != '$')
+            {
+                updateFlakes(NB_FLAKES, theGame.flakes, theGame.banquise);
+                updateHammers(NB_HAMMERS, theGame.hammers, theGame.banquise);
+
+                //Rafraîchissement banquise
+                system("@cls||clear"); //Commenter cette ligne pour faciliter les tests!
+                printBanquise(theGame.banquise);
+            }
+
+
+        }
+        //printBanquise(myBanquise);
+    }
+
+    printf("\n Game Over ;) !\n");
+    return 0;
+}
+
+
+/*
     //Menu d'accueil, demande un nombre de joueurs
     int nb_players = main_menu();
     T_player **players = initPlayers(nb_players);
@@ -54,71 +145,4 @@ int main()
     game_parts.traps = traps;
 //    game_parts.hammers = hammers;
 
-
-    //Affichage initial
-    system("@cls||clear");
-    printBanquise(myBanquise);
-
-   //Boucle du jeu
-    char move;
-    int end = 0;
-
-    while(!(end))
-    {
-        for(int i = 0; i < nb_players; i++)
-        {
-            //Mise ï¿½ jour du dï¿½placement du joueur par le joueur
-            getchar();
-            scanf("%c", &move);
-
-
-            switch(move)
-            {
-                case 'z':
-                    moveUp(players[i], myBanquise);
-                    break;
-
-                case 'q':
-                    moveLeft(players[i], myBanquise);
-                    break;
-
-                case 's':
-                    moveDown(players[i], myBanquise);
-                    break;
-
-                case 'd':
-                    moveRight(players[i], myBanquise);
-                    break;
-
-                case 'p':
-                    players[i]->details.freedom++;
-                    break;
-
-                case '$':
-                    adminPrivileges(game_parts);
-                    break;
-
-                default:
-                    perror("wrong input");
-                    exit(EXIT_FAILURE);
-                    break;
-
-            }
-            //Fontebanquise(myBanquise);
-            //Mise ï¿½ jour, par le calcul, des positions des objets mouvants (s'il n'y a pas eu de commandes admin...
-            if(move != '$')
-            {
-                updateFlakes(NB_FLAKES, flakes, myBanquise);
-                updateHammers(NB_HAMMERS, hammers, myBanquise);
-
-                //Rafraîchissement banquise
-                //system("@cls||clear"); //Commenter cette ligne pour faciliter les tests!
-                printBanquise(myBanquise);
-            }
-
-
-        }
-        //printBanquise(myBanquise);
-    }
-    return 0;
-}
+*/

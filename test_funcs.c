@@ -92,6 +92,16 @@ void adminTpSpring(T_game_parts game_parts, int spring_id, int line, int col)
 }
 
 
+/* =================================================== */
+/* ========= FONCTIONS DE SUPPRESSION EN JEU ========= */
+/* =================================================== */
+
+void adminKillPlayer(T_game_parts game_parts, int player_id)
+{
+        game_parts.players[player_id]->details.health = dead;
+}
+
+
 /* ====================================================== */
 /* ========= FONCTIONS D'IDENTIFICATION EN JEU ========= */
 /* ====================================================== */
@@ -215,6 +225,7 @@ void adminInfoCase(T_game_parts game_parts, int line, int col)
         printf("\t Player Line: %i\n", player->details.pos.line);
         printf("\t Player Column: %i\n", player->details.pos.col);
         printf("\t Player Freedom: %i\n", player->details.freedom);
+        printf("\t Player Health: %i\n", player->details.health);
     }
 
     printf("\n/!\\ =============================== /!\\ \n", line, col);
@@ -237,6 +248,14 @@ void adminPrivileges(T_game_parts game_parts)
 
     if(strcmp(cmd, "adminAddWater") == 0)
         adminAddWater(game_parts, line, col);
+
+    else if(strcmp(cmd, "adminKillPlayer") == 0)
+    {
+        int player_id = 0;
+        printf("\nIndicate which player you want to kill: ");
+        scanf("%i", &player_id);
+        adminKillPlayer(game_parts, player_id - 1); //-1 pour pouvoir écrire adminTpPlayer 0 0 1 par exemple...
+    }
 
     else if(strcmp(cmd, "adminTpPlayer") == 0)
     {

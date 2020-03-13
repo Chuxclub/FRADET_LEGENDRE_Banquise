@@ -391,41 +391,53 @@ void printCase(T_case banquise_case)
         //Soit un joueur
         else if(banquise_case.player != NULL)
         {
-            switch(banquise_case.player->id)
+            if(banquise_case.player->details.health != dead)
             {
-                case 1:
-                    color(12, 0); //En rouge
-                    printf("1"); //text_purple(stdout)
-                    color(15, 0);
-                    printf(" | "); //text_white(stdout)
-                    break;
+                switch(banquise_case.player->id)
+                {
+                    case 1:
+                        color(12, 0); //En rouge
+                        printf("1"); //text_purple(stdout)
+                        color(15, 0);
+                        printf(" | "); //text_white(stdout)
+                        break;
 
-                case 2:
-                    color(12, 0);
-                    printf("2"); //text_purple(stdout)
-                    color(15, 0);
-                    printf(" | "); //text_white(stdout)
-                    break;
+                    case 2:
+                        color(12, 0);
+                        printf("2"); //text_purple(stdout)
+                        color(15, 0);
+                        printf(" | "); //text_white(stdout)
+                        break;
 
-                case 3:
-                    color(12, 0);
-                    printf("3"); //text_purple(stdout)
-                    color(15, 0);
-                    printf(" | "); //text_white(stdout)
-                    break;
+                    case 3:
+                        color(12, 0);
+                        printf("3"); //text_purple(stdout)
+                        color(15, 0);
+                        printf(" | "); //text_white(stdout)
+                        break;
 
-                case 4:
-                    color(12, 0);
-                    printf("4"); //text_purple(stdout)
-                    color(15, 0);
-                    printf(" | "); //text_white(stdout)
-                    break;
+                    case 4:
+                        color(12, 0);
+                        printf("4"); //text_purple(stdout)
+                        color(15, 0);
+                        printf(" | "); //text_white(stdout)
+                        break;
 
-                default:
-                    perror("Wrong player value in printCase() in banquise.c");
-                    exit(EXIT_FAILURE);
-                    break;
+                    default:
+                        perror("Wrong player value in printCase() in banquise.c");
+                        exit(EXIT_FAILURE);
+                        break;
                 }
+            }
+
+            else
+                {
+                    color(12, 0); //En rouge
+                    printf("X"); //text_purple(stdout)
+                    color(15, 0);
+                    printf(" | ");
+                }
+
         }
     }
 
