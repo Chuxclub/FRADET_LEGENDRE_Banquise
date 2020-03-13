@@ -23,6 +23,7 @@ int main()
     printBanquise(theGame.banquise);
 
    //Boucle du jeu
+    T_end_game_type end_game_type = salvation;
     char move;
     bool wrong_input;
 
@@ -36,6 +37,10 @@ int main()
             if(theGame.players[i]->details.health == full_health)
                 theGame.game_on = true;
         }
+
+        //Si tout le monde est mort on a une fin du type "boneyard", fosse commune
+        if(theGame.game_on == false)
+            end_game_type = boneyard;
 
         /* Boucle d'input au tour par tour des joueurs encore en vie */
         for(int i = 0; i < nb_players; i++)
@@ -55,19 +60,19 @@ int main()
                     switch(move)
                     {
                         case 'z':
-                            moveUp(theGame.players[i], theGame.banquise);
+                            moveUp(theGame.players[i], &theGame);
                             break;
 
                         case 'q':
-                            moveLeft(theGame.players[i], theGame.banquise);
+                            moveLeft(theGame.players[i], &theGame);
                             break;
 
                         case 's':
-                            moveDown(theGame.players[i], theGame.banquise);
+                            moveDown(theGame.players[i], &theGame);
                             break;
 
                         case 'd':
-                            moveRight(theGame.players[i], theGame.banquise);
+                            moveRight(theGame.players[i], &theGame);
                             break;
 
                         case 'p':
@@ -96,9 +101,17 @@ int main()
                 } while(wrong_input);
 
 
+            //Si après un déplacement le jeu est fini, on termine le jeu
+            if(theGame.game_on == false)
+            {
+                end_game_type = salvation;
+                break;
+            }
+
+
             //Si commande administrateur: pas de mise à jour des elements du jeu
             //mais affichage banquise pour donner des informations au debuggeur
-            if(move == '$')
+            else if(move == '$')
                 printBanquise(theGame.banquise);
 
             else
@@ -114,6 +127,13 @@ int main()
         }
     }
 
-    printf("\n Game Over ;) !\n");
+    /* Fins alternatives */
+    if(end_game_type == boneyard)
+        printf("\nTous les joueurs sont morts, l'antarctique a ete sans pitié... \n");
+
+    else if(end_game_type == salvation)
+        printf("\nUn des joueurs a reussi a s'enfuir et a contacter (hypocritement ou non) les secours!\n");
+
+
     return 0;
 }
