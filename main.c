@@ -110,9 +110,10 @@ int main()
             if(move != '$')
             {
                 updateFlakes(NB_FLAKES, flakes, myBanquise);
+                updateHammers(NB_HAMMERS, hammers, myBanquise);
 
                 //Rafraîchissement banquise
-                //system("@cls||clear");
+                system("@cls||clear"); //Commenter cette ligne pour faciliter les tests!
                 printBanquise(myBanquise);
             }
         }

@@ -61,7 +61,7 @@ void addFlakes(T_banquise *banquise, T_object **flakes, int nb_flakes)
                 if(counter < 0)
                     return;
 
-                else if(loto_flake < 5 && IsCaseAvailable(banquise->grid[i][j]))
+                else if(loto_flake < 5 && IsPlacementAvailable(banquise->grid[i][j]))
                 {
                     flakes[counter]->flake->pos.line = i;
                     flakes[counter]->flake->pos.col = j;
@@ -164,7 +164,7 @@ void FlakeInteraction(T_object *bumped_flake, int neighbour_line, int neighbour_
             case hammer_head:
             {
                 int scalar_left = scalar_product(bumped_flake->flake->vect, banquise->grid[neighbour_line][neighbour_col].object->hammer_head->left_face);
-                stopFlake(bumped_flake);
+
 
                 if(scalar_left != 0)
                 {
@@ -172,6 +172,8 @@ void FlakeInteraction(T_object *bumped_flake, int neighbour_line, int neighbour_
                     {
                        banquise->grid[neighbour_line][neighbour_col].object->hammer_head->rot_dir = anticlockwise;
                        banquise->grid[neighbour_line][neighbour_col].object->hammer_head->momentum = full_momentum;
+                       banquise->grid[neighbour_line][neighbour_col].object->hammer_head->vector_carrier.d_line = bumped_flake->flake->vect.d_line;
+                       banquise->grid[neighbour_line][neighbour_col].object->hammer_head->vector_carrier.d_col = bumped_flake->flake->vect.d_col;
                     }
 
 
@@ -179,8 +181,13 @@ void FlakeInteraction(T_object *bumped_flake, int neighbour_line, int neighbour_
                     {
                        banquise->grid[neighbour_line][neighbour_col].object->hammer_head->rot_dir = clockwise;
                        banquise->grid[neighbour_line][neighbour_col].object->hammer_head->momentum = full_momentum;
+                       banquise->grid[neighbour_line][neighbour_col].object->hammer_head->vector_carrier.d_line = bumped_flake->flake->vect.d_line;
+                       banquise->grid[neighbour_line][neighbour_col].object->hammer_head->vector_carrier.d_col = bumped_flake->flake->vect.d_col;
                     }
                 }
+
+                stopFlake(bumped_flake);
+
                 break;
             }
 

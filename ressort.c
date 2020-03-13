@@ -48,7 +48,7 @@ void addSprings(T_banquise *banquise, T_object **springs, int nb_springs)
                 if(counter < 0)
                     return;
 
-                else if(loto_spring < 5 && IsCaseAvailable(banquise->grid[i][j]))
+                else if(loto_spring < 5 && IsPlacementAvailable(banquise->grid[i][j]))
                 {
                     springs[counter]->spring->pos.line = i;
                     springs[counter]->spring->pos.col = j;
