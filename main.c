@@ -82,21 +82,19 @@ int main()
                     break;
 
             }
-            //Fontebanquise(myBanquise);
-            //Mise à jour, par le calcul, des positions des objets mouvants (s'il n'y a pas eu de commandes admin...
+
+            //Mise ï¿½ jour, par le calcul, des positions des objets mouvants (s'il n'y a pas eu de commandes admin...
             if(move != '$')
             {
-                updateFlakes(NB_FLAKES, theGame.flakes, theGame.banquise);
-                updateHammers(NB_HAMMERS, theGame.hammers, theGame.banquise);
+                updateFlakes(NB_FLAKES, flakes, myBanquise);
+                updateHammers(NB_HAMMERS, hammers, myBanquise);
+                Fontebanquise(myBanquise);
 
-                //Rafraîchissement banquise
-                system("@cls||clear"); //Commenter cette ligne pour faciliter les tests!
-                printBanquise(theGame.banquise);
+                //Rafraï¿½chissement banquise
+                //system("@cls||clear"); //Commenter cette ligne pour faciliter les tests!
+                printBanquise(myBanquise);
             }
-
-
         }
-        //printBanquise(myBanquise);
     }
 
     printf("\n Game Over ;) !\n");
