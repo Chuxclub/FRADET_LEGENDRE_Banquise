@@ -14,10 +14,9 @@ Fait:
 4) Ajouter sur ce plateau un point de départ et d'arrivée de manière presque aléatoire (voir code pour la règle)
 5) Ajouter joueurs au plus près du point A
 6) Ajouter sur ce plateau des flocons de manière aléatoire
-
-A faire:
 7) Ajouter sur ce plateau un ressort, un piège et un marteau de manière aléatoire => prévoir la possibilité d'en mettre plusieurs plus tard
 
+A faire:
 
 Phase 2 -> Ajout de toutes les interactions
 Fait:
@@ -26,16 +25,17 @@ Fait:
 3) Restriction des déplacements des joueurs selon les éléments sur le terrain
 4) Interaction joueur/flocons et flocons/environnement (environnement = eau/roche)
 5) Interaction flocons/ressort
-
-A faire:
 6) Interaction flocon/marteau
 
+A faire:
+7) Interaction joueur/piège
 
 Phase 3 -> Détection de la fin de partie
 Fait:
+1) Détecter l'existence d'un chemin direct récursivement
 
 A faire:
-1) Détecter l'existence d'un chemin direct récursivement
+
 2) Détecter la possibilité d'un chemin indirect
 3) Détecter une fin de partie
 

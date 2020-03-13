@@ -71,6 +71,7 @@ int main()
             getchar();
             scanf("%c", &move);
 
+
             switch(move)
             {
                 case 'z':
@@ -90,6 +91,7 @@ int main()
                     break;
 
                 case 'p':
+                    players[i]->details.freedom++;
                     break;
 
                 case '$':
@@ -110,8 +112,8 @@ int main()
                 updateHammers(NB_HAMMERS, hammers, myBanquise);
                 Fontebanquise(myBanquise);
 
-                //Rafraîchissement banquise
-                system("@cls||clear"); //Commenter cette ligne pour faciliter les tests!
+                //Rafraï¿½chissement banquise
+                //system("@cls||clear"); //Commenter cette ligne pour faciliter les tests!
                 printBanquise(myBanquise);
             }
         }

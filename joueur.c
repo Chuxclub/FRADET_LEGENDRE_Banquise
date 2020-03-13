@@ -16,6 +16,7 @@ T_player **initPlayers(int nb_players)
     for(int i = 0; i < nb_players; i++)
     {
         players[i]->id = (i + 1);
+        players[i]->details.freedom = player_free;
     }
 
     return players;
@@ -171,6 +172,12 @@ void moveUp(T_player *player, T_banquise *banquise)
     int previous_col = player->details.pos.col;
     int new_line = previous_line - 1;
 
+    if(player->details.freedom != player_free)
+    {
+        player->details.freedom++;
+        return;
+    }
+
     if(IsInbound(banquise->sizeB, new_line, previous_col))
     {
         if(IsCaseAvailable(banquise->grid[new_line][previous_col]))
@@ -189,6 +196,19 @@ void moveUp(T_player *player, T_banquise *banquise)
             {
                 if(IsFlake(banquise->grid[new_line][previous_col]))
                     accelerateUp(banquise->grid[new_line][previous_col].object);
+
+                if(IsTrap(banquise->grid[new_line][previous_col]))
+                {
+                    /* Modification de la position du joueur */
+                    player->details.pos.line = new_line;
+                    player->details.pos.col = previous_col;
+
+                    /* Assignation à la case voulue du joueur sur la banquise*/
+                    updatePlayer(player, previous_line, previous_col, banquise);
+
+                    /* Modification du statut 'freedom' du joueur */
+                    player->details.freedom = player_trapped;
+                }
             }
         }
     }
@@ -197,6 +217,12 @@ void moveUp(T_player *player, T_banquise *banquise)
 
 void moveLeft(T_player *player, T_banquise *banquise)
 {
+    if(player->details.freedom != player_free)
+    {
+        player->details.freedom++;
+        return;
+    }
+
     /* Passage du joueur en paramètre pour récupérer sa position */
     int previous_line = player->details.pos.line;
     int previous_col = player->details.pos.col;
@@ -220,6 +246,19 @@ void moveLeft(T_player *player, T_banquise *banquise)
             {
                 if(IsFlake(banquise->grid[previous_line][new_col]))
                     accelerateLeft(banquise->grid[previous_line][new_col].object);
+
+                if(IsTrap(banquise->grid[previous_line][new_col]))
+                {
+                    /* Modification de la position du joueur */
+                    player->details.pos.line = previous_line;
+                    player->details.pos.col = new_col;
+
+                    /* Assignation à la case voulue du joueur sur la banquise*/
+                    updatePlayer(player, previous_line, previous_col, banquise);
+
+                    /* Modification du statut 'freedom' du joueur */
+                    player->details.freedom = player_trapped;
+                }
             }
         }
     }
@@ -231,6 +270,13 @@ void moveDown(T_player *player, T_banquise *banquise)
     int previous_line = player->details.pos.line;
     int previous_col = player->details.pos.col;
     int new_line = previous_line + 1;
+
+    if(player->details.freedom != player_free)
+    {
+        player->details.freedom++;
+        return;
+    }
+
 
     if(IsInbound(banquise->sizeB, new_line, previous_col))
     {
@@ -250,6 +296,19 @@ void moveDown(T_player *player, T_banquise *banquise)
             {
                 if(IsFlake(banquise->grid[new_line][previous_col]))
                     accelerateDown(banquise->grid[new_line][previous_col].object);
+
+                if(IsTrap(banquise->grid[new_line][previous_col]))
+                {
+                    /* Modification de la position du joueur */
+                    player->details.pos.line = new_line;
+                    player->details.pos.col = previous_col;
+
+                    /* Assignation à la case voulue du joueur sur la banquise*/
+                    updatePlayer(player, previous_line, previous_col, banquise);
+
+                    /* Modification du statut 'freedom' du joueur */
+                    player->details.freedom = player_trapped;
+                }
             }
         }
     }
@@ -261,6 +320,12 @@ void moveRight(T_player *player, T_banquise *banquise)
     int previous_line = player->details.pos.line;
     int previous_col = player->details.pos.col;
     int new_col = previous_col + 1;
+
+    if(player->details.freedom != player_free)
+    {
+        player->details.freedom++;
+        return;
+    }
 
     if(IsInbound(banquise->sizeB, previous_line, new_col))
     {
@@ -280,6 +345,19 @@ void moveRight(T_player *player, T_banquise *banquise)
             {
                 if(IsFlake(banquise->grid[previous_line][new_col]))
                     accelerateRight(banquise->grid[previous_line][new_col].object);
+
+                if(IsTrap(banquise->grid[previous_line][new_col]))
+                {
+                    /* Modification de la position du joueur */
+                    player->details.pos.line = previous_line;
+                    player->details.pos.col = new_col;
+
+                    /* Assignation à la case voulue du joueur sur la banquise*/
+                    updatePlayer(player, previous_line, previous_col, banquise);
+
+                    /* Modification du statut 'freedom' du joueur */
+                    player->details.freedom = player_trapped;
+                }
             }
         }
     }

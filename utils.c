@@ -77,6 +77,15 @@ int IsFlake(T_case banquise_case)
         return 0;
 }
 
+int IsTrap(T_case banquise_case)
+{
+    if(banquise_case.object->object_type == trap)
+        return 1;
+
+    else
+        return 0;
+}
+
 int IsInbound(int banquise_size, int line, int col)
 {
     if((line >= 0 && line < banquise_size) && (col >= 0 && col < banquise_size))
