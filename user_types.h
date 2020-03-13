@@ -88,6 +88,7 @@ typedef struct
 /* =============== TYPES JOUEURS ============== */
 /* ============================================ */
 typedef enum {rouge = 1, bleu, vert, jaune} T_couleur;
+typedef enum {player_trapped = 0, cooldown3, cooldown2, cooldown1, player_free} T_free;
 
 
 
@@ -101,7 +102,7 @@ typedef struct{
     char nom[50];
     T_couleur couleur;
     T_pos pos;
-    T_vector vect;
+    T_free freedom;
     T_score score;
 } T_player_infos;
 

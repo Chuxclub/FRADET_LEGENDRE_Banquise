@@ -65,13 +65,12 @@ int main()
 
     while(!(end))
     {
-
         for(int i = 0; i < nb_players; i++)
         {
-
             //Mise ï¿½ jour du dï¿½placement du joueur par le joueur
             getchar();
             scanf("%c", &move);
+
 
             switch(move)
             {
@@ -92,6 +91,7 @@ int main()
                     break;
 
                 case 'p':
+                    players[i]->details.freedom++;
                     break;
 
                 case '$':
@@ -104,7 +104,7 @@ int main()
                     break;
 
             }
-            Fontebanquise(myBanquise);
+            //Fontebanquise(myBanquise);
             //Mise ï¿½ jour, par le calcul, des positions des objets mouvants (s'il n'y a pas eu de commandes admin...
             if(move != '$')
             {
@@ -112,11 +112,12 @@ int main()
                 updateHammers(NB_HAMMERS, hammers, myBanquise);
 
                 //Rafraîchissement banquise
-                system("@cls||clear"); //Commenter cette ligne pour faciliter les tests!
+                //system("@cls||clear"); //Commenter cette ligne pour faciliter les tests!
                 printBanquise(myBanquise);
             }
-        }
 
+
+        }
         //printBanquise(myBanquise);
     }
     return 0;

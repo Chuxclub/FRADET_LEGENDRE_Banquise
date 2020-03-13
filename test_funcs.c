@@ -211,9 +211,10 @@ void adminInfoCase(T_game_parts game_parts, int line, int col)
 
     else
     {
-        printf("\t Player Id: %i\n", player->id);
+        printf("Player Id: %i\n", player->id);
         printf("\t Player Line: %i\n", player->details.pos.line);
         printf("\t Player Column: %i\n", player->details.pos.col);
+        printf("\t Player Freedom: %i\n", player->details.freedom);
     }
 
     printf("\n/!\\ =============================== /!\\ \n", line, col);
