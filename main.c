@@ -129,7 +129,7 @@ int main()
 
     /* Fins alternatives */
     if(end_game_type == boneyard)
-        printf("\nTous les joueurs sont morts, l'antarctique a ete sans pitié... \n");
+        printf("\nTous les joueurs sont morts, l'antarctique a ete sans pitie... \n");
 
     else if(end_game_type == salvation)
         printf("\nUn des joueurs a reussi a s'enfuir et a contacter (hypocritement ou non) les secours!\n");

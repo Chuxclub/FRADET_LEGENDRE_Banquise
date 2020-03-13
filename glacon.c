@@ -144,9 +144,7 @@ void BumpSpring(T_object *bumped_flake)
 void FlakeInteraction(T_object *bumped_flake, int neighbour_line, int neighbour_col, T_banquise *banquise)
 {
     if(IsWater(banquise->grid[neighbour_line][neighbour_col]))
-    {
         BecomeIce(bumped_flake, neighbour_line, neighbour_col, banquise);
-    }
 
     else if(IsObject(banquise->grid[neighbour_line][neighbour_col]))
     {
@@ -219,23 +217,14 @@ void updateFlakes(int nb_flakes, T_object **flakes,  T_banquise *banquise)
             int new_line = 0;
             int new_col = 0;
 
-            if(flakes[i]->flake->vect.d_line != 0)
-                new_line = flakes[i]->flake->pos.line + flakes[i]->flake->vect.d_line;
-
-            else
-                new_line = flakes[i]->flake->pos.line;
-
-            if(flakes[i]->flake->vect.d_col != 0)
-                new_col = flakes[i]->flake->pos.col + flakes[i]->flake->vect.d_col;
-
-            else
-                new_col = flakes[i]->flake->pos.col;
+            new_line = flakes[i]->flake->pos.line + flakes[i]->flake->vect.d_line;
+            new_col = flakes[i]->flake->pos.col + flakes[i]->flake->vect.d_col;
 
             /* Vérification de la validité des nouvelles positions calculées*/
             if(IsInbound(BANQUISE_SIZE, new_line, new_col))
             {
-                //Si la case est disponible: déplacement du glaçon sur cette case
-                //On a donc: modification des coordonnées du glaçon et débranchement/branchement sur banquise
+                /* Si la case est disponible: déplacement du glaçon sur cette case
+                   On a donc: modification des coordonnées du glaçon et débranchement/branchement sur banquise */
                 if(IsCaseAvailable(banquise->grid[new_line][new_col]))
                 {
                     banquise->grid[flakes[i]->flake->pos.line][flakes[i]->flake->pos.col].object = NULL;
@@ -244,11 +233,11 @@ void updateFlakes(int nb_flakes, T_object **flakes,  T_banquise *banquise)
                     banquise->grid[flakes[i]->flake->pos.line][flakes[i]->flake->pos.col].object = flakes[i];
                 }
 
-                //Si la case n'est pas disponible car il y a un objet interagissable: lancement de l'interaction
+                /* Si la case n'est pas disponible car il y a un objet interagissable: lancement de l'interaction */
                 else if(IsFlakeIN(BANQUISE_SIZE, banquise, new_line, new_col))
                     FlakeInteraction(flakes[i], new_line, new_col, banquise);
 
-                //Sinon, c'est un rocher ou un drapeau, on arrête le glaçon et on conserve l'ancienne position
+                /* Sinon, c'est un rocher ou un drapeau, on arrête le glaçon et on conserve l'ancienne position */
                 else
                 {
                     flakes[i]->flake->vect.d_line = 0;
