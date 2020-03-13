@@ -282,16 +282,36 @@ void withFlakes(T_test T, int col, int line)
 {
 
 }
+*/
 
-void aRoad(T_test T, int col, int line)
+//fonction qui appellent toutes celles aidant à vérifier l'existence d'un chemin de A vers B
+int road(T_banquise *banquise)
 {
-    isARoad(T, T.posA.col, T.posA.line);
-    if (T.find == 0)
-    {
-        withFlakes(T, T.posA.col, T.posA.line);
-    }
+    T_test T = collectInfos(banquise, initTest(BANQUISE_SIZE));
+    T_pos *tab = initTab();
+    isRoad(T, T.posA.line, T.posA.col, tab, 0);
 
-}*/
+    //n'a pas trouvé de chemin
+  /*  if (T.B_find == 0)
+    {
+        char a;
+        printf("Il n'y a plus de chemin possible.\nVoulez-vous continuer la partie ?\n");
+        getchar();
+        scanf("%c", &a);
+        switch (a)
+        {
+        case 'y':
+            break;
+        case 'n':
+            break;
+        }
+    }*/
+    else
+    {
+        //existe un chemin
+        return 1;
+    }
+}
 
 /* ============================================ */
 /* ================ AFFICHAGES ================ */

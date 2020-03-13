@@ -37,6 +37,7 @@ T_test collectInfos(T_banquise *banquise, T_test T);
 T_pos *initTab();
 void isRoad(T_test T, int line, int col, T_pos *tab, int i);
 //void withFlakes(T_test T, int col, int line);
+int road(T_banquise *banquise);
 
 
 /* ============================================ */

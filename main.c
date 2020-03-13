@@ -37,10 +37,7 @@ int main()
 
 
     //Vérification d'un passage de A vers B
-    T_test T = collectInfos(myBanquise, initTest(BANQUISE_SIZE));
-    T_pos *tab = initTab();
-    isRoad(T, T.posA.line, T.posA.col, tab, 0);
-
+    road(myBanquise);
 
     //Ajout des joueurs sur la banquise
     addPlayers(myBanquise, players, nb_players);
@@ -113,8 +110,9 @@ int main()
                 Fontebanquise(myBanquise);
 
                 //Rafra�chissement banquise
-                //system("@cls||clear"); //Commenter cette ligne pour faciliter les tests!
+                system("@cls||clear"); //Commenter cette ligne pour faciliter les tests!
                 printBanquise(myBanquise);
+                road(myBanquise);
             }
         }
     }
