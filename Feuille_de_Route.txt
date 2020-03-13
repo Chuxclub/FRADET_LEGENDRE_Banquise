@@ -36,17 +36,18 @@ Phase 3 -> Détection de la fin de partie
 Fait:
 1) Détecter l'existence d'un chemin direct récursivement
 3) Détecter une fin de partie quand tous les joueurs sont morts
+4) Détecter une fin de partie quand un joueur a atteint un drapeau
+
 
 A faire:
 2) Si aucun chemin direct n'existe, recréer une banquise viable pour les joueurs
-4) Détecter une fin de partie quand un joueur a atteint un drapeau
 
 
 Phase 4 -> Ajout du réchauffement climatique
 Fait:
 
 A faire:
-1) Ajouter un réchauffement climatique aléatoire à la boucle des rafraîchissements tout par tour
+1) Ajouter un réchauffement climatique aléatoire à la boucle des rafraîchissements tour par tour
 
 Phase 5 -> Ajout score des joueurs
 Fait:
