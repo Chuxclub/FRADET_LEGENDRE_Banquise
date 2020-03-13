@@ -115,7 +115,7 @@ void addHammers(T_banquise *banquise, T_object **hammers, int nb_hammers)
 
 void updateHammers(int nb_hammers, T_object **hammers,  T_banquise *banquise)
 {
-    //Rappel: ordre tête puis manche...
+    /* Rappel: ordre = tête puis manche => hammers[0] est une tête de marteau, hammers[1] est un manche de marteau, etc. */
     for(int i = 0; i < nb_hammers*2; i+=2)
     {
         if(hammers[i]->hammer_head->momentum != no_momentum)
@@ -132,7 +132,7 @@ void updateHammers(int nb_hammers, T_object **hammers,  T_banquise *banquise)
                 hammers[i]->hammer_head->pos.col += clockw[head_state].d_col;
                 banquise->grid[hammers[i]->hammer_head->pos.line][hammers[i]->hammer_head->pos.col].object = hammers[i];
 
-                //Calculating new upf and leftf vectors
+                //Calculating and updating new upf and leftf vectors
                 int previous_head_state = head_state - 1;
 
                 if(previous_head_state < 0)
@@ -143,7 +143,7 @@ void updateHammers(int nb_hammers, T_object **hammers,  T_banquise *banquise)
                 hammers[i]->hammer_head->left_face.d_line += clockw[previous_head_state].d_line;
                 hammers[i]->hammer_head->left_face.d_col += clockw[previous_head_state].d_col;
 
-                //Calculating new vector carrier
+                //Calculating and updating new vector carrier
                 hammers[i]->hammer_head->vector_carrier.d_line = clockw[head_state].d_line - hammers[i]->hammer_head->vector_carrier.d_line;
                 hammers[i]->hammer_head->vector_carrier.d_col = clockw[head_state].d_col - hammers[i]->hammer_head->vector_carrier.d_col;
 
@@ -181,7 +181,7 @@ void updateHammers(int nb_hammers, T_object **hammers,  T_banquise *banquise)
                 hammers[i]->hammer_head->pos.col += anticlockw[head_state].d_col;
                 banquise->grid[hammers[i]->hammer_head->pos.line][hammers[i]->hammer_head->pos.col].object = hammers[i];
 
-                //Calculating new upf and leftf vectors
+                //Calculating and updating new upf and leftf vectors
                 int previous_head_state = head_state - 1;
 
                 if(previous_head_state < 0)
@@ -192,7 +192,7 @@ void updateHammers(int nb_hammers, T_object **hammers,  T_banquise *banquise)
                 hammers[i]->hammer_head->left_face.d_line += clockw[previous_head_state].d_line;
                 hammers[i]->hammer_head->left_face.d_col += clockw[previous_head_state].d_col;
 
-                //Calculating new vector carrier
+                //Calculating and updating new vector carrier
                 hammers[i]->hammer_head->vector_carrier.d_line = anticlockw[head_state].d_line - hammers[i]->hammer_head->vector_carrier.d_line;
                 hammers[i]->hammer_head->vector_carrier.d_col = anticlockw[head_state].d_col - hammers[i]->hammer_head->vector_carrier.d_col;
 

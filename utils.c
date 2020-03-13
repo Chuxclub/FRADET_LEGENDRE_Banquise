@@ -104,6 +104,45 @@ int IsPlayer(T_case banquise_case)
         return 0;
 }
 
+int IsPlayerInRange(T_hammer_head *hammer_head, T_banquise *banquise)
+{
+    int hammer_head_line = hammer_head->pos.line;
+    int hammer_head_col = hammer_head->pos.col;
+    int hammer_head_state = hammer_head->state;
+    T_vector clockw[4] = {{-1, 1},{1, 1},{1, -1},{-1, -1}};
+    T_vector anticlockw[4] = {{1, 1},{1, -1},{-1, -1},{-1, 1}};
+    bool found_player = false;
+
+    if(hammer_head->rot_dir == clockwise)
+    {
+        for(int i = 0; i < 2; i++)
+        {
+            hammer_head_line += clockw[hammer_head_state].d_line;
+            hammer_head_col += clockw[hammer_head_state].d_col;
+
+            if(IsPlayer(banquise->grid[hammer_head_line][hammer_head_col]))
+                found_player = true;
+        }
+
+        return found_player;
+    }
+
+    else
+    {
+        for(int i = 0; i < 2; i++)
+        {
+            hammer_head_line += clockw[hammer_head_state].d_line;
+            hammer_head_col += clockw[hammer_head_state].d_col;
+            hammer_head_state--;
+
+            if(IsPlayer(banquise->grid[hammer_head_line][hammer_head_col]))
+                found_player = true;
+        }
+
+        return found_player;
+    }
+}
+
 int IsInbound(int banquise_size, int line, int col)
 {
     if((line >= 0 && line < banquise_size) && (col >= 0 && col < banquise_size))
