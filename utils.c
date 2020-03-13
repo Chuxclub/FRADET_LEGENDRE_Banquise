@@ -77,6 +77,15 @@ int IsFlake(T_case banquise_case)
         return 0;
 }
 
+int IsFlagB(T_case banquise_case)
+{
+    if(banquise_case.flag == B)
+        return 1;
+
+    else
+        return 0;
+}
+
 int IsTrap(T_case banquise_case)
 {
     if(banquise_case.object->object_type == trap)

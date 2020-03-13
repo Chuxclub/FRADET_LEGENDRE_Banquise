@@ -150,6 +150,7 @@ typedef struct
     T_object **springs;
     T_object **traps;
     T_object **hammers;
+    bool game_on;
 } T_game_parts;
 
 typedef struct

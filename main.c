@@ -24,18 +24,17 @@ int main()
 
    //Boucle du jeu
     char move;
-    int end = 0;
     bool wrong_input;
 
-    while(!(end))
+    while(theGame.game_on)
     {
         /* On vérifie si au moins un joueur est encore en vie. Si c'est le cas, le jeu continue */
-        end = 1;
+        theGame.game_on = false;
 
         for(int i = 0; i < nb_players; i++)
         {
             if(theGame.players[i]->details.health == full_health)
-                end = 0;
+                theGame.game_on = true;
         }
 
         /* Boucle d'input au tour par tour des joueurs encore en vie */

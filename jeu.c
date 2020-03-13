@@ -34,6 +34,7 @@ T_game_parts initGame(int nb_players)
     game_parts.springs = springs;
     game_parts.traps = traps;
     game_parts.hammers = hammers;
+    game_parts.game_on = true;
 
 
     return game_parts;

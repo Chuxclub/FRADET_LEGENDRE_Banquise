@@ -15,6 +15,8 @@ void PlaceReservedZone(T_banquise *banquise, int line, int col);
 //Détermine s'il y a un glaçon à la case indiquée ou non
 int IsFlake(T_case banquise_case);
 
+int IsFlagB(T_case banquise_case);
+
 //Détermine si le voisin peut interagir avec un glaçon ou non
 int IsFlakeIN(int banquise_size, T_banquise *banquise, int neighbour_line, int neighbour_col);
 

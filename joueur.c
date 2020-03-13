@@ -218,6 +218,11 @@ void moveUp(T_player *player, T_banquise *banquise)
                     /* Modification du statut 'freedom' du joueur */
                     player->details.freedom = player_trapped;
                 }
+
+                else if(IsFlagB(banquise->grid[new_line][previous_col]))
+                {
+
+                }
             }
         }
     }
