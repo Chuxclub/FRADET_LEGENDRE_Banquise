@@ -19,8 +19,7 @@ int main()
     T_player **players = initPlayers(nb_players);
 
     //Initialisation de la banquise (que de la glace)
-    T_flag_test *flag_test = initTabFlag();
-    T_banquise *myBanquise = initBanquise(BANQUISE_SIZE, flag_test);
+    T_banquise *myBanquise = initBanquise(BANQUISE_SIZE);
 
 
     //Initialisation et ajout des objets sur la banquise
@@ -37,6 +36,12 @@ int main()
     addSprings(myBanquise, springs, NB_SPRINGS);
 
 
+    //VÃ©rification d'un passage de A vers B
+    T_test T = collectInfos(myBanquise, initTest(BANQUISE_SIZE));
+    T_pos *tab = initTab();
+    isRoad(T, T.posA.line, T.posA.col, tab, 0);
+
+
     //Ajout des joueurs sur la banquise
     addPlayers(myBanquise, players, nb_players);
 
@@ -47,19 +52,12 @@ int main()
     game_parts.flakes = flakes;
     game_parts.springs = springs;
     game_parts.traps = traps;
-    game_parts.hammers = hammers;
-
-    //Copie de la banquise pour tester isARoad
-    /*T_banquise *testBanquise = myBanquise;
-    isARoad(*testBanquise, flag_test);
-    a_test(flag_test->find2);*/
+//    game_parts.hammers = hammers;
 
 
     //Affichage initial
     system("@cls||clear");
     printBanquise(myBanquise);
-
-
 
    //Boucle du jeu
     char move;
@@ -70,7 +68,7 @@ int main()
         for(int i = 0; i < nb_players; i++)
         {
 
-            //Mise à jour du déplacement du joueur par le joueur
+            //Mise ï¿½ jour du dï¿½placement du joueur par le joueur
             getchar();
             scanf("%c", &move);
 
@@ -106,7 +104,7 @@ int main()
 
             }
 
-            //Mise à jour, par le calcul, des positions des objets mouvants (s'il n'y a pas eu de commandes admin...
+            //Mise ï¿½ jour, par le calcul, des positions des objets mouvants (s'il n'y a pas eu de commandes admin...
             if(move != '$')
             {
                 updateFlakes(NB_FLAKES, flakes, myBanquise);
@@ -118,6 +116,5 @@ int main()
             }
         }
     }
-
     return 0;
 }
