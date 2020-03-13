@@ -487,26 +487,64 @@ void printBanquise(T_banquise *banquise)
 /* =================== FONTE ================== */
 /* ============================================ */
 
-/*
 //Calcule la fonte de la banquise => Pour le besoin des tests, ne pas y faire appel maintenant
 T_banquise Fontebanquise (T_banquise *banquise)
 {
     srand(time (NULL));
-    for (int i = 0; i < banquise->size; i++)
+
+    //calcule le pourcentage de chance pour que la banquise fonde
+    int fonte = rand()%100;
+
+    T_test T = initTest(BANQUISE_SIZE);
+
+    //enregistre les points d'eau de la banquise dans un tableau d'entiers
+    for (int i = 0; i < BANQUISE_SIZE; i++)
     {
-        for (int j = 0; j < banquise->size; j++)
+        for (int j = 0; j < BANQUISE_SIZE; j++)
         {
-            if ((banquise->grid[i][j].ice = 0) && (rand()%(16) < 16))
-            {   //fond avec un pourcentage de 15%
-                banquise->grid[i][j-1].ice = 0;  // toutes les cases autour de ce point d'eau
-                banquise->grid[i][j+1].ice = 0;
-                banquise->grid[i-1][j].ice = 0;
-                banquise->grid[i+1][j].ice = 0;
-                j += 2; //ajoute plus 2 à j pour ne pas recommencer avec le point d'eau nouvellement créé
+            if (banquise->grid[i][j].ground == 0)
+            {
+                T.grid[i][j] = 0;
+            }
+        }
+    }
+
+    //si un point d'eau est détecté dans le tableau, cela impactera la banquise
+    //fonte doit être inférieure à 5 pour que la fonte opère
+    for (int k = 0; k < BANQUISE_SIZE; k++)
+    {
+        for (int l = 0; l < BANQUISE_SIZE; l++)
+        {
+            if ( (T.grid[k][l] == 0) && (fonte < 100) )
+            {
+                if ( (banquise->grid[k][l - 1].flag == 0) && (banquise->grid[k][l - 1].player == NULL) )
+                {
+                    banquise->grid[k][l - 1].ground = 0;
+                    banquise->grid[k][l - 1].object = NULL;
+                }
+
+                if ( (banquise->grid[k - 1][l].flag == 0) && (banquise->grid[k - 1][l].player == NULL) )
+                {
+                    banquise->grid[k - 1][l].ground = 0;
+                    banquise->grid[k - 1][l].object = NULL;
+                }
+
+                if ( (banquise->grid[k][l + 1].flag == 0) && (banquise->grid[k][l + 1].player == NULL) )
+                {
+                    banquise->grid[k][l + 1].ground = 0;
+                    banquise->grid[k][l + 1].object = NULL;
+                }
+
+                if ( (banquise->grid[k + 1][l].flag == 0) && (banquise->grid[k + 1][l].player == NULL) )
+                {
+                    banquise->grid[k + 1][l].ground = 0;
+                    banquise->grid[k + 1][l].object = NULL;
+                }
+
             }
         }
     }
 
     return *banquise;
 }
-*/
+

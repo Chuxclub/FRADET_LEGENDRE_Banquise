@@ -65,6 +65,7 @@ int main()
 
     while(!(end))
     {
+
         for(int i = 0; i < nb_players; i++)
         {
 
@@ -103,7 +104,7 @@ int main()
                     break;
 
             }
-
+            Fontebanquise(myBanquise);
             //Mise � jour, par le calcul, des positions des objets mouvants (s'il n'y a pas eu de commandes admin...
             if(move != '$')
             {
@@ -114,6 +115,8 @@ int main()
                 printBanquise(myBanquise);
             }
         }
+
+        //printBanquise(myBanquise);
     }
     return 0;
 }

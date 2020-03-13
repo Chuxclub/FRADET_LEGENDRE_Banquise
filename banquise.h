@@ -49,7 +49,7 @@ void printCase(T_case banquise_case);
 /* ============================================ */
 /* =================== FONTE ================== */
 /* ============================================ */
-//T_banquise Fontebanquise (T_banquise *B);
+T_banquise Fontebanquise (T_banquise *banquise);
 
 
 
