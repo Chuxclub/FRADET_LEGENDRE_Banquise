@@ -199,11 +199,12 @@ void moveUp(T_player *player, T_banquise *banquise)
                 if(IsFlake(banquise->grid[new_line][previous_col]) && (scalar_product(banquise->grid[new_line][previous_col].object->flake->vect, up_vect) >= 0))
                     accelerateUp(banquise->grid[new_line][previous_col].object);
 
-                else
+                else if(IsFlake(banquise->grid[new_line][previous_col]) && (scalar_product(banquise->grid[new_line][previous_col].object->flake->vect, up_vect) < 0))
                 {
                     accelerateUp(banquise->grid[new_line][previous_col].object);
                     player->details.health = dead;
                 }
+
 
                 if(IsTrap(banquise->grid[new_line][previous_col]))
                 {
@@ -256,7 +257,7 @@ void moveLeft(T_player *player, T_banquise *banquise)
                 if(IsFlake(banquise->grid[previous_line][new_col]) && (scalar_product(banquise->grid[previous_line][new_col].object->flake->vect, left_vect) >= 0))
                     accelerateLeft(banquise->grid[previous_line][new_col].object);
 
-                else
+                else if(IsFlake(banquise->grid[previous_line][new_col]) && (scalar_product(banquise->grid[previous_line][new_col].object->flake->vect, left_vect) < 0))
                 {
                     accelerateLeft(banquise->grid[previous_line][new_col].object);
                     player->details.health = dead;
@@ -313,7 +314,7 @@ void moveDown(T_player *player, T_banquise *banquise)
                 if(IsFlake(banquise->grid[new_line][previous_col]) && (scalar_product(banquise->grid[new_line][previous_col].object->flake->vect, down_vect) >= 0))
                     accelerateDown(banquise->grid[new_line][previous_col].object);
 
-                else
+                else if(IsFlake(banquise->grid[new_line][previous_col]) && (scalar_product(banquise->grid[new_line][previous_col].object->flake->vect, down_vect) < 0))
                 {
                     accelerateDown(banquise->grid[new_line][previous_col].object);
                     player->details.health = dead;
@@ -369,7 +370,7 @@ void moveRight(T_player *player, T_banquise *banquise)
                 if(IsFlake(banquise->grid[previous_line][new_col]) && (scalar_product(banquise->grid[previous_line][new_col].object->flake->vect, right_vect) >= 0))
                     accelerateRight(banquise->grid[previous_line][new_col].object);
 
-                else
+                else if(IsFlake(banquise->grid[previous_line][new_col]) && (scalar_product(banquise->grid[previous_line][new_col].object->flake->vect, right_vect) < 0))
                 {
                     accelerateLeft(banquise->grid[previous_line][new_col].object);
                     player->details.health = dead;
