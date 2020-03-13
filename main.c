@@ -86,13 +86,13 @@ int main()
             //Mise � jour, par le calcul, des positions des objets mouvants (s'il n'y a pas eu de commandes admin...
             if(move != '$')
             {
-                updateFlakes(NB_FLAKES, flakes, myBanquise);
-                updateHammers(NB_HAMMERS, hammers, myBanquise);
-                Fontebanquise(myBanquise);
+                updateFlakes(NB_FLAKES, theGame.flakes, theGame.banquise);
+                updateHammers(NB_HAMMERS, theGame.hammers, theGame.banquise);
+                Fontebanquise(theGame.banquise);
 
                 //Rafra�chissement banquise
                 //system("@cls||clear"); //Commenter cette ligne pour faciliter les tests!
-                printBanquise(myBanquise);
+                printBanquise(theGame.banquise);
             }
         }
     }
