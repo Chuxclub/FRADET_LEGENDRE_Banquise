@@ -28,9 +28,10 @@ Fait:
 6) Interaction flocon/marteau
 7) Interaction joueur/piège
 8) Mort du joueur par un flocon
+9) Mort du joueur par un marteau
 
 A faire:
-9) Mort du joueur par un marteau
+
 
 Phase 3 -> Détection de la fin de partie
 Fait:

@@ -180,6 +180,7 @@ void moveUp(T_player *player, T_game_parts *theGame)
         return;
     }
 
+
     if(IsInbound(theGame->banquise->sizeB, new_line, previous_col))
     {
         if(IsCaseAvailable(theGame->banquise->grid[new_line][previous_col]))
