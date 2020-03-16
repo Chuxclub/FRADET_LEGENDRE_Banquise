@@ -122,7 +122,7 @@ int main()
                 Fontebanquise(theGame.banquise);
 
                 //Rafraichissement banquise
-                //system("@cls||clear"); //Commenter cette ligne pour faciliter les tests!
+                system("@cls||clear"); //Commenter cette ligne pour faciliter les tests!
                 printBanquise(theGame.banquise);
             }
         }
