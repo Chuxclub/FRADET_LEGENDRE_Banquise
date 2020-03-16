@@ -21,6 +21,9 @@ int main()
     //Affichage initial
     system("@cls||clear");
     printBanquise(theGame.banquise);
+    T_state test = (-2);
+    test %= 4;
+    printf("%i", test);
 
    //Boucle du jeu
     T_end_game_type end_game_type = salvation;
@@ -121,7 +124,7 @@ int main()
                 Fontebanquise(theGame.banquise);
 
                 //Rafraichissement banquise
-                system("@cls||clear"); //Commenter cette ligne pour faciliter les tests!
+                //system("@cls||clear"); //Commenter cette ligne pour faciliter les tests!
                 printBanquise(theGame.banquise);
             }
         }

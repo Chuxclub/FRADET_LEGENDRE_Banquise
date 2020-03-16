@@ -104,43 +104,53 @@ int IsPlayer(T_case banquise_case)
         return 0;
 }
 
-int IsPlayerInRange(T_hammer_head *hammer_head, T_banquise *banquise)
+int IsPlayerInRange(T_hammer_head *hammer_head, T_banquise *banquise, int *player_id_in_range)
 {
-    int hammer_head_line = hammer_head->pos.line;
-    int hammer_head_col = hammer_head->pos.col;
-    int hammer_head_state = hammer_head->state;
+    T_pos H_pos = {hammer_head->pos.line, hammer_head->pos.col};
+    T_vector H_vector_carrier = hammer_head->vector_carrier;
+    int H_state = hammer_head->state;
     T_vector clockw[4] = {{-1, 1},{1, 1},{1, -1},{-1, -1}};
     T_vector anticlockw[4] = {{1, 1},{1, -1},{-1, -1},{-1, 1}};
     bool found_player = false;
 
+    //Defining positions in range of hammer's head
+    T_pos check_pos1 = translate_point(H_pos, H_vector_carrier);
+
     if(hammer_head->rot_dir == clockwise)
     {
-        for(int i = 0; i < 2; i++)
-        {
-            hammer_head_line += clockw[hammer_head_state].d_line;
-            hammer_head_col += clockw[hammer_head_state].d_col;
+        T_pos check_pos2 = translate_point(H_pos, clockw[H_state]);
 
-            if(IsPlayer(banquise->grid[hammer_head_line][hammer_head_col]))
-                found_player = true;
+        if(IsPlayer(banquise->grid[check_pos1.line][check_pos1.col]))
+        {
+            found_player = true;
+            *player_id_in_range = banquise->grid[check_pos1.line][check_pos1.col].player->id;
         }
 
-        return found_player;
+        else if(IsPlayer(banquise->grid[check_pos2.line][check_pos2.col]))
+        {
+            found_player = true;
+            *player_id_in_range = banquise->grid[check_pos2.line][check_pos2.col].player->id;
+        }
     }
 
     else
     {
-        for(int i = 0; i < 2; i++)
-        {
-            hammer_head_line += clockw[hammer_head_state].d_line;
-            hammer_head_col += clockw[hammer_head_state].d_col;
-            hammer_head_state--;
+        T_pos check_pos2 = translate_point(H_pos, anticlockw[H_state]);
 
-            if(IsPlayer(banquise->grid[hammer_head_line][hammer_head_col]))
-                found_player = true;
+        if(IsPlayer(banquise->grid[check_pos1.line][check_pos1.col]))
+        {
+            found_player = true;
+            *player_id_in_range = banquise->grid[check_pos1.line][check_pos1.col].player->id;
         }
 
-        return found_player;
+        else if(IsPlayer(banquise->grid[check_pos2.line][check_pos2.col]))
+        {
+            found_player = true;
+            *player_id_in_range = banquise->grid[check_pos2.line][check_pos2.col].player->id;
+        }
     }
+
+    return found_player;
 }
 
 int IsInbound(int banquise_size, int line, int col)
@@ -209,4 +219,42 @@ int IsFlakeIN(int banquise_size, T_banquise *banquise, int neighbour_line, int n
 int scalar_product(T_vector A, T_vector B)
 {
     return A.d_line * B.d_line + A.d_col * B.d_col;
+}
+
+T_vector multiply_vector(int k, T_vector A)
+{
+    A.d_line *= k;
+    A.d_col *= k;
+
+    return A;
+}
+
+void M_multiply_vector(int k, T_vector *A)
+{
+    A->d_line *= k;
+    A->d_col *= k;
+}
+
+T_pos translate_point(T_pos a, T_vector A)
+{
+    a.line += A.d_line;
+    a.col += A.d_col;
+
+    return a;
+}
+
+void M_translate_point(T_pos *a, T_vector A)
+{
+    a->line += A.d_line;
+    a->col += A.d_col;
+}
+
+int enum_cycle_right(int n, int max, int right)
+{
+    return ((n + right) % max);
+}
+
+int enum_cycle_left(int n, int max, int left)
+{
+    return ((n + (max - left)) % max);
 }

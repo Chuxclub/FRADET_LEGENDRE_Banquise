@@ -38,5 +38,11 @@ int IsWater(T_case banquise_case);
 /* =================================== */
 
 int scalar_product(T_vector A, T_vector B);
+T_vector multiply_vector(int k, T_vector A);
+void M_multiply_vector(int k, T_vector *A);
+T_pos translate_point(T_pos a, T_vector A);
+void M_translate_point(T_pos *a, T_vector A);
+int enum_cycle_right(int n, int max, int right);
+int enum_cycle_left(int n, int max, int left);
 
 #endif // UTILS_H_INCLUDED

@@ -42,4 +42,9 @@ void moveRight(T_player *player, T_game_parts *theGame);
 void updatePlayer(T_player *myPlayer, int previous_line, int previous_col, T_banquise *banquise);
 
 
+/* ============================================ */
+/* ============== ETATS JOUEURS =============== */
+/* ============================================ */
+
+void killPlayer(T_player *myPlayer);
 #endif // JOUEUR_H_INCLUDED

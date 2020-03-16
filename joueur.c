@@ -415,3 +415,14 @@ void updatePlayer(T_player *myPlayer, int previous_line, int previous_col, T_ban
     banquise->grid[previous_line][previous_col].player = NULL;
     banquise->grid[myPlayer->details.pos.line][myPlayer->details.pos.col].player = myPlayer;
 }
+
+
+
+/* ============================================ */
+/* ============== ETATS JOUEURS =============== */
+/* ============================================ */
+
+void killPlayer(T_player *myPlayer)
+{
+    myPlayer->details.health = dead;
+}

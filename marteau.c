@@ -120,6 +120,20 @@ void updateHammers(int nb_hammers, T_object **hammers,  T_banquise *banquise)
     {
         if(hammers[i]->hammer_head->momentum != no_momentum)
         {
+            //On vérifie qu'un joueur n'est pas à portée du marteau, si c'est le cas, le marteau tue le joueur
+            int *player_id_ptr;
+            int player_id_in_range;
+            player_id_ptr = &player_id_in_range;
+
+            if(IsPlayerInRange(hammers[i]->hammer_head, banquise, player_id_ptr))
+            {
+                printf("Hey!");
+                printf("%i", *player_id_ptr);
+                killPlayer(player_id_ptr);
+            }
+
+
+            //Mise à jour de la tête du marteau en utilisant des matrices d'états-transitions
             T_vector clockw[4] = {{-1, 1},{1, 1},{1, -1},{-1, -1}};
             T_vector anticlockw[4] = {{1, 1},{1, -1},{-1, -1},{-1, 1}};
             int head_state = hammers[i]->hammer_head->state;
@@ -148,8 +162,7 @@ void updateHammers(int nb_hammers, T_object **hammers,  T_banquise *banquise)
                 hammers[i]->hammer_head->vector_carrier.d_col = clockw[head_state].d_col - hammers[i]->hammer_head->vector_carrier.d_col;
 
                 //Changing state and decrementing momentum
-                hammers[i]->hammer_head->state++;
-                hammers[i]->hammer_head->state %= 4;
+                hammers[i]->hammer_head->state = enum_cycle_right(hammers[i]->hammer_head->state, 4, 1);
                 hammers[i]->hammer_head->momentum--;
 
                 if(hammers[i]->hammer_head->momentum == no_momentum)
@@ -197,8 +210,7 @@ void updateHammers(int nb_hammers, T_object **hammers,  T_banquise *banquise)
                 hammers[i]->hammer_head->vector_carrier.d_col = anticlockw[head_state].d_col - hammers[i]->hammer_head->vector_carrier.d_col;
 
                 //Changing state and decrementing momentum
-                hammers[i]->hammer_head->state--;
-                hammers[i]->hammer_head->state %= 4;
+                hammers[i]->hammer_head->state = enum_cycle_left(hammers[i]->hammer_head->state, 4, 1);
                 hammers[i]->hammer_head->momentum--;
 
                 if(hammers[i]->hammer_head->momentum == no_momentum)
@@ -228,33 +240,6 @@ void updateHammers(int nb_hammers, T_object **hammers,  T_banquise *banquise)
 /* ======================================= */
 /* ========== AFFICHAGE MARTEAU ========== */
 /* ======================================= */
-/* //Calcul des nouvelles positions des marteaux par rapport à leurs momentums et leurs directions de rotation
-            int former_line = hammers[i]->hammer_head->pos.line;
-            int former_col = hammers[i]->hammer_head->pos.col;
-            int rot_dir = hammers[i]->hammer_head->rot_dir;
-            double former_cos = acos((double) hammers[i]->hammer_head->up_face.d_col);
-            double former_sin = asin((double) hammers[i]->hammer_head->up_face.d_line);
-
-            printf("former line is : %i\n", former_line);
-            printf("former col is : %i\n", former_col);
-            printf("rot_dir is : %i\n", rot_dir);
-            printf("former_cos is : %f\n", former_cos);
-            printf("former_sin is : %f\n", former_sin);
-
-            int new_line = (int) sin(former_sin + (double) 2.0 * rot_dir / M_PI);
-            int new_col = (int) cos(former_cos + (double) 2.0 * rot_dir / M_PI);
-
-            printf("new line is : %i\n", new_line);
-            printf("new col is : %i\n", new_col);
-
-            hammers[i]->hammer_head->pos.col = new_col;
-            hammers[i]->hammer_head->pos.line = new_line;
-
-            hammers[i]->hammer_head->momentum--;
-
-            banquise->grid[new_line][new_col].object->object_type = hammer_head;
-            banquise->grid[new_line][new_col].object = hammers[i];
-            banquise->grid[former_line][former_col].object = NULL;*/
 void printHammer(T_case banquise_case)
 {
     //if(banquise_case.object->hammer.)
