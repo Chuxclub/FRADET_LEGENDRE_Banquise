@@ -44,7 +44,7 @@ typedef struct
 typedef enum {horizontal = 0, vertical} T_aspect;
 typedef enum {no_rotation = 0, clockwise = 90, anticlockwise = -90} T_rot_dir;
 typedef enum {no_momentum = 0, momentum_1, momentum_2, full_momentum = 3} T_momentum;
-typedef enum {left = 0, up, down, right} T_state;
+typedef enum {left = 0, up, right, down} T_state;
 
 typedef struct
 {

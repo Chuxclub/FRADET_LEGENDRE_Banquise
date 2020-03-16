@@ -3,7 +3,12 @@
 
 #include "user_types.h"
 #include "constants.h"
+#include "maths.h"
 
+
+/* ====================================== */
+/* ============== BOOLEANS ============== */
+/* ====================================== */
 
 //Détermine si une case est disponible (c'est-à-dire sans objet, ni eau, ni roche, que de la glace)
 int IsCaseAvailable(T_case banquise_case);
@@ -33,15 +38,11 @@ int IsSpring(T_case banquise_case);
 int IsWater(T_case banquise_case);
 
 
-/* =================================== */
-/* ============== MATHS ============== */
-/* =================================== */
 
-int scalar_product(T_vector A, T_vector B);
-T_vector multiply_vector(int k, T_vector A);
-void M_multiply_vector(int k, T_vector *A);
-T_pos translate_point(T_pos a, T_vector A);
-void M_translate_point(T_pos *a, T_vector A);
+/* ====================================== */
+/* =============== OTHERS =============== */
+/* ====================================== */
+
 int enum_cycle_right(int n, int max, int right);
 int enum_cycle_left(int n, int max, int left);
 

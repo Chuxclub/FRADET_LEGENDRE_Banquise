@@ -37,7 +37,7 @@ T_banquise *initRawBanquise(int size)
     return res;
 }
 
-//Cr�e une banquise avec un terrain g�n�r� al�atoirement
+//Creer une banquise avec un terrain genere aleatoirement
 T_banquise *initBanquise(int size)
 {
     //Initialisation de la banquise (que de la glace)
@@ -143,6 +143,30 @@ void addFlags(T_banquise *banquise)
         Yb = rand() % BANQUISE_SIZE;
     }
     banquise->grid[Xb][Yb].flag = B;
+}
+
+void updateObjectOnBanquise(T_object *myObject, int new_line, int new_col, T_banquise *banquise)
+{
+    switch(myObject->object_type)
+    {
+        case flake:
+            banquise->grid[myObject->flake->pos.line][myObject->flake->pos.col].object = NULL;
+            myObject->flake->pos.line = new_line;
+            myObject->flake->pos.col = new_col;
+            banquise->grid[new_line][new_col].object = myObject;
+            break;
+
+        case hammer_head:
+            banquise->grid[myObject->hammer_head->pos.line][myObject->hammer_head->pos.col].object = NULL;
+            myObject->hammer_head->pos.line = new_line;
+            myObject->hammer_head->pos.col = new_col;
+            banquise->grid[new_line][new_col].object = myObject;
+            break;
+
+        default:
+            printf("Object unknown in updateObjectOnBanquise() in banquise.c\n");
+            break;
+    }
 }
 
 
@@ -277,21 +301,7 @@ void isRoad(T_test T, int line, int col, T_pos *tab, int i)
         }
 }
 
-/*
-void withFlakes(T_test T, int col, int line)
-{
 
-}
-
-void aRoad(T_test T, int col, int line)
-{
-    isARoad(T, T.posA.col, T.posA.line);
-    if (T.find == 0)
-    {
-        withFlakes(T, T.posA.col, T.posA.line);
-    }
-
-}*/
 
 /* ============================================ */
 /* ================ AFFICHAGES ================ */

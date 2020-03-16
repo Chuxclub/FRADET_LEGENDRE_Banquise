@@ -2,8 +2,10 @@
 
 #include "utils.h"
 
-//Teste si une case est disponible pour y placer un objet interactif ou un joueur
-//Renvoit 1 si la case est disponible, 0 sinon
+/* ====================================== */
+/* ============== BOOLEANS ============== */
+/* ====================================== */
+
 int IsCaseAvailable(T_case banquise_case)
 {
     if((banquise_case.ground == ice && (banquise_case.object == NULL || (banquise_case.object != NULL && banquise_case.object->object_type == reserved))) && (banquise_case.flag == no_flag && banquise_case.player == NULL))
@@ -212,42 +214,11 @@ int IsFlakeIN(int banquise_size, T_banquise *banquise, int neighbour_line, int n
         return 0;
 }
 
-/* =================================== */
-/* ============== MATHS ============== */
-/* =================================== */
 
-int scalar_product(T_vector A, T_vector B)
-{
-    return A.d_line * B.d_line + A.d_col * B.d_col;
-}
 
-T_vector multiply_vector(int k, T_vector A)
-{
-    A.d_line *= k;
-    A.d_col *= k;
-
-    return A;
-}
-
-void M_multiply_vector(int k, T_vector *A)
-{
-    A->d_line *= k;
-    A->d_col *= k;
-}
-
-T_pos translate_point(T_pos a, T_vector A)
-{
-    a.line += A.d_line;
-    a.col += A.d_col;
-
-    return a;
-}
-
-void M_translate_point(T_pos *a, T_vector A)
-{
-    a->line += A.d_line;
-    a->col += A.d_col;
-}
+/* ====================================== */
+/* =============== OTHERS =============== */
+/* ====================================== */
 
 int enum_cycle_right(int n, int max, int right)
 {
