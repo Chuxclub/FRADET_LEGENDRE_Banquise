@@ -277,6 +277,7 @@ void adminShowAllPlayers(T_game_parts game_parts, int nb_players)
     printf("\n/!\\ ========================================== /!\\ \n");
 }
 
+
 /* ============================================ */
 /* ============ FONCTION MAITRESSE ============ */
 /* ============================================ */
@@ -289,7 +290,7 @@ void adminPrivileges(T_game_parts game_parts)
     int line;
     int col;
 
-    scanf("%s %i %i", cmd, &line, &col);
+    scanf("%s %i %i", cmd, &line, &col); //Un parser de syntaxe permettrait d'éviter la saisie parfois inutile des lignes/colonnes
 
     if(strcmp(cmd, "addWater") == 0)
         adminAddWater(game_parts, line, col);
