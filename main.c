@@ -21,9 +21,6 @@ int main()
     //Affichage initial
     system("@cls||clear");
     printBanquise(theGame.banquise);
-    T_state test = (-2);
-    test %= 4;
-    printf("%i", test);
 
    //Boucle du jeu
     T_end_game_type end_game_type = salvation;
@@ -120,7 +117,8 @@ int main()
             else
             {
                 updateFlakes(NB_FLAKES, theGame.flakes, theGame.banquise);
-                updateHammers(NB_HAMMERS, theGame.hammers, theGame.banquise);
+                //updateHammers(NB_HAMMERS, theGame.hammers, theGame.banquise);
+                updateHammers(NB_HAMMERS, &theGame);
                 Fontebanquise(theGame.banquise);
 
                 //Rafraichissement banquise
