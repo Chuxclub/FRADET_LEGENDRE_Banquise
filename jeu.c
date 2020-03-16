@@ -22,6 +22,17 @@ T_game_parts initGame(int nb_players)
     T_object **springs = initSprings(NB_SPRINGS);
     addSprings(myBanquise, springs, NB_SPRINGS);
 
+    //Recueil des quantités respectives pour chaque objet sur la banquise (index = type énuméré)
+    //Pour rappel: {no_object = 0, flake, spring, hammer_handle, hammer_head, trap, reserved} /!\ On ne compte pas les cases 'reserved'!
+    //On remplace donc le comptage de 'reserved' par le comptage du nombre de joueurs
+    int *nb_of_objects_per_object = (int *) malloc(sizeof(int) * 6);
+    nb_of_objects_per_object[0] = 0;
+    nb_of_objects_per_object[1] = NB_FLAKES;
+    nb_of_objects_per_object[2] = NB_SPRINGS;
+    nb_of_objects_per_object[3] = NB_HAMMERS;
+    nb_of_objects_per_object[4] = NB_TRAPS;
+    nb_of_objects_per_object[5] = nb_players;
+
 
     //Ajout des joueurs sur la banquise
     addPlayers(myBanquise, players, nb_players);
@@ -34,6 +45,7 @@ T_game_parts initGame(int nb_players)
     game_parts.springs = springs;
     game_parts.traps = traps;
     game_parts.hammers = hammers;
+    game_parts.quantities = nb_of_objects_per_object;
     game_parts.game_on = true;
 
 

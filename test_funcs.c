@@ -231,6 +231,51 @@ void adminInfoCase(T_game_parts game_parts, int line, int col)
     printf("\n/!\\ =============================== /!\\ \n", line, col);
 }
 
+void adminShowAllFlakes(T_game_parts game_parts, int nb_flakes)
+{
+    printf("\n\n/!\\ ==== DESCRIPTION DES FLOCONS EN JEU ==== /!\\ \n\n");
+    printf("Reminder: {no_object = 0, flake, spring, hammer_handle, hammer_head, trap, reserved} \n\n");
+
+    for(int i = 0; i < nb_flakes; i++)
+    {
+        if(game_parts.flakes[i]->flake != NULL)
+        {
+            printf("Flake #%i:\n", i);
+            printf("\tObject_type: %i \n", game_parts.flakes[i]->object_type);
+            printf("\tPos_line: %i \n", game_parts.flakes[i]->flake->pos.line);
+            printf("\tPos_col: %i \n", game_parts.flakes[i]->flake->pos.col);
+            printf("\tVect_line: %i \n", game_parts.flakes[i]->flake->vect.d_line);
+            printf("\tVect_col: %i \n\n", game_parts.flakes[i]->flake->vect.d_col);
+        }
+
+        else
+        {
+            printf("Flake #%i:\n", i);
+            printf("\tFlake doesn't exist anymore \n\n", game_parts.flakes[i]->object_type);
+        }
+    }
+
+    printf("\n/!\\ ========================================== /!\\ \n");
+}
+
+void adminShowAllPlayers(T_game_parts game_parts, int nb_players)
+{
+    printf("\n\n/!\\ ==== DESCRIPTION DES JOUEURS EN JEU ==== /!\\ \n\n");
+    printf("Reminder: Freedom => {player_trapped = 0, cooldown3, cooldown2, cooldown1, player_free} \n");
+    printf("          Health => {dead = 0, full_health} \n\n");
+
+    for(int i = 0; i < nb_players; i++)
+    {
+        printf("Player #%i:\n", i);
+        printf("\tPlayer_id: %i \n", game_parts.players[i]->id);
+        printf("\tPos_line: %i \n", game_parts.players[i]->details.pos.line);
+        printf("\tPos_col: %i \n", game_parts.players[i]->details.pos.col);
+        printf("\tFreedom: %i \n", game_parts.players[i]->details.freedom);
+        printf("\tHealth: %i \n", game_parts.players[i]->details.health);
+    }
+
+    printf("\n/!\\ ========================================== /!\\ \n");
+}
 
 /* ============================================ */
 /* ============ FONCTION MAITRESSE ============ */
@@ -246,43 +291,59 @@ void adminPrivileges(T_game_parts game_parts)
 
     scanf("%s %i %i", cmd, &line, &col);
 
-    if(strcmp(cmd, "adminAddWater") == 0)
+    if(strcmp(cmd, "addWater") == 0)
         adminAddWater(game_parts, line, col);
 
-    else if(strcmp(cmd, "adminKillPlayer") == 0)
+    else if(strcmp(cmd, "killPlayer") == 0)
     {
         int player_id = 0;
         printf("\nIndicate which player you want to kill: ");
         scanf("%i", &player_id);
-        adminKillPlayer(game_parts, player_id - 1); //-1 pour pouvoir écrire adminTpPlayer 0 0 1 par exemple...
+
+        if(game_parts.players[player_id]->details.health == dead)
+            printf("\nPlayer %i is already dead", player_id);
+
+        else
+            adminKillPlayer(game_parts, player_id - 1); //-1 pour pouvoir écrire adminTpPlayer 0 0 1 par exemple...
     }
 
-    else if(strcmp(cmd, "adminTpPlayer") == 0)
+    else if(strcmp(cmd, "tpPlayer") == 0)
     {
         int player_id = 0;
         printf("\nIndicate which player you want to move: ");
         scanf("%i", &player_id);
-        adminTpPlayer(game_parts, player_id - 1, line, col); //-1 pour pouvoir écrire adminTpPlayer 0 0 1 par exemple...
+        adminTpPlayer(game_parts, player_id - 1, line, col);
     }
 
-    else if(strcmp(cmd, "adminTpFlake") == 0)
+    else if(strcmp(cmd, "tpFlake") == 0)
     {
         int flake_id = 0;
         printf("\nIndicate which flake you want to move: ");
         scanf("%i", &flake_id);
-        adminTpFlake(game_parts, flake_id - 1, line, col); //-1 pour pouvoir écrire adminTpPlayer 0 0 1 par exemple...
+
+        if(game_parts.flakes[flake_id - 1]->flake == NULL)
+            printf("\nFlake %i doesn't exist anymore (maybe it has melted?)", flake_id);
+
+        else
+            adminTpFlake(game_parts, flake_id - 1, line, col);
     }
 
-    else if(strcmp(cmd, "adminTpSpring") == 0)
+    else if(strcmp(cmd, "tpSpring") == 0)
     {
         int spring_id = 0;
         printf("\nIndicate which spring you want to move: ");
         scanf("%i", &spring_id);
-        adminTpSpring(game_parts, spring_id - 1, line, col); //-1 pour pouvoir écrire adminTpPlayer 0 0 1 par exemple...
+        adminTpSpring(game_parts, spring_id - 1, line, col);
     }
 
-    else if(strcmp(cmd, "adminInfoCase") == 0)
+    else if(strcmp(cmd, "infoCase") == 0)
         adminInfoCase(game_parts, line, col);
+
+    else if(strcmp(cmd, "showAllFlakes") == 0)
+        adminShowAllFlakes(game_parts, NB_FLAKES);
+
+    else if(strcmp(cmd, "showAllPlayers") == 0)
+        adminShowAllPlayers(game_parts, game_parts.quantities[5]);
 
     else
         return;

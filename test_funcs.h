@@ -35,6 +35,8 @@ void adminKillPlayer(T_game_parts game_parts, int player_id);
 /* ====================================================== */
 
 void adminInfoCase(T_game_parts game_parts, int line, int col);
+void adminShowAllFlakes(T_game_parts game_parts, int nb_flakes);
+void adminShowAllPlayers(T_game_parts game_parts, int nb_players);
 
 
 /* ============================================ */

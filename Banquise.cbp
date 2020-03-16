@@ -55,6 +55,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="marteau.h" />
+		<Unit filename="maths.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="maths.h" />
 		<Unit filename="menus.c">
 			<Option compilerVar="CC" />
 		</Unit>

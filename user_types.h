@@ -152,6 +152,7 @@ typedef struct
     T_object **springs;
     T_object **traps;
     T_object **hammers;
+    int *quantities;
     bool game_on;
 } T_game_parts;
 

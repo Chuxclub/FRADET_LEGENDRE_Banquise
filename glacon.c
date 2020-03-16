@@ -125,7 +125,7 @@ void BecomeIce(T_object *bumped_flake, int water_line, int water_col, T_banquise
     int flake_col = bumped_flake->flake->pos.col;
 
     /*"Suppression" du glaçon. Pour pouvoir vraiment le supprimer il faudrait une pile
-    et le supprimer dans la fonction UpdateFlakes()...*/
+    et le supprimer dans la fonction UpdateFlakes() avec un free()...*/
     bumped_flake->object_type = no_object;
     bumped_flake->flake = NULL;
     banquise->grid[flake_line][flake_col].object = NULL;
