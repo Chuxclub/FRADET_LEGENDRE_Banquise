@@ -23,11 +23,20 @@ void adminTpFlake(T_game_parts game_parts, int flake_id, int line, int col);
 void adminTpSpring(T_game_parts game_parts, int spring_id, int line, int col);
 
 
+/* =================================================== */
+/* ========= FONCTIONS DE SUPPRESSION EN JEU ========= */
+/* =================================================== */
+
+void adminKillPlayer(T_game_parts game_parts, int player_id);
+
+
 /* ====================================================== */
 /* ========= FONCTIONS D'IDENTIFICATION EN JEU ========= */
 /* ====================================================== */
 
 void adminInfoCase(T_game_parts game_parts, int line, int col);
+void adminShowAllFlakes(T_game_parts game_parts, int nb_flakes);
+void adminShowAllPlayers(T_game_parts game_parts, int nb_players);
 
 
 /* ============================================ */

@@ -29,10 +29,11 @@ void accelerateLeft(T_object *bumped_flake);
 void accelerateDown(T_object *bumped_flake);
 void accelerateRight(T_object *bumped_flake);
 void accelerateOpposite(T_object *bumped_flake);
+void stopFlake(T_object *bumped_flake);
 
 // ------------> Réactions aux objets et à l'environnement
 void BecomeIce(T_object *bumped_flake, int water_line, int water_col, T_banquise *banquise);
-void BumpSpring(T_object *bumped_flake);
+void BumpSpring(T_object *bumped_flake, int neighbour_line, int neighbour_col, T_banquise *banquise);
 void FlakeInteraction(T_object *bumped_flake, int neighbour_line, int neighbour_col, T_banquise *banquise);
 
 // ------------> Regroupement déplacements et réactions aux objets et à l'environnement

@@ -2,8 +2,10 @@
 
 #include "utils.h"
 
-//Teste si une case est disponible pour y placer un objet interactif ou un joueur
-//Renvoit 1 si la case est disponible, 0 sinon
+/* ====================================== */
+/* ============== BOOLEANS ============== */
+/* ====================================== */
+
 int IsCaseAvailable(T_case banquise_case)
 {
     if((banquise_case.ground == ice && (banquise_case.object == NULL || (banquise_case.object != NULL && banquise_case.object->object_type == reserved))) && (banquise_case.flag == no_flag && banquise_case.player == NULL))
@@ -77,6 +79,15 @@ int IsFlake(T_case banquise_case)
         return 0;
 }
 
+int IsFlagB(T_case banquise_case)
+{
+    if(banquise_case.flag == B)
+        return 1;
+
+    else
+        return 0;
+}
+
 int IsTrap(T_case banquise_case)
 {
     if(banquise_case.object->object_type == trap)
@@ -84,6 +95,64 @@ int IsTrap(T_case banquise_case)
 
     else
         return 0;
+}
+
+int IsPlayer(T_case banquise_case)
+{
+    if(banquise_case.player != NULL)
+        return 1;
+
+    else
+        return 0;
+}
+
+int IsPlayerInRange(T_hammer_head *hammer_head, T_banquise *banquise, int *player_id_in_range)
+{
+    T_pos H_pos = {hammer_head->pos.line, hammer_head->pos.col};
+    T_vector H_vector_carrier = hammer_head->vector_carrier;
+    int H_state = hammer_head->state;
+    T_vector clockw[4] = {{-1, 1},{1, 1},{1, -1},{-1, -1}};
+    T_vector anticlockw[4] = {{1, 1},{1, -1},{-1, -1},{-1, 1}};
+    bool found_player = false;
+
+    //Defining positions in range of hammer's head
+    T_pos check_pos1 = translate_point(H_pos, H_vector_carrier);
+
+    if(hammer_head->rot_dir == clockwise)
+    {
+        T_pos check_pos2 = translate_point(H_pos, clockw[H_state]);
+
+        if(IsPlayer(banquise->grid[check_pos1.line][check_pos1.col]))
+        {
+            found_player = true;
+            *player_id_in_range = banquise->grid[check_pos1.line][check_pos1.col].player->id;
+        }
+
+        else if(IsPlayer(banquise->grid[check_pos2.line][check_pos2.col]))
+        {
+            found_player = true;
+            *player_id_in_range = banquise->grid[check_pos2.line][check_pos2.col].player->id;
+        }
+    }
+
+    else
+    {
+        T_pos check_pos2 = translate_point(H_pos, anticlockw[H_state]);
+
+        if(IsPlayer(banquise->grid[check_pos1.line][check_pos1.col]))
+        {
+            found_player = true;
+            *player_id_in_range = banquise->grid[check_pos1.line][check_pos1.col].player->id;
+        }
+
+        else if(IsPlayer(banquise->grid[check_pos2.line][check_pos2.col]))
+        {
+            found_player = true;
+            *player_id_in_range = banquise->grid[check_pos2.line][check_pos2.col].player->id;
+        }
+    }
+
+    return found_player;
 }
 
 int IsInbound(int banquise_size, int line, int col)
@@ -98,7 +167,7 @@ int IsInbound(int banquise_size, int line, int col)
 
 int IsObject(T_case banquise_case)
 {
-    if(banquise_case.object != NULL)
+    if(banquise_case.object != NULL && banquise_case.object->object_type != reserved)
         return 1;
 
     else
@@ -137,7 +206,7 @@ int IsFlakeIN(int banquise_size, T_banquise *banquise, int neighbour_line, int n
 {
     if(IsInbound(BANQUISE_SIZE, neighbour_line, neighbour_col))
     {
-        if (IsWater(banquise->grid[neighbour_line][neighbour_col]) || IsSpring(banquise->grid[neighbour_line][neighbour_col]) || IsHammerHead(banquise->grid[neighbour_line][neighbour_col]))
+        if (IsWater(banquise->grid[neighbour_line][neighbour_col]) || IsSpring(banquise->grid[neighbour_line][neighbour_col]) || IsHammerHead(banquise->grid[neighbour_line][neighbour_col]) || IsPlayer(banquise->grid[neighbour_line][neighbour_col]))
             return 1;
     }
 
@@ -145,11 +214,18 @@ int IsFlakeIN(int banquise_size, T_banquise *banquise, int neighbour_line, int n
         return 0;
 }
 
-/* =================================== */
-/* ============== MATHS ============== */
-/* =================================== */
 
-int scalar_product(T_vector A, T_vector B)
+
+/* ====================================== */
+/* =============== OTHERS =============== */
+/* ====================================== */
+
+int enum_cycle_right(int n, int max, int right)
 {
-    return A.d_line * B.d_line + A.d_col * B.d_col;
+    return ((n + right) % max);
+}
+
+int enum_cycle_left(int n, int max, int left)
+{
+    return ((n + (max - left)) % max);
 }

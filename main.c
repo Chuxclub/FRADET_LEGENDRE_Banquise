@@ -8,113 +8,133 @@
 #include "ressort.h"
 #include "menus.h"
 #include "marteau.h"
+#include "jeu.h"
 
 
 int main()
 {
     srand(time(NULL));
 
-    //Menu d'accueil, demande un nombre de joueurs
     int nb_players = main_menu();
-    T_player **players = initPlayers(nb_players);
-
-    //Initialisation de la banquise (que de la glace)
-    T_banquise *myBanquise = initBanquise(BANQUISE_SIZE);
-
-
-    //Initialisation et ajout des objets sur la banquise
-    T_object **hammers = initHammers(NB_HAMMERS);
-    addHammers(myBanquise, hammers, NB_HAMMERS);
-
-    T_object **flakes = initFlakes(NB_FLAKES);
-    addFlakes(myBanquise, flakes, NB_FLAKES);
-
-    T_object **traps = initTraps(NB_TRAPS);
-    addTraps(myBanquise, traps, NB_TRAPS);
-
-    T_object **springs = initSprings(NB_SPRINGS);
-    addSprings(myBanquise, springs, NB_SPRINGS);
-
-
-    //Vérification d'un passage de A vers B
-    road(myBanquise);
-
-    //Ajout des joueurs sur la banquise
-    addPlayers(myBanquise, players, nb_players);
-
-    //Rassemblement des parties du jeu pour les fonctions admins utiles aux tests
-    T_game_parts game_parts;
-    game_parts.banquise = myBanquise;
-    game_parts.players = players;
-    game_parts.flakes = flakes;
-    game_parts.springs = springs;
-    game_parts.traps = traps;
-//    game_parts.hammers = hammers;
-
+    T_game_parts theGame = initGame(nb_players);
 
     //Affichage initial
     system("@cls||clear");
-    printBanquise(myBanquise);
+    printBanquise(theGame.banquise);
 
    //Boucle du jeu
+    T_end_game_type end_game_type = salvation;
     char move;
-    int end = 0;
+    bool wrong_input;
 
-    while(!(end))
+    while(theGame.game_on)
     {
+        /* On v�rifie si au moins un joueur est encore en vie. Si c'est le cas, le jeu continue */
+        theGame.game_on = false;
+
         for(int i = 0; i < nb_players; i++)
         {
-            //Mise � jour du d�placement du joueur par le joueur
-            getchar();
-            scanf("%c", &move);
+            if(theGame.players[i]->details.health == full_health)
+                theGame.game_on = true;
+        }
+
+        //Si tout le monde est mort on a une fin du type "boneyard", fosse commune
+        if(theGame.game_on == false)
+            end_game_type = boneyard;
+
+        /* Boucle d'input au tour par tour des joueurs encore en vie */
+        for(int i = 0; i < nb_players; i++)
+        {
+            //Si le joueur i est mort on saute son tour
+            if(theGame.players[i]->details.health == dead)
+                continue;
+
+                do
+                {
+                    wrong_input = false;
+
+                    //Mise � jour du deplacement du joueur par le joueur
+                    fflush(stdin);
+                    scanf("%c", &move);
+
+                    switch(move)
+                    {
+                        case 'z':
+                            moveUp(theGame.players[i], &theGame);
+                            break;
+
+                        case 'q':
+                            moveLeft(theGame.players[i], &theGame);
+                            break;
+
+                        case 's':
+                            moveDown(theGame.players[i], &theGame);
+                            break;
+
+                        case 'd':
+                            moveRight(theGame.players[i], &theGame);
+                            break;
+
+                        case 'p':
+                            theGame.players[i]->details.freedom++;
+
+                            if(theGame.players[i]->details.freedom > 4)
+                                theGame.players[i]->details.freedom = 4;
+
+                            break;
+
+                        case 'l':
+                            exit(EXIT_SUCCESS);
+                            break;
+
+                        case '$':
+                            adminPrivileges(theGame);
+                            break;
+
+                        default:
+                            printf("Wrong input, please type in a valid command ('z', 'q', 's', 'd', 'p', 'l'): \n");
+                            wrong_input = true;
+                            break;
+
+                    }
+
+                } while(wrong_input);
 
 
-            switch(move)
+            //Si apr�s un d�placement le jeu est fini, on termine le jeu
+            if(theGame.game_on == false)
             {
-                case 'z':
-                    moveUp(players[i], myBanquise);
-                    break;
-
-                case 'q':
-                    moveLeft(players[i], myBanquise);
-                    break;
-
-                case 's':
-                    moveDown(players[i], myBanquise);
-                    break;
-
-                case 'd':
-                    moveRight(players[i], myBanquise);
-                    break;
-
-                case 'p':
-                    players[i]->details.freedom++;
-                    break;
-
-                case '$':
-                    adminPrivileges(game_parts);
-                    break;
-
-                default:
-                    perror("wrong input");
-                    exit(EXIT_FAILURE);
-                    break;
-
+                end_game_type = salvation;
+                break;
             }
 
-            //Mise � jour, par le calcul, des positions des objets mouvants (s'il n'y a pas eu de commandes admin...
-            if(move != '$')
-            {
-                updateFlakes(NB_FLAKES, flakes, myBanquise);
-                updateHammers(NB_HAMMERS, hammers, myBanquise);
-                Fontebanquise(myBanquise);
 
-                //Rafra�chissement banquise
+            //Si commande administrateur: pas de mise � jour des elements du jeu
+            //mais affichage banquise pour donner des informations au debuggeur
+            else if(move == '$')
+                printBanquise(theGame.banquise);
+
+            else
+            {
+                updateFlakes(NB_FLAKES, theGame.flakes, theGame.banquise);
+                //updateHammers(NB_HAMMERS, theGame.hammers, theGame.banquise);
+                updateHammers(NB_HAMMERS, &theGame);
+                Fontebanquise(theGame.banquise);
+
+                //Rafraichissement banquise
                 system("@cls||clear"); //Commenter cette ligne pour faciliter les tests!
-                printBanquise(myBanquise);
-                road(myBanquise);
+                printBanquise(theGame.banquise);
             }
         }
     }
+
+    /* Fins alternatives */
+    if(end_game_type == boneyard)
+        printf("\nTous les joueurs sont morts, l'antarctique a ete sans pitie... \n");
+
+    else if(end_game_type == salvation)
+        printf("\nUn des joueurs a reussi a s'enfuir et a contacter (hypocritement ou non) les secours!\n");
+
+
     return 0;
 }

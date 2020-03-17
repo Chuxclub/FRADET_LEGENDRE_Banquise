@@ -37,7 +37,7 @@ T_banquise *initRawBanquise(int size)
     return res;
 }
 
-//Crï¿½e une banquise avec un terrain gï¿½nï¿½rï¿½ alï¿½atoirement
+//Creer une banquise avec un terrain genere aleatoirement
 T_banquise *initBanquise(int size)
 {
     //Initialisation de la banquise (que de la glace)
@@ -136,13 +136,37 @@ void addFlags(T_banquise *banquise)
     banquise->grid[Xa][Ya].flag = A;
 
 
-    //Même chose pour B
+    //Mï¿½me chose pour B
     while(!(IsPlacementAvailable(banquise->grid[Xb][Yb])))
     {
         Xb = 0 + (rand() % 3);
         Yb = rand() % BANQUISE_SIZE;
     }
     banquise->grid[Xb][Yb].flag = B;
+}
+
+void updateObjectOnBanquise(T_object *myObject, int new_line, int new_col, T_banquise *banquise)
+{
+    switch(myObject->object_type)
+    {
+        case flake:
+            banquise->grid[myObject->flake->pos.line][myObject->flake->pos.col].object = NULL;
+            myObject->flake->pos.line = new_line;
+            myObject->flake->pos.col = new_col;
+            banquise->grid[new_line][new_col].object = myObject;
+            break;
+
+        case hammer_head:
+            banquise->grid[myObject->hammer_head->pos.line][myObject->hammer_head->pos.col].object = NULL;
+            myObject->hammer_head->pos.line = new_line;
+            myObject->hammer_head->pos.col = new_col;
+            banquise->grid[new_line][new_col].object = myObject;
+            break;
+
+        default:
+            printf("Object unknown in updateObjectOnBanquise() in banquise.c\n");
+            break;
+    }
 }
 
 
@@ -277,21 +301,18 @@ void isRoad(T_test T, int line, int col, T_pos *tab, int i)
         }
 }
 
-/*
-void withFlakes(T_test T, int col, int line)
-{
 
 }
 */
 
-//fonction qui appellent toutes celles aidant à vérifier l'existence d'un chemin de A vers B
+//fonction qui appellent toutes celles aidant ï¿½ vï¿½rifier l'existence d'un chemin de A vers B
 int road(T_banquise *banquise)
 {
     T_test T = collectInfos(banquise, initTest(BANQUISE_SIZE));
     T_pos *tab = initTab();
     isRoad(T, T.posA.line, T.posA.col, tab, 0);
 
-    //n'a pas trouvé de chemin
+    //n'a pas trouvï¿½ de chemin
   /*  if (T.B_find == 0)
     {
         char a;
@@ -303,15 +324,10 @@ int road(T_banquise *banquise)
         case 'y':
             break;
         case 'n':
-            break;
         }
     }*/
-    else
-    {
-        //existe un chemin
-        return 1;
-    }
 }
+            break;
 
 /* ============================================ */
 /* ================ AFFICHAGES ================ */
@@ -411,41 +427,53 @@ void printCase(T_case banquise_case)
         //Soit un joueur
         else if(banquise_case.player != NULL)
         {
-            switch(banquise_case.player->id)
+            if(banquise_case.player->details.health != dead)
             {
-                case 1:
-                    color(12, 0); //En rouge
-                    printf("1"); //text_purple(stdout)
-                    color(15, 0);
-                    printf(" | "); //text_white(stdout)
-                    break;
+                switch(banquise_case.player->id)
+                {
+                    case 1:
+                        color(12, 0); //En rouge
+                        printf("1"); //text_purple(stdout)
+                        color(15, 0);
+                        printf(" | "); //text_white(stdout)
+                        break;
 
-                case 2:
-                    color(12, 0);
-                    printf("2"); //text_purple(stdout)
-                    color(15, 0);
-                    printf(" | "); //text_white(stdout)
-                    break;
+                    case 2:
+                        color(12, 0);
+                        printf("2"); //text_purple(stdout)
+                        color(15, 0);
+                        printf(" | "); //text_white(stdout)
+                        break;
 
-                case 3:
-                    color(12, 0);
-                    printf("3"); //text_purple(stdout)
-                    color(15, 0);
-                    printf(" | "); //text_white(stdout)
-                    break;
+                    case 3:
+                        color(12, 0);
+                        printf("3"); //text_purple(stdout)
+                        color(15, 0);
+                        printf(" | "); //text_white(stdout)
+                        break;
 
-                case 4:
-                    color(12, 0);
-                    printf("4"); //text_purple(stdout)
-                    color(15, 0);
-                    printf(" | "); //text_white(stdout)
-                    break;
+                    case 4:
+                        color(12, 0);
+                        printf("4"); //text_purple(stdout)
+                        color(15, 0);
+                        printf(" | "); //text_white(stdout)
+                        break;
 
-                default:
-                    perror("Wrong player value in printCase() in banquise.c");
-                    exit(EXIT_FAILURE);
-                    break;
+                    default:
+                        perror("Wrong player value in printCase() in banquise.c");
+                        exit(EXIT_FAILURE);
+                        break;
                 }
+            }
+
+            else
+                {
+                    color(12, 0); //En rouge
+                    printf("X"); //text_purple(stdout)
+                    color(15, 0);
+                    printf(" | ");
+                }
+
         }
     }
 

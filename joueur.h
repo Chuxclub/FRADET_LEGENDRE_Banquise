@@ -31,11 +31,20 @@ void addPlayers(T_banquise *banquise, T_player **players, int nb_players);
 /* =========== DEPLACEMENT JOUEURS ============ */
 /* ============================================ */
 
-void moveUp(T_player *player, T_banquise *banquise);
-void moveLeft(T_player *player, T_banquise *banquise);
-void moveDown(T_player *player, T_banquise *banquise);
-void moveRight(T_player *player, T_banquise *banquise);
+//void moveUp(T_player *player, T_banquise *banquise);
+void moveUp(T_player *player, T_game_parts *theGame);
+void moveLeft(T_player *player, T_game_parts *theGame);
+void moveDown(T_player *player, T_game_parts *theGame);
+void moveRight(T_player *player, T_game_parts *theGame);
+//void moveLeft(T_player *player, T_banquise *banquise);
+//void moveDown(T_player *player, T_banquise *banquise);
+//void moveRight(T_player *player, T_banquise *banquise);
 void updatePlayer(T_player *myPlayer, int previous_line, int previous_col, T_banquise *banquise);
 
 
+/* ============================================ */
+/* ============== ETATS JOUEURS =============== */
+/* ============================================ */
+
+void killPlayer(T_player *myPlayer);
 #endif // JOUEUR_H_INCLUDED

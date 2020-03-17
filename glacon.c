@@ -114,9 +114,7 @@ void accelerateOpposite(T_object *bumped_flake)
 
 void stopFlake(T_object *bumped_flake)
 {
-    /*Assignation d'une vitesse au glaçon bougé (ou 'bumpé'...)*/
-    bumped_flake->flake->vect.d_line = 0;
-    bumped_flake->flake->vect.d_col = 0;
+    bumped_flake->flake->vect = null_vect();
 }
 
 
@@ -127,7 +125,7 @@ void BecomeIce(T_object *bumped_flake, int water_line, int water_col, T_banquise
     int flake_col = bumped_flake->flake->pos.col;
 
     /*"Suppression" du glaçon. Pour pouvoir vraiment le supprimer il faudrait une pile
-    et le supprimer dans la fonction UpdateFlakes()...*/
+    et le supprimer dans la fonction UpdateFlakes() avec un free()...*/
     bumped_flake->object_type = no_object;
     bumped_flake->flake = NULL;
     banquise->grid[flake_line][flake_col].object = NULL;
@@ -135,30 +133,43 @@ void BecomeIce(T_object *bumped_flake, int water_line, int water_col, T_banquise
     banquise->grid[water_line][water_col].ground = ice;
 }
 
-void BumpSpring(T_object *bumped_flake)
+void BumpSpring(T_object *bumped_flake, int neighbour_line, int neighbour_col, T_banquise *banquise)
 {
-    accelerateOpposite(bumped_flake);
-}
+    int previous_flake_line = bumped_flake->flake->pos.line;
+    int previous_flake_col = bumped_flake->flake->pos.col;
+    banquise->grid[previous_flake_line][previous_flake_col].object = NULL;
 
+    int potential_new_flake_line = bumped_flake->flake->pos.line + (bumped_flake->flake->vect.d_line * -1);
+    int potential_new_flake_col = bumped_flake->flake->pos.col + (bumped_flake->flake->vect.d_col * -1);
+
+    if(IsPlayer(banquise->grid[potential_new_flake_line][potential_new_flake_col]))
+    {
+        banquise->grid[potential_new_flake_line][potential_new_flake_col].player->details.health = dead;
+        stopFlake(bumped_flake);
+        banquise->grid[previous_flake_line][previous_flake_col].object = bumped_flake;
+    }
+
+    else
+    {
+        accelerateOpposite(bumped_flake);
+        bumped_flake->flake->pos.line += bumped_flake->flake->vect.d_line;
+        bumped_flake->flake->pos.col += bumped_flake->flake->vect.d_col;
+
+        banquise->grid[bumped_flake->flake->pos.line][bumped_flake->flake->pos.col].object = bumped_flake;
+    }
+}
 
 void FlakeInteraction(T_object *bumped_flake, int neighbour_line, int neighbour_col, T_banquise *banquise)
 {
     if(IsWater(banquise->grid[neighbour_line][neighbour_col]))
-    {
         BecomeIce(bumped_flake, neighbour_line, neighbour_col, banquise);
-    }
 
     else if(IsObject(banquise->grid[neighbour_line][neighbour_col]))
     {
         switch(banquise->grid[neighbour_line][neighbour_col].object->object_type)
         {
             case spring:
-                BumpSpring(bumped_flake);
-
-                banquise->grid[bumped_flake->flake->pos.line][bumped_flake->flake->pos.col].object = NULL;
-                bumped_flake->flake->pos.line += bumped_flake->flake->vect.d_line;
-                bumped_flake->flake->pos.col += bumped_flake->flake->vect.d_col;
-                banquise->grid[bumped_flake->flake->pos.line][bumped_flake->flake->pos.col].object = bumped_flake;
+                BumpSpring(bumped_flake, neighbour_line, neighbour_col, banquise);
                 break;
 
             case hammer_head:
@@ -172,8 +183,7 @@ void FlakeInteraction(T_object *bumped_flake, int neighbour_line, int neighbour_
                     {
                        banquise->grid[neighbour_line][neighbour_col].object->hammer_head->rot_dir = anticlockwise;
                        banquise->grid[neighbour_line][neighbour_col].object->hammer_head->momentum = full_momentum;
-                       banquise->grid[neighbour_line][neighbour_col].object->hammer_head->vector_carrier.d_line = bumped_flake->flake->vect.d_line;
-                       banquise->grid[neighbour_line][neighbour_col].object->hammer_head->vector_carrier.d_col = bumped_flake->flake->vect.d_col;
+                       banquise->grid[neighbour_line][neighbour_col].object->hammer_head->vector_carrier = bumped_flake->flake->vect;
                     }
 
 
@@ -181,8 +191,7 @@ void FlakeInteraction(T_object *bumped_flake, int neighbour_line, int neighbour_
                     {
                        banquise->grid[neighbour_line][neighbour_col].object->hammer_head->rot_dir = clockwise;
                        banquise->grid[neighbour_line][neighbour_col].object->hammer_head->momentum = full_momentum;
-                       banquise->grid[neighbour_line][neighbour_col].object->hammer_head->vector_carrier.d_line = bumped_flake->flake->vect.d_line;
-                       banquise->grid[neighbour_line][neighbour_col].object->hammer_head->vector_carrier.d_col = bumped_flake->flake->vect.d_col;
+                       banquise->grid[neighbour_line][neighbour_col].object->hammer_head->vector_carrier = bumped_flake->flake->vect;
                     }
                 }
 
@@ -196,6 +205,14 @@ void FlakeInteraction(T_object *bumped_flake, int neighbour_line, int neighbour_
                 break;
         }
     }
+
+
+    else if(IsPlayer(banquise->grid[neighbour_line][neighbour_col]))
+    {
+        banquise->grid[neighbour_line][neighbour_col].player->details.health = dead;
+        stopFlake(bumped_flake);
+    }
+
 }
 
 
@@ -203,49 +220,35 @@ void FlakeInteraction(T_object *bumped_flake, int neighbour_line, int neighbour_
 // ------------> Regroupement déplacements et réactions aux objets et à l'environnement
 void updateFlakes(int nb_flakes, T_object **flakes,  T_banquise *banquise)
 {
+
     for(int i = 0; i < nb_flakes; i++)
     {
         if(flakes[i]->object_type != no_object)
         {
             /* Calcul des nouvelles positions des flocons par rapport à leurs vecteurs vitesse */
-            int new_line = 0;
-            int new_col = 0;
+            T_pos new_pos = translate_point(flakes[i]->flake->pos, flakes[i]->flake->vect);
 
-            if(flakes[i]->flake->vect.d_line != 0)
-                new_line = flakes[i]->flake->pos.line + flakes[i]->flake->vect.d_line;
-
-            else
-                new_line = flakes[i]->flake->pos.line;
-
-            if(flakes[i]->flake->vect.d_col != 0)
-                new_col = flakes[i]->flake->pos.col + flakes[i]->flake->vect.d_col;
-
-            else
-                new_col = flakes[i]->flake->pos.col;
 
             /* Vérification de la validité des nouvelles positions calculées*/
-            if(IsInbound(BANQUISE_SIZE, new_line, new_col))
+            if(IsInbound(BANQUISE_SIZE, new_pos.line, new_pos.col))
             {
-                //Si la case est disponible: déplacement du glaçon sur cette case
-                //On a donc: modification des coordonnées du glaçon et débranchement/branchement sur banquise
-                if(IsCaseAvailable(banquise->grid[new_line][new_col]))
+                /* Si la case est disponible: déplacement du glaçon sur cette case
+                   On a donc: modification des coordonnées du glaçon et débranchement/branchement sur banquise */
+                if(IsCaseAvailable(banquise->grid[new_pos.line][new_pos.col]))
                 {
                     banquise->grid[flakes[i]->flake->pos.line][flakes[i]->flake->pos.col].object = NULL;
-                    flakes[i]->flake->pos.line = new_line;
-                    flakes[i]->flake->pos.col = new_col;
+                    flakes[i]->flake->pos = new_pos;
                     banquise->grid[flakes[i]->flake->pos.line][flakes[i]->flake->pos.col].object = flakes[i];
                 }
 
-                //Si la case n'est pas disponible car il y a un objet interagissable: lancement de l'interaction
-                else if(IsFlakeIN(BANQUISE_SIZE, banquise, new_line, new_col))
-                    FlakeInteraction(flakes[i], new_line, new_col, banquise);
+                /* Si la case n'est pas disponible car il y a un objet interagissable: lancement de l'interaction */
+                else if(IsFlakeIN(BANQUISE_SIZE, banquise, new_pos.line, new_pos.col))
+                    FlakeInteraction(flakes[i], new_pos.line, new_pos.col, banquise);
 
-                //Sinon, c'est un rocher ou un drapeau, on arrête le glaçon et on conserve l'ancienne position
+                /* Sinon, c'est un rocher ou un drapeau, on arrête le glaçon et on conserve l'ancienne position */
                 else
                 {
-                    flakes[i]->flake->vect.d_line = 0;
-                    flakes[i]->flake->vect.d_col = 0;
-
+                    stopFlake(flakes[i]);
                     banquise->grid[flakes[i]->flake->pos.line][flakes[i]->flake->pos.col].object = flakes[i];
                 }
              }
@@ -253,9 +256,7 @@ void updateFlakes(int nb_flakes, T_object **flakes,  T_banquise *banquise)
              /* Si la nouvelle position calculée est en-dehors du plateau on arrête le flocon et on conserve l'ancienne position */
              else
              {
-                 flakes[i]->flake->vect.d_line = 0;
-                 flakes[i]->flake->vect.d_col = 0;
-
+                 stopFlake(flakes[i]);
                  banquise->grid[flakes[i]->flake->pos.line][flakes[i]->flake->pos.col].object = flakes[i];
              }
 

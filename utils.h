@@ -3,7 +3,12 @@
 
 #include "user_types.h"
 #include "constants.h"
+#include "maths.h"
 
+
+/* ====================================== */
+/* ============== BOOLEANS ============== */
+/* ====================================== */
 
 //Détermine si une case est disponible (c'est-à-dire sans objet, ni eau, ni roche, que de la glace)
 int IsCaseAvailable(T_case banquise_case);
@@ -14,6 +19,8 @@ void PlaceReservedZone(T_banquise *banquise, int line, int col);
 
 //Détermine s'il y a un glaçon à la case indiquée ou non
 int IsFlake(T_case banquise_case);
+
+int IsFlagB(T_case banquise_case);
 
 //Détermine si le voisin peut interagir avec un glaçon ou non
 int IsFlakeIN(int banquise_size, T_banquise *banquise, int neighbour_line, int neighbour_col);
@@ -31,10 +38,12 @@ int IsSpring(T_case banquise_case);
 int IsWater(T_case banquise_case);
 
 
-/* =================================== */
-/* ============== MATHS ============== */
-/* =================================== */
 
-int scalar_product(T_vector A, T_vector B);
+/* ====================================== */
+/* =============== OTHERS =============== */
+/* ====================================== */
+
+int enum_cycle_right(int n, int max, int right);
+int enum_cycle_left(int n, int max, int left);
 
 #endif // UTILS_H_INCLUDED

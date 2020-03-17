@@ -1,5 +1,4 @@
 #include "marteau.h"
-#include <math.h>
 
 
 /* ============================================ */
@@ -113,151 +112,99 @@ void addHammers(T_banquise *banquise, T_object **hammers, int nb_hammers)
     }
 }
 
-void updateHammers(int nb_hammers, T_object **hammers,  T_banquise *banquise)
+void updateHammers(int nb_hammers, T_game_parts *game_parts)
 {
-    //Rappel: ordre tête puis manche...
+    //Rappel: ordre = tête puis manche => hammers[0] est une tête de marteau, hammers[1] est un manche de marteau, etc.
     for(int i = 0; i < nb_hammers*2; i+=2)
     {
-        if(hammers[i]->hammer_head->momentum != no_momentum)
+        if(game_parts->hammers[i]->hammer_head->momentum != no_momentum)
         {
+            /* Phase 1 : On verifie qu'un joueur n'est pas a portee du marteau, si c'est le cas, le marteau tue le joueu*/
+            int player_id;
+
+            if(IsPlayerInRange(game_parts->hammers[i]->hammer_head, game_parts->banquise, &player_id))
+                killPlayer(game_parts->players[player_id - 1]);
+
+
+            /* Phase 2 : Mise a jour de la tete du marteau en utilisant des matrices d'etats-transitions */
             T_vector clockw[4] = {{-1, 1},{1, 1},{1, -1},{-1, -1}};
             T_vector anticlockw[4] = {{1, 1},{1, -1},{-1, -1},{-1, 1}};
-            int head_state = hammers[i]->hammer_head->state;
+            int head_state = game_parts->hammers[i]->hammer_head->state;
 
-            if(hammers[i]->hammer_head->rot_dir == clockwise)
+            //----> Sens horaire
+            if(game_parts->hammers[i]->hammer_head->rot_dir == clockwise)
             {
                 //Calculating new head pos and updating banquise
-                banquise->grid[hammers[i]->hammer_head->pos.line][hammers[i]->hammer_head->pos.col].object = NULL;
-                hammers[i]->hammer_head->pos.line += clockw[head_state].d_line;
-                hammers[i]->hammer_head->pos.col += clockw[head_state].d_col;
-                banquise->grid[hammers[i]->hammer_head->pos.line][hammers[i]->hammer_head->pos.col].object = hammers[i];
+                T_pos previous_H_pos = {game_parts->hammers[i]->hammer_head->pos.line, game_parts->hammers[i]->hammer_head->pos.col};
+                T_pos new_H_pos = {previous_H_pos.line + clockw[head_state].d_line, previous_H_pos.col + clockw[head_state].d_col};
+                updateObjectOnBanquise(game_parts->hammers[i], new_H_pos.line, new_H_pos.col, game_parts->banquise);
 
-                //Calculating new upf and leftf vectors
-                int previous_head_state = head_state - 1;
+                //Calculating and updating new upf and leftf vectors  for enabling further interactions with flake (cf. FlakeInteraction() in glacon.c)
+                int previous_head_state = enum_cycle_left(head_state, 4, 1);
+                M_add_vectors(game_parts->hammers[i]->hammer_head->up_face, clockw[head_state], &(game_parts->hammers[i]->hammer_head->up_face));
+                M_add_vectors(game_parts->hammers[i]->hammer_head->left_face, clockw[previous_head_state], &(game_parts->hammers[i]->hammer_head->left_face));
 
-                if(previous_head_state < 0)
-                    previous_head_state = 3;
-
-                hammers[i]->hammer_head->up_face.d_line += clockw[head_state].d_line;
-                hammers[i]->hammer_head->up_face.d_col += clockw[head_state].d_col;
-                hammers[i]->hammer_head->left_face.d_line += clockw[previous_head_state].d_line;
-                hammers[i]->hammer_head->left_face.d_col += clockw[previous_head_state].d_col;
-
-                //Calculating new vector carrier
-                hammers[i]->hammer_head->vector_carrier.d_line = clockw[head_state].d_line - hammers[i]->hammer_head->vector_carrier.d_line;
-                hammers[i]->hammer_head->vector_carrier.d_col = clockw[head_state].d_col - hammers[i]->hammer_head->vector_carrier.d_col;
+                //Turn by turn calculation and update of vector carrier for further transmission to flake (when momentum reaches 0)
+                T_vector H_vector_carrier = game_parts->hammers[i]->hammer_head->vector_carrier;
+                M_subtract_vectors(clockw[head_state], H_vector_carrier, &(game_parts->hammers[i]->hammer_head->vector_carrier));
 
                 //Changing state and decrementing momentum
-                hammers[i]->hammer_head->state++;
-                hammers[i]->hammer_head->state %= 4;
-                hammers[i]->hammer_head->momentum--;
+                game_parts->hammers[i]->hammer_head->state = enum_cycle_right(game_parts->hammers[i]->hammer_head->state, 4, 1);
+                game_parts->hammers[i]->hammer_head->momentum--;
 
-                if(hammers[i]->hammer_head->momentum == no_momentum)
+                //Transferring vector carrier to flake when momentum reaches 0
+                if(game_parts->hammers[i]->hammer_head->momentum == no_momentum)
                 {
-                    int transfer_neighb_line = hammers[i]->hammer_head->pos.line + hammers[i]->hammer_head->vector_carrier.d_line;
-                    int transfer_neighb_col = hammers[i]->hammer_head->pos.col + hammers[i]->hammer_head->vector_carrier.d_col;
+                    T_pos transfer_neighb = translate_point(game_parts->hammers[i]->hammer_head->pos, game_parts->hammers[i]->hammer_head->vector_carrier);
 
-                    if(banquise->grid[transfer_neighb_line][transfer_neighb_col].object->object_type == flake)
+                    if(game_parts->banquise->grid[transfer_neighb.line][transfer_neighb.col].object->object_type == flake)
                     {
-                        banquise->grid[transfer_neighb_line][transfer_neighb_col].object->flake->vect.d_line = hammers[i]->hammer_head->vector_carrier.d_line;
-                        banquise->grid[transfer_neighb_line][transfer_neighb_col].object->flake->vect.d_col = hammers[i]->hammer_head->vector_carrier.d_col;
-                        hammers[i]->hammer_head->vector_carrier.d_line = 0;
-                        hammers[i]->hammer_head->vector_carrier.d_col = 0;
+                        game_parts->banquise->grid[transfer_neighb.line][transfer_neighb.col].object->flake->vect = game_parts->hammers[i]->hammer_head->vector_carrier;
+                        game_parts->hammers[i]->hammer_head->vector_carrier = null_vect();
                     }
 
                     else
-                    {
-                        hammers[i]->hammer_head->vector_carrier.d_line = 0;
-                        hammers[i]->hammer_head->vector_carrier.d_col = 0;
-                    }
+                        game_parts->hammers[i]->hammer_head->vector_carrier = null_vect();
                 }
             }
 
+            //----> Sens antihoraire
             else
             {
                 //Calculating new head pos and updating banquise
-                banquise->grid[hammers[i]->hammer_head->pos.line][hammers[i]->hammer_head->pos.col].object = NULL;
-                hammers[i]->hammer_head->pos.line += anticlockw[head_state].d_line;
-                hammers[i]->hammer_head->pos.col += anticlockw[head_state].d_col;
-                banquise->grid[hammers[i]->hammer_head->pos.line][hammers[i]->hammer_head->pos.col].object = hammers[i];
+                T_pos previous_H_pos = {game_parts->hammers[i]->hammer_head->pos.line, game_parts->hammers[i]->hammer_head->pos.col};
+                T_pos new_H_pos = {previous_H_pos.line + anticlockw[head_state].d_line, previous_H_pos.col + anticlockw[head_state].d_col};
+                updateObjectOnBanquise(game_parts->hammers[i], new_H_pos.line, new_H_pos.col, game_parts->banquise);
 
-                //Calculating new upf and leftf vectors
-                int previous_head_state = head_state - 1;
+                //Calculating and updating new upf and leftf vectors for enabling further interactions with flake (cf. FlakeInteraction() in glacon.c)
+                int previous_head_state = enum_cycle_left(head_state, 4, 1);
+                M_add_vectors(game_parts->hammers[i]->hammer_head->up_face, anticlockw[head_state], &(game_parts->hammers[i]->hammer_head->up_face));
+                M_add_vectors(game_parts->hammers[i]->hammer_head->left_face, anticlockw[previous_head_state], &(game_parts->hammers[i]->hammer_head->left_face));
 
-                if(previous_head_state < 0)
-                    previous_head_state = 3;
+                //Turn by turn calculation and update of vector carrier for further transmission to flake (when momentum reaches 0)
+                T_vector H_vector_carrier = game_parts->hammers[i]->hammer_head->vector_carrier;
+                M_subtract_vectors(anticlockw[head_state], H_vector_carrier, &(game_parts->hammers[i]->hammer_head->vector_carrier));
 
-                hammers[i]->hammer_head->up_face.d_line += clockw[head_state].d_line;
-                hammers[i]->hammer_head->up_face.d_col += clockw[head_state].d_col;
-                hammers[i]->hammer_head->left_face.d_line += clockw[previous_head_state].d_line;
-                hammers[i]->hammer_head->left_face.d_col += clockw[previous_head_state].d_col;
+                //Changing state and decrementing momentum each turn
+                game_parts->hammers[i]->hammer_head->state = enum_cycle_left(game_parts->hammers[i]->hammer_head->state, 4, 1);
+                game_parts->hammers[i]->hammer_head->momentum--;
 
-                //Calculating new vector carrier
-                hammers[i]->hammer_head->vector_carrier.d_line = anticlockw[head_state].d_line - hammers[i]->hammer_head->vector_carrier.d_line;
-                hammers[i]->hammer_head->vector_carrier.d_col = anticlockw[head_state].d_col - hammers[i]->hammer_head->vector_carrier.d_col;
-
-                //Changing state and decrementing momentum
-                hammers[i]->hammer_head->state--;
-                hammers[i]->hammer_head->state %= 4;
-                hammers[i]->hammer_head->momentum--;
-
-                if(hammers[i]->hammer_head->momentum == no_momentum)
+                //Transferring vector carrier to flake when momentum reaches 0
+                if(game_parts->hammers[i]->hammer_head->momentum == no_momentum)
                 {
-                    int transfer_neighb_line = hammers[i]->hammer_head->pos.line + hammers[i]->hammer_head->vector_carrier.d_line;
-                    int transfer_neighb_col = hammers[i]->hammer_head->pos.col + hammers[i]->hammer_head->vector_carrier.d_col;
+                    T_pos transfer_neighb = translate_point(game_parts->hammers[i]->hammer_head->pos, game_parts->hammers[i]->hammer_head->vector_carrier);
 
-                    if(banquise->grid[transfer_neighb_line][transfer_neighb_col].object->object_type == flake)
+                    if(game_parts->banquise->grid[transfer_neighb.line][transfer_neighb.col].object->object_type == flake)
                     {
-                        banquise->grid[transfer_neighb_line][transfer_neighb_col].object->flake->vect.d_line = hammers[i]->hammer_head->vector_carrier.d_line;
-                        banquise->grid[transfer_neighb_line][transfer_neighb_col].object->flake->vect.d_col = hammers[i]->hammer_head->vector_carrier.d_col;
-                        hammers[i]->hammer_head->vector_carrier.d_line = 0;
-                        hammers[i]->hammer_head->vector_carrier.d_col = 0;
+                        game_parts->banquise->grid[transfer_neighb.line][transfer_neighb.col].object->flake->vect = game_parts->hammers[i]->hammer_head->vector_carrier;
+                        game_parts->hammers[i]->hammer_head->vector_carrier = null_vect();
                     }
 
                     else
-                    {
-                        hammers[i]->hammer_head->vector_carrier.d_line = 0;
-                        hammers[i]->hammer_head->vector_carrier.d_col = 0;
-                    }
+                        game_parts->hammers[i]->hammer_head->vector_carrier = null_vect();
                 }
             }
         }
     }
 }
 
-/* ======================================= */
-/* ========== AFFICHAGE MARTEAU ========== */
-/* ======================================= */
-/* //Calcul des nouvelles positions des marteaux par rapport à leurs momentums et leurs directions de rotation
-            int former_line = hammers[i]->hammer_head->pos.line;
-            int former_col = hammers[i]->hammer_head->pos.col;
-            int rot_dir = hammers[i]->hammer_head->rot_dir;
-            double former_cos = acos((double) hammers[i]->hammer_head->up_face.d_col);
-            double former_sin = asin((double) hammers[i]->hammer_head->up_face.d_line);
-
-            printf("former line is : %i\n", former_line);
-            printf("former col is : %i\n", former_col);
-            printf("rot_dir is : %i\n", rot_dir);
-            printf("former_cos is : %f\n", former_cos);
-            printf("former_sin is : %f\n", former_sin);
-
-            int new_line = (int) sin(former_sin + (double) 2.0 * rot_dir / M_PI);
-            int new_col = (int) cos(former_cos + (double) 2.0 * rot_dir / M_PI);
-
-            printf("new line is : %i\n", new_line);
-            printf("new col is : %i\n", new_col);
-
-            hammers[i]->hammer_head->pos.col = new_col;
-            hammers[i]->hammer_head->pos.line = new_line;
-
-            hammers[i]->hammer_head->momentum--;
-
-            banquise->grid[new_line][new_col].object->object_type = hammer_head;
-            banquise->grid[new_line][new_col].object = hammers[i];
-            banquise->grid[former_line][former_col].object = NULL;*/
-void printHammer(T_case banquise_case)
-{
-    //if(banquise_case.object->hammer.)
-}
-
-/* ============================================ *//* ============================================ */

@@ -5,6 +5,8 @@
 /* =============== TYPES UTILES =============== */
 /* ============================================ */
 
+typedef enum {false = 0, true} bool;
+
 typedef struct
 {
     int line;
@@ -42,7 +44,7 @@ typedef struct
 typedef enum {horizontal = 0, vertical} T_aspect;
 typedef enum {no_rotation = 0, clockwise = 90, anticlockwise = -90} T_rot_dir;
 typedef enum {no_momentum = 0, momentum_1, momentum_2, full_momentum = 3} T_momentum;
-typedef enum {left = 0, up, down, right} T_state;
+typedef enum {left = 0, up, right, down} T_state;
 
 typedef struct
 {
@@ -89,6 +91,7 @@ typedef struct
 /* ============================================ */
 typedef enum {rouge = 1, bleu, vert, jaune} T_couleur;
 typedef enum {player_trapped = 0, cooldown3, cooldown2, cooldown1, player_free} T_free;
+typedef enum {dead = 0, full_health} T_health;
 
 
 
@@ -100,9 +103,9 @@ typedef struct {
 
 typedef struct{
     char nom[50];
-    T_couleur couleur;
     T_pos pos;
     T_free freedom;
+    T_health health;
     T_score score;
 } T_player_infos;
 
@@ -139,6 +142,8 @@ typedef struct
 /* =============== AUTRES TYPES =============== */
 /* ============================================ */
 
+typedef enum{boneyard = 0, starvation, salvation} T_end_game_type;
+
 typedef struct
 {
     T_banquise *banquise;
@@ -146,6 +151,9 @@ typedef struct
     T_object **flakes;
     T_object **springs;
     T_object **traps;
+    T_object **hammers;
+    int *quantities;
+    bool game_on;
 } T_game_parts;
 
 typedef struct
