@@ -10,10 +10,15 @@
 #include "marteau.h"
 #include "jeu.h"
 
+#include <windows.h>
+
 
 int main()
 {
     srand(time(NULL));
+
+    HWND wh = GetConsoleWindow(); // Récupération de la console windows dans laquelle le jeu est affiché
+    MoveWindow(wh, 0, 0, 1920, 1080, TRUE); // Agrandissement de la taille de la console
 
     int nb_players = main_menu();
     T_game_parts theGame = initGame(nb_players);

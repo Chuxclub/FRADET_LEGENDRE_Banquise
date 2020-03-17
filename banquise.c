@@ -100,7 +100,7 @@ void addRocks(T_banquise *banquise, int nb_rocks)
                 if(counter == 0)
                     return;
 
-                else if(loto < 10 && IsPlacementAvailable(banquise->grid[i][j]))
+                else if(loto < 5 && IsPlacementAvailable(banquise->grid[i][j]))
                 {
                     banquise->grid[i][j].ground = rock;
                     counter --;
@@ -174,8 +174,8 @@ void updateObjectOnBanquise(T_object *myObject, int new_line, int new_col, T_ban
 /* ============ CHEMIN DE A VERS B ============ */
 /* ============================================ */
 
-//initialise la variable � 1 pour tester la fonction isARoad ult�rieurement
-// 1 signifiera que la case n'est pas disponible pour effectuer un d�placement
+//initialise la variable a 1 pour tester la fonction isARoad ulterieurement
+// 1 signifiera que la case n'est pas disponible pour effectuer un deplacement
 T_test initTest(int size)
 {
     T_test T;
@@ -245,7 +245,7 @@ T_pos *initTab()
     return tab;
 }
 
-//r�cursive cherchant un chemin de A vers B
+//recursive cherchant un chemin de A vers B
 void isRoad(T_test T, int line, int col, T_pos *tab, int i)
 {
 
@@ -301,14 +301,14 @@ void isRoad(T_test T, int line, int col, T_pos *tab, int i)
         }
 }
 
-//fonction qui appellent toutes celles aidant � v�rifier l'existence d'un chemin de A vers B
+//fonction qui appellent toutes celles aidant a verifier l'existence d'un chemin de A vers B
 void road(T_game_parts theGame, int players)
 {
     T_test T = collectInfos(theGame.banquise, initTest(BANQUISE_SIZE));
     T_pos *tab = initTab();
     isRoad(T, T.posA.line, T.posA.col, tab, 0);
 
-    //n'a pas trouv� de chemin
+    //n'a pas trouve de chemin
     if (T.B_find == 0)
     {
         char answer;
@@ -499,8 +499,23 @@ void printCase(T_case banquise_case)
 //Affiche l'�tat de la banquise � l'instant de son appel
 void printBanquise(T_banquise *banquise)
 {
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    int columns, rows;
+
+    GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+    columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+    rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+
+    //printf("columns: %d\n", columns);
+    //printf("rows: %d\n", rows);
+
     //Upper Border
-    printf("\n");
+    for(int i = 0; i < rows / 6; i++)
+        printf("\n");
+
+    for(int i = 0; i < (columns / 2 - (banquise->sizeB * 2 + 4)); i++)
+        printf(" ");
+
     for(int i = 0; i < banquise->sizeB * 4 + 1; i++)
         printf("-"); //, text_white(stdout)
 
@@ -516,7 +531,10 @@ void printBanquise(T_banquise *banquise)
                 printf("\n");
 
                 //Right border of grid
-                printf("| "); //, text_white(stdout)
+                for(int i = 0; i < (columns / 2 - (banquise->sizeB * 2 + 4)); i++)
+                    printf(" ");
+
+                printf("| ");
                 counter = 0;
             }
 
@@ -527,6 +545,10 @@ void printBanquise(T_banquise *banquise)
 
         //Mid-lines + Bottom border
         printf("\n");
+
+        for(int i = 0; i < (columns / 2 - (banquise->sizeB * 2 + 4)); i++)
+            printf(" ");
+
         for(int i = 0; i < banquise->sizeB * 4 + 1; i++)
             printf("-");
     }

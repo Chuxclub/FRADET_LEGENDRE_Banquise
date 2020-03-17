@@ -141,12 +141,12 @@ int HowManyPlayers()
     int nb_players;
     nb_players = 0;
 
-    printf("Combien de joueurs etes-vous ?\n\n");
-    printf("-> 0 pour quitter le jeu\n");
-    printf("-> 1 joueur\n");
-    printf("-> 2 joueurs\n");
-    printf("-> 3 joueurs\n");
-    printf("-> 4 joueurs\n\n");
+    printf("\t\t\t\t\tCombien de joueurs etes-vous ?\n\n");
+    printf("\t\t\t\t\t-> 0 pour quitter le jeu\n");
+    printf("\t\t\t\t\t-> 1 joueur\n");
+    printf("\t\t\t\t\t-> 2 joueurs\n");
+    printf("\t\t\t\t\t-> 3 joueurs\n");
+    printf("\t\t\t\t\t-> 4 joueurs\n\n");
 
     scanf("%d", &nb_players);
 
