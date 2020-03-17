@@ -301,33 +301,39 @@ void isRoad(T_test T, int line, int col, T_pos *tab, int i)
         }
 }
 
-
-}
-*/
-
 //fonction qui appellent toutes celles aidant � v�rifier l'existence d'un chemin de A vers B
-int road(T_banquise *banquise)
+void road(T_game_parts theGame, int players)
 {
-    T_test T = collectInfos(banquise, initTest(BANQUISE_SIZE));
+    T_test T = collectInfos(theGame.banquise, initTest(BANQUISE_SIZE));
     T_pos *tab = initTab();
     isRoad(T, T.posA.line, T.posA.col, tab, 0);
 
     //n'a pas trouv� de chemin
-  /*  if (T.B_find == 0)
+    if (T.B_find == 0)
     {
-        char a;
-        printf("Il n'y a plus de chemin possible.\nVoulez-vous continuer la partie ?\n");
+        char answer;
+        printf("Il n'y a plus de chemin possible.\nVoulez-vous relancer une nouvelle partie ?\nPour oui : y\nPour non : n\n");
         getchar();
-        scanf("%c", &a);
-        switch (a)
+        scanf("%c", &answer);
+
+        switch (answer)
         {
         case 'y':
+            players = main_menu();
+          //  theGame = initGame(players);
             break;
+
         case 'n':
-        }
-    }*/
-}
+            printf("Merci d'avoir joué");
+            theGame.game_on = false;
             break;
+
+        default:
+            printf ("wrong input\n");
+            break;
+        }
+    }
+}
 
 /* ============================================ */
 /* ================ AFFICHAGES ================ */

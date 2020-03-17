@@ -120,6 +120,7 @@ int main()
                 //updateHammers(NB_HAMMERS, theGame.hammers, theGame.banquise);
                 updateHammers(NB_HAMMERS, &theGame);
                 Fontebanquise(theGame.banquise);
+                //road(theGame, nb_players);
 
                 //Rafraichissement banquise
                 system("@cls||clear"); //Commenter cette ligne pour faciliter les tests!
