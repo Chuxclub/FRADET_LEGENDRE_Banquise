@@ -141,12 +141,35 @@ int HowManyPlayers()
     int nb_players;
     nb_players = 0;
 
-    printf("\t\t\t\t\tCombien de joueurs etes-vous ?\n\n");
-    printf("\t\t\t\t\t-> 0 pour quitter le jeu\n");
-    printf("\t\t\t\t\t-> 1 joueur\n");
-    printf("\t\t\t\t\t-> 2 joueurs\n");
-    printf("\t\t\t\t\t-> 3 joueurs\n");
-    printf("\t\t\t\t\t-> 4 joueurs\n\n");
+    /* Recuperation des données de la console pour centrage de l'affichage par rapport aux colonnes/lignes */
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    int columns, rows;
+
+    GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
+    columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+    rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+
+    //Saut de ligne pour éviter que le menu colle au titre
+    printf("\n");
+
+
+    center_printf_col(columns / 2 - (BANQUISE_SIZE * 2 + 4));
+    printf("Combien de joueurs etes-vous ?\n\n");
+
+    center_printf_col(columns / 2 - (BANQUISE_SIZE * 2 + 4));
+    printf("-> 0 pour quitter le jeu\n");
+
+    center_printf_col(columns / 2 - (BANQUISE_SIZE * 2 + 4));
+    printf("-> 1 joueur\n");
+
+    center_printf_col(columns / 2 - (BANQUISE_SIZE * 2 + 4));
+    printf("-> 2 joueurs\n");
+
+    center_printf_col(columns / 2 - (BANQUISE_SIZE * 2 + 4));
+    printf("-> 3 joueurs\n");
+
+    center_printf_col(columns / 2 - (BANQUISE_SIZE * 2 + 4));
+    printf("-> 4 joueurs\n\n");
 
     scanf("%d", &nb_players);
 

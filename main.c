@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <windows.h>
 #include "banquise.h"
 #include "glacon.h"
 #include "joueur.h"
@@ -10,15 +11,19 @@
 #include "marteau.h"
 #include "jeu.h"
 
-#include <windows.h>
+
 
 
 int main()
 {
-    srand(time(NULL));
+    /* Initialisation de la dimension de la console par rapport à la résolution de l'écran du joueur (cf. windows.h) */
+    HWND wh = GetConsoleWindow(); // Recuperation de la console windows dans laquelle le jeu est affiché
+    DWORD dwWidth = GetSystemMetrics(SM_CXSCREEN); // Recuperation de la resolution de l'écran de l'utilisateur (la largeur)
+    DWORD dwHeight = GetSystemMetrics(SM_CYSCREEN); //Meme chose mais pour la longueur
+    MoveWindow(wh, 0, 0, dwWidth, dwHeight, TRUE); // Agrandissement de la taille de la console
 
-    HWND wh = GetConsoleWindow(); // Récupération de la console windows dans laquelle le jeu est affiché
-    MoveWindow(wh, 0, 0, 1920, 1080, TRUE); // Agrandissement de la taille de la console
+    /* Initialisation du jeu */
+    srand(time(NULL));
 
     int nb_players = main_menu();
     T_game_parts theGame = initGame(nb_players);
@@ -27,7 +32,8 @@ int main()
     system("@cls||clear");
     printBanquise(theGame.banquise);
 
-   //Boucle du jeu
+
+    /* Boucle du jeu */
     T_end_game_type end_game_type = salvation;
     char move;
     bool wrong_input;

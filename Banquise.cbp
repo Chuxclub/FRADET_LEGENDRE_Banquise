@@ -35,6 +35,10 @@
 			<Option compilerVar="CC" />
 		</Unit>
 		<Unit filename="banquise.h" />
+		<Unit filename="console_funcs.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="console_funcs.h" />
 		<Unit filename="constants.h" />
 		<Unit filename="glacon.c">
 			<Option compilerVar="CC" />
