@@ -35,8 +35,8 @@ void addFlags(T_banquise *banquise);
 T_test initTest(int size);
 T_test collectInfos(T_banquise *banquise, T_test T);
 T_pos *initTab();
-void isRoad(T_test T, int line, int col, T_pos *tab, int i);
-void road(T_game_parts theGame, int players);
+int isRoad(T_test T, int line, int col, T_pos *tab, int i);
+bool road(T_game_parts theGame, int players, T_end_game_type endgame);
 
 
 /* ============================================ */

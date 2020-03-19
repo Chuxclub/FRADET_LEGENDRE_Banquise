@@ -142,7 +142,7 @@ typedef struct
 /* =============== AUTRES TYPES =============== */
 /* ============================================ */
 
-typedef enum{boneyard = 0, starvation, salvation} T_end_game_type;
+typedef enum{boneyard = 0, starvation, salvation, global_warming} T_end_game_type;
 
 typedef struct
 {
