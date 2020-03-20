@@ -7,10 +7,11 @@
 
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: Initialiser un seul piege par allocation dynamique, initialiser les valeurs par défaut de ce piege et renvoyer le piege
+             ainsi cree (on renvoit son pointeur).
+    Fonctionnement: /
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: /
 */
 T_trap *initTrap()
 {
@@ -26,10 +27,13 @@ T_trap *initTrap()
 
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: Initialise un ensemble de pieges avec des valeurs par defaut dans un tableau de pointeurs vers des T_object pour
+             rendre ces pieges utilisables par les fonctions du jeu (ces fonctions ne travaillent qu'avec
+             des pointeurs vers T_object.)
+    Fonctionnement: Double allocation dynamique => au final on renvoit un tableau de pointeurs vers des objets qui
+                    sont des pièges.
+    Complexité en temps (au pire): O(nb_traps), fonction lineaire en fonction du nombre de piege qu'on souhaite initialiser.
+    Hypothèse d'amélioration possible: /
 */
 T_object **initTraps(int nb_traps)
 {
@@ -54,10 +58,10 @@ T_object **initTraps(int nb_traps)
 
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: Ajouter les pieges sur la banquise a des positions aleatoires.
+    Fonctionnement: Meme procede que pour addWater(), addRocks(), etc.
+    Complexité en temps (au pire): O(banquise_size²)
+    Hypothèse d'amélioration possible: /
 */
 void addTraps(T_banquise *banquise, T_object **traps, int nb_traps)
 {
