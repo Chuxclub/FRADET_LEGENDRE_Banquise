@@ -34,14 +34,24 @@ T_player **initPlayers(int nb_players)
 
 /*
     Auteur(e)(s): Florian Legendre
+
     Utilité: Chercher autour du drapeau si une case est disponible pour pouvoir y placer un joueur
+
     Fonctionnement: On procede par balayage d'une zone qu'on definit par des variables dont on a veille a ce qu'elles
                     definissent des cases qui sont dans le plateau. Le balayage se fait alors ligne par ligne. Si aucune
                     cases correspondant a nos conditions de placement du joueur autour du drapeau ne correspond on etend le
                     rayon de recherche (cf. dist_A). Si on a balaye toutes les lignes possibles de la banquise et qu'on a rien trouve
                     on renvoit un message d'erreur qui sera gere plus tard dans le developpement. Au final, la fonction renvoit un tableau comprenant
                     les positions determinees par l'algorithme.
-    Complexité en temps (au pire):
+
+    Complexité en temps (au pire): Dans le pire des cas (on suppose le drapeau A au centre de la banquise)
+                                   on a une première recherche avec un rayon de 1 qui implique le test de 9 cases (ou 3² avec 3 = nb_de_cases_par_lignes).
+                                   puis on etend le rayon a 2, on doit alors tester 25 cases (ou 5² avec 5 = nb_de_cases_par_lignes),
+                                   puis on etend le rayon a 3, on doit alors tester 7² cases, etc. On a donc une somme d'une suite de carrées: E(nb_cases_par_lignes)²
+                                   qui se simplifie en 1/6 x (n + 2)((n + 2) + 1)(2(n + 2) + 1), on pose n = nb_cases_par_lignes. Cette expression se simplifie
+                                   en (2n^3 + 15n² + 27n + 30) / 6. On a alors une complexité au pire en O(n^3) avec n le nb_cases_par_lignes maximum qu'on peut avoir
+                                   à tester, soit, finalement banquise_size. Donc finalement on a O(banquise_size^3).
+
     Hypothèse d'amélioration possible: 1) La fonction reverifie des cases deja verifiees des qu'on etend le rayon de recherche.
                                           On peut eviter cela en ne procedant non plus par balayage mais par bandes de recherche.
                                           Le principe serait alors le suivant: definir la ligne du dessus, la ligne du dessous et les colonnes
