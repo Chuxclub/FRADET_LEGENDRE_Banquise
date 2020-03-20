@@ -6,10 +6,10 @@
 
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: Meme chose que pour initTrap() mais avec les ressorts, voir module piege.c
+    Fonctionnement: Meme chose que pour initTrap() mais avec les ressorts, voir module piege.c
+    Complexité en temps (au pire): O(1);
+    Hypothèse d'amélioration possible: /
 */
 T_spring *initSpring()
 {
@@ -24,10 +24,10 @@ T_spring *initSpring()
 
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: Meme chose que pour initTraps() mais avec les ressorts, voir module piege.c
+    Fonctionnement: Meme chose que pour initTraps() mais avec les ressorts, voir module piege.c
+    Complexité en temps (au pire): O(nb_springs)
+    Hypothèse d'amélioration possible: /
 */
 T_object **initSprings(int nb_springs)
 {
@@ -53,10 +53,10 @@ T_object **initSprings(int nb_springs)
 
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: Meme chose que pour addTraps() mais avec les ressorts, voir module piege.c
+    Fonctionnement: Meme chose que pour addTraps() mais avec les ressorts, voir module piege.c
+    Complexité en temps (au pire): O(banquise_size²)
+    Hypothèse d'amélioration possible: /
 */
 void addSprings(T_banquise *banquise, T_object **springs, int nb_springs)
 {
