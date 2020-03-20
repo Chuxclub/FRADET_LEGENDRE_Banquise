@@ -12,7 +12,12 @@
 #include "jeu.h"
 
 
-
+/*
+    Auteur(e)(s): Amandine Fradet et Florian Legendre
+    Utilité: Point d'entrée du programme, contient la totalité du jeu (par le biais de ses procédures et procédures des procédures, etc.)
+    Fonctionnement: Initialisation de l'affichage dans la console -> initialisation des éléments du jeu -> Boucle du jeu -> Fins du jeu
+    Complexité en temps (au pire): Egale à la somme des complexités en temps de toutes les procédures contenues par le main
+*/
 
 int main()
 {
@@ -127,7 +132,7 @@ int main()
                 } while(wrong_input);
 
 
-            //Si apr�s un d�placement le jeu est fini, on termine le jeu
+            //Si apres un deplacement le jeu est fini, on termine le jeu
             if(theGame.game_on == false)
             {
                 end_game_type = salvation;
@@ -135,7 +140,7 @@ int main()
             }
 
 
-            //Si commande administrateur: pas de mise � jour des elements du jeu
+            //Si commande administrateur: pas de mise a jour des elements du jeu
             //mais affichage banquise pour donner des informations au debuggeur
             else if(move == '$')
                 printBanquise(theGame.banquise);
@@ -143,7 +148,6 @@ int main()
             else
             {
                 updateFlakes(NB_FLAKES, theGame.flakes, theGame.banquise);
-                //updateHammers(NB_HAMMERS, theGame.hammers, theGame.banquise);
                 updateHammers(NB_HAMMERS, &theGame);
                 Fontebanquise(theGame.banquise);
 

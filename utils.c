@@ -6,6 +6,13 @@
 /* ============== BOOLEANS ============== */
 /* ====================================== */
 
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 int IsCaseAvailable(T_case banquise_case)
 {
     if((banquise_case.ground == ice && (banquise_case.object == NULL || (banquise_case.object != NULL && banquise_case.object->object_type == reserved))) && (banquise_case.flag == no_flag && banquise_case.player == NULL))
@@ -24,6 +31,14 @@ int IsPlacementAvailable(T_case banquise_case)
         return 0;
 }
 
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 int AreSurroundingsAvailable(T_banquise *banquise, int line, int col)
 {
     int res = 1;
@@ -44,6 +59,14 @@ int AreSurroundingsAvailable(T_banquise *banquise, int line, int col)
     return res;
 }
 
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void PlaceReservedZone(T_banquise *banquise, int line, int col)
 {
     int start_line = line-1;
@@ -70,6 +93,14 @@ void PlaceReservedZone(T_banquise *banquise, int line, int col)
     }
 }
 
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 int IsFlake(T_case banquise_case)
 {
     if(banquise_case.object->object_type == flake)
@@ -106,6 +137,15 @@ int IsPlayer(T_case banquise_case)
         return 0;
 }
 
+
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 int IsPlayerInRange(T_hammer_head *hammer_head, T_banquise *banquise, int *player_id_in_range)
 {
     T_pos H_pos = {hammer_head->pos.line, hammer_head->pos.col};
@@ -155,6 +195,14 @@ int IsPlayerInRange(T_hammer_head *hammer_head, T_banquise *banquise, int *playe
     return found_player;
 }
 
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 int IsInbound(int banquise_size, int line, int col)
 {
     if((line >= 0 && line < banquise_size) && (col >= 0 && col < banquise_size))
@@ -220,11 +268,27 @@ int IsFlakeIN(int banquise_size, T_banquise *banquise, int neighbour_line, int n
 /* =============== OTHERS =============== */
 /* ====================================== */
 
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 int enum_cycle_right(int n, int max, int right)
 {
     return ((n + right) % max);
 }
 
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 int enum_cycle_left(int n, int max, int left)
 {
     return ((n + (max - left)) % max);

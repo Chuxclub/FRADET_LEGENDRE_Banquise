@@ -1,5 +1,14 @@
 #include "menus.h"
 
+
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 int main_menu()
 {
   /* Recuperation des données de la console pour centrage de l'affichage par rapport aux colonnes/lignes */

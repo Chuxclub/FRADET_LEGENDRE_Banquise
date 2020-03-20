@@ -3,6 +3,15 @@
 #include "user_types.h"
 #include "constants.h"
 
+
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 T_trap *initTrap()
 {
     T_trap *res = (T_trap *) malloc(sizeof(T_trap));
@@ -13,6 +22,15 @@ T_trap *initTrap()
     return res;
 }
 
+
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 T_object **initTraps(int nb_traps)
 {
     T_object **traps = (T_object **) malloc(sizeof(T_object *) * nb_traps);
@@ -32,6 +50,15 @@ T_object **initTraps(int nb_traps)
     return traps;
 }
 
+
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void addTraps(T_banquise *banquise, T_object **traps, int nb_traps)
 {
     int counter = nb_traps - 1;

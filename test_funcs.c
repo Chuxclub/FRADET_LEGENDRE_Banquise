@@ -106,6 +106,15 @@ void adminKillPlayer(T_game_parts game_parts, int player_id)
 /* ========= FONCTIONS D'IDENTIFICATION EN JEU ========= */
 /* ====================================================== */
 
+
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void adminInfoCase(T_game_parts game_parts, int line, int col)
 {
     T_flag flag = game_parts.banquise->grid[line][col].flag;
@@ -231,6 +240,15 @@ void adminInfoCase(T_game_parts game_parts, int line, int col)
     printf("\n/!\\ =============================== /!\\ \n", line, col);
 }
 
+
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void adminShowAllFlakes(T_game_parts game_parts, int nb_flakes)
 {
     printf("\n\n/!\\ ==== DESCRIPTION DES FLOCONS EN JEU ==== /!\\ \n\n");
@@ -258,6 +276,15 @@ void adminShowAllFlakes(T_game_parts game_parts, int nb_flakes)
     printf("\n/!\\ ========================================== /!\\ \n");
 }
 
+
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void adminShowAllPlayers(T_game_parts game_parts, int nb_players)
 {
     printf("\n\n/!\\ ==== DESCRIPTION DES JOUEURS EN JEU ==== /!\\ \n\n");
@@ -282,6 +309,14 @@ void adminShowAllPlayers(T_game_parts game_parts, int nb_players)
 /* ============ FONCTION MAITRESSE ============ */
 /* ============================================ */
 
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void adminPrivileges(T_game_parts game_parts)
 {
     printf("\n@dmin: ");
@@ -357,6 +392,15 @@ void adminPrivileges(T_game_parts game_parts)
 /* =========== INTERACTIONS GLACONS =========== */
 /* ============================================ */
 
+
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void moveFlakeUp(T_object *bumped_flake, T_banquise *banquise)
 {
     /*Récupération des coordonnées de la case où se trouve initialement le glaçon*/

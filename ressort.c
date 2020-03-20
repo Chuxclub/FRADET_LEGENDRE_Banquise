@@ -3,6 +3,14 @@
 #include "constants.h"
 #include "utils.h"
 
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 T_spring *initSpring()
 {
     T_spring *res = (T_spring *) malloc(sizeof(T_spring));
@@ -13,6 +21,14 @@ T_spring *initSpring()
     return res;
 }
 
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 T_object **initSprings(int nb_springs)
 {
     T_object **springs = (T_object **) malloc(sizeof(T_object *) * nb_springs);
@@ -33,6 +49,15 @@ T_object **initSprings(int nb_springs)
     return springs;
 }
 
+
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void addSprings(T_banquise *banquise, T_object **springs, int nb_springs)
 {
     int counter = nb_springs - 1;
