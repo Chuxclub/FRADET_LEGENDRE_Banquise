@@ -6,7 +6,7 @@
 /* ============================================ */
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -49,7 +49,7 @@ T_hammer *initHammer()
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -92,7 +92,7 @@ T_object **initHammers(int nb_hammers)
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -139,7 +139,7 @@ void addHammers(T_banquise *banquise, T_object **hammers, int nb_hammers)
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):

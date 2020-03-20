@@ -21,6 +21,14 @@
 15: blanc
 */
 
+
+/*
+    Auteur(e)(s): StackOverFlow
+    Utilité: Simplifier la colorisation des outputs par la création d'une fonction color()
+    Fonctionnement: ?
+    Complexité en temps (au pire): ?
+    Hypothèse d'amélioration possible: /
+*/
 void color(int t,int f)
 {
         HANDLE H=GetStdHandle(STD_OUTPUT_HANDLE);

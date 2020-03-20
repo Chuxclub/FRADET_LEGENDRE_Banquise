@@ -6,6 +6,13 @@
 /* ========= FONCTIONS D'AJOUT EN JEU ========= */
 /* ============================================ */
 
+/*
+    Auteur(e)(s): Florian Legendre
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void adminAddWater(T_game_parts game_parts, int line, int col)
 {
     if(game_parts.banquise->grid[line][col].player != NULL || game_parts.banquise->grid[line][col].flag != no_flag)
@@ -24,6 +31,13 @@ void adminAddWater(T_game_parts game_parts, int line, int col)
 /* ========= FONCTIONS DE TELEPORTATIONS EN JEU ========= */
 /* ====================================================== */
 
+/*
+    Auteur(e)(s): Florian Legendre
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void adminTpPlayer(T_game_parts game_parts, int player_id, int line, int col)
 {
     if(!(IsCaseAvailable(game_parts.banquise->grid[line][col])) || !(IsInbound(BANQUISE_SIZE, line, col)))
@@ -41,6 +55,14 @@ void adminTpPlayer(T_game_parts game_parts, int player_id, int line, int col)
     }
 }
 
+
+/*
+    Auteur(e)(s): Florian Legendre
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void adminTpFlake(T_game_parts game_parts, int flake_id, int line, int col)
 {
     if(!(IsCaseAvailable(game_parts.banquise->grid[line][col])) || !(IsInbound(BANQUISE_SIZE, line, col)))
@@ -67,6 +89,14 @@ void adminTpFlake(T_game_parts game_parts, int flake_id, int line, int col)
     }
 }
 
+
+/*
+    Auteur(e)(s): Florian Legendre
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void adminTpSpring(T_game_parts game_parts, int spring_id, int line, int col)
 {
     if(!(IsCaseAvailable(game_parts.banquise->grid[line][col])) || !(IsInbound(BANQUISE_SIZE, line, col)))
@@ -96,6 +126,14 @@ void adminTpSpring(T_game_parts game_parts, int spring_id, int line, int col)
 /* ========= FONCTIONS DE SUPPRESSION EN JEU ========= */
 /* =================================================== */
 
+
+/*
+    Auteur(e)(s): Florian Legendre
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void adminKillPlayer(T_game_parts game_parts, int player_id)
 {
         game_parts.players[player_id]->details.health = dead;
@@ -109,7 +147,7 @@ void adminKillPlayer(T_game_parts game_parts, int player_id)
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -243,7 +281,7 @@ void adminInfoCase(T_game_parts game_parts, int line, int col)
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -279,7 +317,7 @@ void adminShowAllFlakes(T_game_parts game_parts, int nb_flakes)
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -311,7 +349,7 @@ void adminShowAllPlayers(T_game_parts game_parts, int nb_players)
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -395,7 +433,7 @@ void adminPrivileges(T_game_parts game_parts)
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):

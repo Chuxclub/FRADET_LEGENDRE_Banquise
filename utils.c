@@ -7,7 +7,7 @@
 /* ====================================== */
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -33,7 +33,7 @@ int IsPlacementAvailable(T_case banquise_case)
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -61,7 +61,7 @@ int AreSurroundingsAvailable(T_banquise *banquise, int line, int col)
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -95,7 +95,7 @@ void PlaceReservedZone(T_banquise *banquise, int line, int col)
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -140,7 +140,7 @@ int IsPlayer(T_case banquise_case)
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -197,7 +197,7 @@ int IsPlayerInRange(T_hammer_head *hammer_head, T_banquise *banquise, int *playe
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -270,7 +270,7 @@ int IsFlakeIN(int banquise_size, T_banquise *banquise, int neighbour_line, int n
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -283,7 +283,7 @@ int enum_cycle_right(int n, int max, int right)
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):

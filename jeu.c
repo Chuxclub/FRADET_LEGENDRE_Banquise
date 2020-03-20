@@ -1,11 +1,16 @@
 #include "jeu.h"
 
 /*
-    Auteur(e)(s):
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Auteur(e)(s): Florian Legendre
+    Utilité: Initialise tous les elements du jeu qui sont regroupés dans la structure T_game_parts.
+             Pour l'analogie, T_game_parts est comme la boîte du jeu de plateau qui contient le plateau,
+             les jetons, le dés, etc. initGame() initialise cette boîte (virtuelle) et son contenu
+    Fonctionnement: Fait appel aux fonctions d'initialisation dans les modules correspondants et assigne
+                    les ensembles d'objets ainsi initialisés dans la "boîte" du jeu (game_parts) qui est
+                    retourné en sortie.
+    Complexité en temps (au pire): O(banquise_size²) vu que toutes les fonctions d'initialisation ont cette complexité
+                                   et que la somme de complexités quadratiques au pire nous redonne une complexité quadratique
+    Hypothèse d'amélioration possible: Limiter le nombre de fonctions à complexité quadratique
 */
 T_game_parts initGame(int nb_players)
 {

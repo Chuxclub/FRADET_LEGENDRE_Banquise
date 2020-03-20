@@ -17,7 +17,7 @@
     Utilité: Cree un tableau de glace uniquement
     Fonctionnement: Cree une banquise (la structure sur laquelle évolueront les éléments du jeu) par allocation dynamique
                     -> Puis cree une matrice deux dimensions de cases par double allocation dynamique, cette matrice deux dimensions est assignée à la banquise
-                    -> Et enfinn, chaque case de cette grille dorénavant assignée à la banquise est initialisée.
+                    -> Et enfin, chaque case de cette grille dorénavant assignée à la banquise est initialisée.
     Complexité en temps (au pire): En supposant que toutes les allocations dynamiques se font en temps constant, on a O(banquise_size²), size étant la taille de la banquise
                                    car l'initialisation de chaque case de la banquise demande à ce qu'on parcourt chaque case
     Hypothèse d'amélioration possible: /
@@ -54,7 +54,8 @@ T_banquise *initRawBanquise(int size)
     Auteur(e)(s): Florian Legendre
     Utilité: Cree une banquise avec un terrain genere aleatoirement
     Fonctionnement: Cree une banquise de glace, puis ajoute les variations de terrain et les drapeaux (point de départ et d'arrivée du jeu)
-    Complexité en temps (au pire): Egale à la somme des complexités de addWater(), addRocks() et addFlags()
+    Complexité en temps (au pire): Egale à la somme des complexités de addWater(), addRocks() et addFlags() qui sont quadratiques (sauf addFlags()),
+                                   donc initBanquise() a une complexité O(banquise_size²) au pire.
     Hypothèse d'amélioration possible: /
 */
 T_banquise *initBanquise(int size)
