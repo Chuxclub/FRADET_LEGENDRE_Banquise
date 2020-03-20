@@ -8,10 +8,12 @@
 
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: Permet d'ajouter de l'eau à la position indiquée
+    Fonctionnement: Verifie, par securite, qu'il n'y a pas un joueur ou un drapeau (ce qui pourrait nuire gravement
+                    a de futurs tests), ecrase le reste par de l'eau.
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: Comme pour toutes les fonctions de tous les modules qui ont des int line et int col, on aurait
+                                       pu directement passer en parametre une position...
 */
 void adminAddWater(T_game_parts game_parts, int line, int col)
 {
@@ -33,10 +35,10 @@ void adminAddWater(T_game_parts game_parts, int line, int col)
 
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: Permet de teleporter le joueur a la position indiquee
+    Fonctionnement: On verifie, par securite pour de futurs tests, que la case destination est bien dans le plateau et qu'il n'y a pas d'objets autre que "reserved"
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: /
 */
 void adminTpPlayer(T_game_parts game_parts, int player_id, int line, int col)
 {
@@ -58,10 +60,11 @@ void adminTpPlayer(T_game_parts game_parts, int player_id, int line, int col)
 
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: Meme chose que precedemment mais avec des flocons.
+    Fonctionnement: On prend ici en compte, en plus, le vecteur vitesse actuel d'un glacon
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: On pourrait, pour ameliorer la lisibilite, utiliser les fonctions
+                                       updateObjectOnBanquise() dans banquise.c et stopFlake() dans glacon.c
 */
 void adminTpFlake(T_game_parts game_parts, int flake_id, int line, int col)
 {
@@ -92,10 +95,10 @@ void adminTpFlake(T_game_parts game_parts, int flake_id, int line, int col)
 
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: Pouvoir teleporter des ressorts
+    Fonctionnement: Meme chose que pour les glacons avec les vecteurs vitesses en moins
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: /
 */
 void adminTpSpring(T_game_parts game_parts, int spring_id, int line, int col)
 {
@@ -129,10 +132,10 @@ void adminTpSpring(T_game_parts game_parts, int spring_id, int line, int col)
 
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: Pouvoir tuer un joueur designe par son identifiant
+    Fonctionnement: Modifie son etat "health" a "dead"
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: /
 */
 void adminKillPlayer(T_game_parts game_parts, int player_id)
 {
@@ -148,10 +151,13 @@ void adminKillPlayer(T_game_parts game_parts, int player_id)
 
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: Fournit toutes les informations possibles sur une case et l'etat d'un eventuel objet/joueur present
+             sur la case au moment de l'appel de la fonction dans le jeu
+    Fonctionnement: Des switch() permettent de gerer la presence ou non de drapeau ou d'elements de terrains.
+                    La presence ou non de joueurs/objets est gere par des if/then/else. Une fois qu'une presence
+                    est avere on gere, si necessaire, les informations a afficher par de nouveaux switch()
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: /
 */
 void adminInfoCase(T_game_parts game_parts, int line, int col)
 {
@@ -282,10 +288,11 @@ void adminInfoCase(T_game_parts game_parts, int line, int col)
 
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: Afficher toutes les informations disponibles sur tous les glacons dans leur tableau (cf. dans game_parts)
+    Fonctionnement: Boucle parmi les elements du tableau. Affichage si le glacon est encore present dans le jeu (!= NULL)
+                    sinon on affiche le fait qu'un certain glacon n'existe plus dans le jeu
+    Complexité en temps (au pire): O(nb_flakes)
+    Hypothèse d'amélioration possible: /
 */
 void adminShowAllFlakes(T_game_parts game_parts, int nb_flakes)
 {
@@ -318,10 +325,10 @@ void adminShowAllFlakes(T_game_parts game_parts, int nb_flakes)
 
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: Meme chose que pour adminShowAllFlakes() mais avec les joueurs
+    Fonctionnement: Les joueurs existent toujours dans le jeu qu'il soit dans l'etat mort ou non
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: /
 */
 void adminShowAllPlayers(T_game_parts game_parts, int nb_players)
 {
@@ -350,10 +357,14 @@ void adminShowAllPlayers(T_game_parts game_parts, int nb_players)
 
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: Permet, selon la commande donnee par l'utilisateur, de lancer la fonction correspondant à la commande
+             avec les parametres donnees par l'utilisateur.
+    Fonctionnement: Compare la chaine de caractere donnee par le joueur et copiee dans cmd[30] avec une chaine attendue, constante,
+                    pour autoriser l'execution d'une commande. Si la commande est valide on passe eventuellement les parametres entiers
+                    qu'a fournit le joueur.
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: Eviter une saisie prematuree des entiers symbolisant une position souhaitee. Cette saisie n'est pas toujours
+                                       pertinente et engendre parfois des confusions lors des tests, ce qui a pour effet de ralentir ces-derniers.
 */
 void adminPrivileges(T_game_parts game_parts)
 {
@@ -434,10 +445,13 @@ void adminPrivileges(T_game_parts game_parts)
 
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: moveFlakeUp() et ses derivees (Down, Right, Left...) sont les anciennes fonctions de deplacements
+             des glacons. Elle permettait le deplacement d'un glacon aussi loin qu'il le pouvait dans une direction
+             donnee (Right, Left...). Elles sont conservees ici bien qu'elles ne soient plus utilisees car elles pourraient
+             servir dans adminPrivilegies() a tester rapidement des interactions glacons/objets_interagissables.
+    Fonctionnement: Le fonctionnement est detaille dans le corps de chacune des fonctions de cette famille de fonction.
+    Complexité en temps (au pire): O(nb_de_case_ou_le_glacon_peut_se_deplacer)
+    Hypothèse d'amélioration possible: /
 */
 void moveFlakeUp(T_object *bumped_flake, T_banquise *banquise)
 {
