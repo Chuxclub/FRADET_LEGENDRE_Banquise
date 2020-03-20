@@ -7,10 +7,13 @@
 
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: Meme chose que pour initTrap() dans piege.c ou initSpring() dans ressort.c. Seulement ici le marteau est en deux parties: sa
+             tete et son manche. Ses deux parties sont reunies dans un type structure T_hammer qui les regroupe. Comme les types structures
+             T_hammer_head et T_hammer_handle (respectivement la tete et le manche) ont plus de champs, on a plus de valeurs par defaut a initialiser...
+    Fonctionnement: Voir les commentaires dans le corps de la fonction
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: 1) Le type structure T_hammer regroupant tete et manche de marteau n'a finalement que peu d'utilite. Il faudrait donc:
+                                          soit s'epargner l'utilisation d'un type inutile le reste du temps, soit verifier si ce-dernier est sous-utilise...
 */
 
 T_hammer *initHammer()
@@ -50,10 +53,13 @@ T_hammer *initHammer()
 
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: Initialise tous les marteaux du jeu et les regroupe dans un tableau T_object de tetes/manches de marteaux.
+    Fonctionnement: Le tableau renvoye en sortie contient des paires tete/manche, d'abord la tete puis le manche. La tete et le manche
+                    sont des T_object. A chaque nouveau marteau on doit donc avancer dans +2 dans la boucle, d'ou le "i+=2". De meme, le
+                    parametre nb_hammers doit etre double lors de l'allocation dynamique car si on veut 1 marteau on a alors deux T_object generes,
+                    la tete et le manche. Etc.
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: 1) C'est ici qu'on utilise pour la premiere fois le type T_hammer. Il faudrait questionner son utilite.
 */
 T_object **initHammers(int nb_hammers)
 {
@@ -93,10 +99,17 @@ T_object **initHammers(int nb_hammers)
 
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: Ajoute les marteaux sur la banquise
+    Fonctionnement: Comme pour addFlakes() dans glacon.c, on parcourt chaque case de la banquise avec une pourcentage de chance ou on placera
+                    le potentiel manche du marteau. Si le pourcentage est valide, on verifie qu'il n'y a rien autour du rayon de rotation du marteau
+                    qui pourrait en toute logique humaine (meme si du point de vue programmation ce n'est serait pas le cas) entraver la rotation du marteau.
+                    Si tout est bon, alors on ajoute le manche et la tete du marteau par simple translation de la position du manche avec le vecteur up_face de la tete
+                    du marteau (ce vecteur represente dans quelle direction pointe la face du dessus de la tete du marteau).
+
+                    Note 1: Au moment de placer le marteau on place egalement une zone "reserved" qui empechera le placement d'autres objets
+                    et/ou elements de terrain dans cette zone de rotation.
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: /
 */
 void addHammers(T_banquise *banquise, T_object **hammers, int nb_hammers)
 {
@@ -140,10 +153,28 @@ void addHammers(T_banquise *banquise, T_object **hammers, int nb_hammers)
 
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: Mettre a jour sur la banquise, a chaque nouveau tour, les marteaux en mouvement et eventuellement realiser les interactions necessaires.
+    Fonctionnement: Dans toute la fonction on ne s'interesse cette fois-ci qu'a la tete du marteau (on n'anime pas encore le manche). On verifie pour
+                    chaque tete de marteau dans nos tableaux de marteaux que ces tetes sont en mouvement (cf. le "momentum") ou non. Si ce n'est pas la cas
+                    -> pas de mise a jour! Si c'est le cas, voir le corps de la fonction pour l'explication du reste du fonctionnement.
+
+                    Note 1: Une explication du "vector_carrier" s'impose. Quand le glacon rencontre la tete du marteau, ce-dernier transmet a la tete du marteau
+                            son vecteur vitesse. Le champ "vector_carrier" de la tete du marteau recupere en effet le vecteur du glacon, d'ou la "transmission".
+                            Quand la tete du marteau change de position on modifie egalement la valeur du "vector_carrier". Un calcul mathematique montre en effet
+                            que le nouveau "vector_carrier" correspond a la soustraction entre le vecteur translation de la tete du marteau et l'ancienne valeur
+                            du "vector_carrier" En effet:
+                                                               A   B
+                                                             *  o->           * est le glacon qui a percute o representant la tete du marteau.
+                                                                   ||         A la position de depart de cette tete, B la case d'a cote et C la nouvelle case
+                                                                   \/         ou sera la tete du marteau.  On a alors les vecteurs AB, AC et AB.
+                                                                   C          AC correspond au vecteur horaire ou antihoraire de translation de la tete.
+                                                                              AB correspond au "vector_carrier" transmis par le glacon. Le nouveau "vector_carrier"
+                                                                              sera le vecteur BC apres translation de la tete du marteau. Ce vecteur est obtenu en faisant
+                                                                              AB + BC = AC et donc: BC = AC - AB.
+
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: 1) Eviter une separation en cas "horaire" et cas "antihoraire" par un unique calcul mathematique (comme par exemple
+                                          avec les fonctions cos() et sin()...
 */
 void updateHammers(int nb_hammers, T_game_parts *game_parts)
 {
