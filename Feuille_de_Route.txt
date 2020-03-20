@@ -5,23 +5,6 @@
 IMPORTANT: A la fin de chaque phase, se concerter pour vérifier complexités/optimisations possibles/lisibilité/documentation/anticipation pour des évolutions possibles
 =======================================================================================================================================================================
 
-Phase 3 -> Détection de la fin de partie
-Fait:
-1) Détecter l'existence d'un chemin direct récursivement
-3) Détecter une fin de partie quand tous les joueurs sont morts
-4) Détecter une fin de partie quand un joueur a atteint un drapeau
-
-
-A faire:
-2) Si aucun chemin direct n'existe, recréer une banquise viable pour les joueurs
-
-
-Phase 4 -> Ajout du réchauffement climatique
-Fait:
-
-A faire:
-1) Ajouter un réchauffement climatique aléatoire à la boucle des rafraîchissements tour par tour
-
 Phase 5 -> Ajout score des joueurs
 Fait:
 
@@ -31,12 +14,7 @@ A faire:
 3) Déterminer un gagnant par catégorie: tueur/pacifique/distance/chemin
 
 
-Phase 6 -> Analyse complexité/Réécriture pour lisibilité et optimisations, remise du projet
-Fait:
 
-A faire:
-1) Pour chaque module: analyser les complexités => Si ok: vérifier lisibilité => Si ok: vérifier documentation (nom/prénom, explications)
-						=> Si pas ok: vérifier optimisation => Si ok, lisiblité puis documentation...
 
 
 
@@ -68,4 +46,24 @@ Fait:
 7) Interaction joueur/piège
 8) Mort du joueur par un flocon
 9) Mort du joueur par un marteau
+
+
+Phase 3 -> Détection de la fin de partie
+Fait:
+1) Détecter l'existence d'un chemin direct récursivement
+2) Si aucun chemin direct n'existe, recréer une banquise viable pour les joueurs ou fin de partie
+3) Détecter une fin de partie quand tous les joueurs sont morts
+4) Détecter une fin de partie quand un joueur a atteint un drapeau
+
+
+Phase 4 -> Ajout du réchauffement climatique
+Fait:
+1) Ajouter un réchauffement climatique aléatoire à la boucle des rafraîchissements tour par tour
+
+
+
+Phase 6 -> Analyse complexité/Réécriture pour lisibilité et optimisations, remise du projet
+Fait:
+1) Pour chaque module: analyser les complexités => Si ok: vérifier lisibilité => Si ok: vérifier documentation (nom/prénom, explications)
+						=> Si pas ok: vérifier optimisation => Si ok, lisiblité puis documentation...
 
