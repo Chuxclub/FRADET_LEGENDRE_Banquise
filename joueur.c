@@ -8,10 +8,10 @@
 
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: Meme chose que pour initTraps() dans piege.c ou initSprings() dans ressort.c...
+    Fonctionnement: Meme chose que pour initTraps() dans piege.c ou initSprings() dans ressort.c...
+    Complexité en temps (au pire): O(nb_player)
+    Hypothèse d'amélioration possible: /
 */
 T_player **initPlayers(int nb_players)
 {
@@ -32,20 +32,28 @@ T_player **initPlayers(int nb_players)
 }
 
 
-//Recherche une position disponible dans une zone de recherche
-//Que la fonction incr�mente au fur et � mesure, s'arr�te quand toute la banquise a �t� explor�e ou qu'une position a �t� trouv�e
-
-
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
+    Utilité: Chercher autour du drapeau si une case est disponible pour pouvoir y placer un joueur
+    Fonctionnement: On procede par balayage d'une zone qu'on definit par des variables dont on a veille a ce qu'elles
+                    definissent des cases qui sont dans le plateau. Le balayage se fait alors ligne par ligne. Si aucune
+                    cases correspondant a nos conditions de placement du joueur autour du drapeau ne correspond on etend le
+                    rayon de recherche (cf. dist_A). Si on a balaye toutes les lignes possibles de la banquise et qu'on a rien trouve
+                    on renvoit un message d'erreur qui sera gere plus tard dans le developpement. Au final, la fonction renvoit un tableau comprenant
+                    les positions determinees par l'algorithme.
     Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Hypothèse d'amélioration possible: 1) La fonction reverifie des cases deja verifiees des qu'on etend le rayon de recherche.
+                                          On peut eviter cela en ne procedant non plus par balayage mais par bandes de recherche.
+                                          Le principe serait alors le suivant: definir la ligne du dessus, la ligne du dessous et les colonnes
+                                          sur les cotes entre les lignes dans le rayon souhaite. Si une colonne ou ligne est hors du plateau on peut
+                                          ne pas y faire de recherche. On evite alors de retester des cases deja testees.
+
+                                       2) Au lieu de renvoyer un tableau d'entier on pourrait renvoyer un T_pos
+                                       3) pos_tab est renvoye. On pourrait aussi bien eviter l'allocation dynamique
 */
 int *searchAvailablePos(T_banquise *banquise, int Ligne_a, int Col_a)
 {
-    /*Initialisation des constantes et variables n�cessaires*/
+    /*Initialisation des constantes et variables necessaires*/
     //pos_tab correspond aux positions qui seront
     //dans les limites du tableau
     int dist_A = 0;
@@ -57,8 +65,8 @@ int *searchAvailablePos(T_banquise *banquise, int Ligne_a, int Col_a)
 
     do
     {
-        /*D�finition des limites de la zone de recherche*/
-        //Positionnement des indices lignes/colonnes par rapport � A (Col_a, Ligne_a)
+        /*Definition des limites de la zone de recherche*/
+        //Positionnement des indices lignes/colonnes par rapport a A (Col_a, Ligne_a)
         //Et par rapport au rayon de recherche autour de A (dist_A)
         //Rectification de ces indices si ces-derniers d�passent le plateau de jeu
         int col_begin = Col_a - dist_A;
@@ -77,8 +85,8 @@ int *searchAvailablePos(T_banquise *banquise, int Ligne_a, int Col_a)
 
 
         /*Balayage de la zone de recherche du haut en bas, de la gauche vers la droite*/
-        //Sauvegarde des positions dans le tableau au fur et � mesure de la recherche et que celles-ci sont libres
-        //Sauvegarde de la taille du tableau avec la variable size au fur et � mesure qu'on rajoute des positions
+        //Sauvegarde des positions dans le tableau au fur et a mesure de la recherche et que celles-ci sont libres
+        //Sauvegarde de la taille du tableau avec la variable size au fur et a mesure qu'on rajoute des positions
         for(int ligne_index = ligne_begin; ligne_index <= ligne_end; ligne_index++)
         {
             for(int col_index = col_begin; col_index <= col_end; col_index++)
@@ -96,11 +104,11 @@ int *searchAvailablePos(T_banquise *banquise, int Ligne_a, int Col_a)
                 break;
         }
 
-        /*Extension de la zone et boucle si aucune position de trouv�e*/
+        /*Extension de la zone et boucle si aucune position de trouvee*/
         if(found == 0)
             dist_A++;
 
-        /*Arr�t de la recherche si on est parti du coin haut gauche du plateau et qu'on n'a rien trouv� par balayage*/
+        /*Arret de la recherche si on est parti du coin haut gauche du plateau et qu'on n'a rien trouve par balayage*/
         if((col_begin == 0 && ligne_begin == 0) && found == 0)
         {
             fprintf(stderr, "No available position to place player\(s)\n");
@@ -112,16 +120,15 @@ int *searchAvailablePos(T_banquise *banquise, int Ligne_a, int Col_a)
 }
 
 
-//Ajoute les joueurs au plus pr�s du point A sur la banquise
-//Renvoit les positions où elle a ajouté les joueurs
-
 
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: Ajoute les joueurs au plus pres du point A sur la banquise
+    Fonctionnement: La fonction recherche d'abord l'emplacement du drapeau A
+    Complexité en temps (au pire): O(banquise_size²) du fait de la recherche de l'emplacement de A
+    Hypothèse d'amélioration possible: 1) On pourrait ajouter a T_game_parts les champs flag_A et flag_B qui
+                                          contiendrait les positions des drapeaux A et B determines par addFlags()
+                                          On eviterait ainsi la recherche de complexite quadratique sur la banquise.
 */
 void addPlayers(T_banquise *banquise, T_player **players, int nb_players)
 {
@@ -161,15 +168,15 @@ void addPlayers(T_banquise *banquise, T_player **players, int nb_players)
 }
 
 
-//demande et stocke le nombre de joueur
-
-
 /*
     Auteur(e)(s): Amandine Fradet et Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: Demande et renvoit le nombre de joueur
+    Fonctionnement: L'affichage de ce menu (integre a main_menu() dans menus.c) est gere par des
+                    fonctions consultables dans console_funcs.c. Apres cet affichage on demande a l'utilisateur
+                    d'entre un entier, on controle la validite de l'entier et, si l'entier est valide, on le renvoit.
+                    Cela permettra au jeu de se lancer avec le nombre de joueurs souhaite sur la banquise.
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: /
 */
 int HowManyPlayers()
 {
@@ -228,10 +235,21 @@ int HowManyPlayers()
 
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: La famille de fonction move() et ses derivees Up, Down, Left, ... permettent de deplacer le joueur d'une case dans la direction souhaitee.
+    Fonctionnement: On copie les anciennes positions du joueur dans des variables locales. Puis on verifie si le joueur n'est pas piege. S'il est piege on
+                    ne met pas a jour le joueur et on arrete la fonction avec un return. Sinon, on verifie que la nouvelle position candidate est bien dans le plateau.
+                    Si ce n'est pas le cas la mise a jour est egalement ignoree et la fonction s'arrete. Sinon on verifie si la case est disponible: si c'est le cas
+                    on deplace le joueur dans la direction souhaitee. Sinon on verifie s'il s'agit d'un objet avec lequel le joueur peut interagir. Si c'est le cas
+                    on aiguille l'interaction a lancer. Sinon on ignore egalement la mise a jour du joueur dont le deplacement est alors ignore.
+
+                    Note 1: else if(IsFlake(theGame->banquise->grid[new_line][previous_col]) && (scalar_product(theGame->banquise->grid[new_line][previous_col].object->flake->vect, up_vect) < 0))
+                    Ce cas prevoit la possibilite que le joueur interagisse avec un glacon qui lui fonce dessus directement ou de biais (grace au produit scalaire). Si c'est le cas
+                    alors on lance tout de meme l'interaction mais le joueur meurt en lancant cette interaction.
+
+                    Note 2: else if(IsFlagB(theGame->banquise->grid[new_line][previous_col])) prevoit le cas ou le joueur aurait reussi a rejoindre le drapeau B. Si c'est le cas
+                    on indique au jeu que ce-dernier doit se terminer.
+    Complexité en temps (au pire): O(1) car toutes les sous-procedures sont en O(1)
+    Hypothèse d'amélioration possible: 1) Comme pour moveFlake(), faire une fonction PlayerIN() qui aiguille les interactions. Cela ameliorerait la lisibilite de cette fonction.
 */
 void moveUp(T_player *player, T_game_parts *theGame)
 {
@@ -477,15 +495,13 @@ void moveRight(T_player *player, T_game_parts *theGame)
 }
 
 
-//Met à jour la banquise en fonction des nouvelles positions du joueur
-//Les anciennes coordonnées du joueurs doivent être données
 
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: Met à jour la banquise en fonction des nouvelles positions du joueur. Les anciennes coordonnées du joueurs doivent être données.
+    Fonctionnement: Debranche le joueur de la banquise a son ancienne position, le rebranche a sa nouvelle position
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: /
 */
 void updatePlayer(T_player *myPlayer, int previous_line, int previous_col, T_banquise *banquise)
 {
@@ -502,10 +518,10 @@ void updatePlayer(T_player *myPlayer, int previous_line, int previous_col, T_ban
 
 /*
     Auteur(e)(s): Florian Legendre
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Utilité: Tuer un joueur en toute impunite
+    Fonctionnement: On modifie sa variable d'etat health a "dead"
+    Complexité en temps (au pire): O(1) -> Il faut generalement moins de temps pour detruire que pour construire!
+    Hypothèse d'amélioration possible: kill -9 ? Sinon RAS
 */
 void killPlayer(T_player *myPlayer)
 {
