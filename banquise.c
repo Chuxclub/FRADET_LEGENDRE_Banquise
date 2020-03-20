@@ -238,7 +238,7 @@ void updateObjectOnBanquise(T_object *myObject, int new_line, int new_col, T_ban
     Auteur(e)(s): Amandine Fradet
     Utilité: Initialise la variable a 1 pour tester la fonction isARoad ulterieurement, 1 signifiera que la case n'est pas disponible pour effectuer un deplacement
     Fonctionnement:
-    Complexité en temps (au pire):
+    Complexité en temps (au pire): O(BANQUISE_SIZE²) pour remplir chaque case du tableau
     Hypothèse d'amélioration possible:
 */
 T_test initTest(int size)
@@ -268,9 +268,11 @@ T_test initTest(int size)
 /*
     Auteur(e)(s): Amandine Fradet
     Utilité: Transforme la banquise en 0, 1 ou 2 dans la variable T pour simplifier la recherche de la fonction isARoad
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Fonctionnement: En parcourant la banquise, la fonction va enregistrer les éléments de cette banquise et les transformer
+                    en entier dans le tableau pour faciliter la recherche d'un chemin direct.
+    Complexité en temps (au pire): O(BANQUISE_SIZE²) car la fonction doit remplir chaque case du tableau
+    Hypothèse d'amélioration possible: Pour éviter d'avoir 2 fonctions qui ont la même complexité en temps et qui parcourent
+                                        toutes les deux le tableau, il aurait été possible de les combiner.
 */
 T_test collectInfos(T_banquise *banquise, T_test T)
 {
@@ -308,8 +310,9 @@ T_test collectInfos(T_banquise *banquise, T_test T)
 /*
     Auteur(e)(s): Amandine Fradet
     Utilité: Intialisation du tableau qui sauvegardera les coordonnées des cases déjà visitées
-    Fonctionnement:
-    Complexité en temps (au pire):
+    Fonctionnement: La fonction initialise un tableau qui aura pour fonction d'enregistrer toutes les positions où la récursive
+                    isRoad sera déjà passée
+    Complexité en temps (au pire): O(BANQUISE_SIZE)
     Hypothèse d'amélioration possible:
 */
 T_pos *initTab()
@@ -329,8 +332,12 @@ T_pos *initTab()
 /*
     Auteur(e)(s): Amandine Fradet
     Utilité: Recursive cherchant un chemin de A vers B
-    Fonctionnement:
-    Complexité en temps (au pire):
+    Fonctionnement: On cherche d'abord à savoir si la case sur laquelle on se trouve est le point d'arrivée. Si ce n'est
+                    pas le cas, on commence à opérer une récursive (au-dessus de la case, en-dessous, à gauche, ou à droite).
+                    Si ces 4 cases ont déjà été visité ou impossible à parcourir, on retourne sur la case précédement visité.
+                    Si ce n'est toujours pas possible, dans ce cas la fonction est de retour au point de départ et aucun chemin
+                    direct n'existe.
+    Complexité en temps (au pire): si la récursive doit parcourir tout le tableau avant de trouver le pont d'arrivée, O(BANQUISE_SIZE²) avec BANQUISE_SIZE étant la longueur du tableau
     Hypothèse d'amélioration possible:
 */
 int isRoad(T_test T, int line, int col, T_pos *tab, int i)
@@ -638,8 +645,11 @@ void printBanquise(T_banquise *banquise)
 /*
     Auteur(e)(s): Amandine Fradet
     Utilité: Calcule la fonte de la banquise
-    Fonctionnement:
-    Complexité en temps (au pire):
+    Fonctionnement: On crée un tableau d'entiers qui sauvegarde les emplacements des points d'eau de la banquise. Puis on applique
+                    un random pour calculer les chances de voir la banquise fondre. Si ce random est inférieur à 5, alors la banquise
+                    va fondre autour de ces points d'eau. Pour ne pas appliquer la fonte à un point d'eau tout juste créée, on s'appuie
+                    sur le tableau d'entier qui ne sera pas affecté par ces apparitions.
+    Complexité en temps (au pire): O(BANQUISE_SIZE² + BANQUISE_SIZE²)
     Hypothèse d'amélioration possible:
 */
 void Fontebanquise (T_banquise *banquise)

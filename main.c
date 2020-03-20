@@ -158,7 +158,7 @@ int main()
                 T = collectInfos(theGame.banquise, initTest(BANQUISE_SIZE));
                 tab = initTab();
 
-                //n'a pas trouve de chemin direct
+                //n'a pas trouve de chemin direct après la possible fonte de la banquise
                 if ((isRoad(T, T.posA.line, T.posA.col, tab, 0)) == 0)
                 {
                     char answer;
