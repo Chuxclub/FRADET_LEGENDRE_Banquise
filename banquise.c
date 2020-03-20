@@ -9,7 +9,17 @@
 /* ========= INITIALISATION BANQUISE ========== */
 /* ============================================ */
 
-//Cr�e un simple tableau de glace uniquement
+
+/*
+    Auteur(e)(s): Florian Legendre
+    Utilité: Cree un tableau de glace uniquement
+    Fonctionnement: Cree une banquise (la structure sur laquelle évolueront les éléments du jeu) par allocation dynamique
+                    -> Puis cree une matrice deux dimensions de cases par double allocation dynamique, cette matrice deux dimensions est assignée à la banquise
+                    -> Et enfinn, chaque case de cette grille dorénavant assignée à la banquise est initialisée.
+    Complexité en temps (au pire): En supposant que toutes les allocations dynamiques se font en temps constant, on a O(banquise_size²), size étant la taille de la banquise
+                                   car l'initialisation de chaque case de la banquise demande à ce qu'on parcourt chaque case
+    Hypothèse d'amélioration possible: /
+*/
 T_banquise *initRawBanquise(int size)
 {
     T_banquise *res;
@@ -37,13 +47,20 @@ T_banquise *initRawBanquise(int size)
     return res;
 }
 
-//Creer une banquise avec un terrain genere aleatoirement
+
+/*
+    Auteur(e)(s): Florian Legendre
+    Utilité: Cree une banquise avec un terrain genere aleatoirement
+    Fonctionnement: Cree une banquise de glace, puis ajoute les variations de terrain et les drapeaux (point de départ et d'arrivée du jeu)
+    Complexité en temps (au pire): Egale à la somme des complexités de addWater(), addRocks() et addFlags()
+    Hypothèse d'amélioration possible: /
+*/
 T_banquise *initBanquise(int size)
 {
     //Initialisation de la banquise (que de la glace)
     T_banquise *myBanquise = initRawBanquise(size);
 
-    //G�n�ration al�atoire des �l�ments du terrain
+    //Generation aleatoire des elements du terrain
     addWater(myBanquise, NB_WATER);
     addRocks(myBanquise, NB_ROCKS);
     addFlags(myBanquise);
@@ -56,7 +73,23 @@ T_banquise *initBanquise(int size)
 /* ========== MODIFICATIONS BANQUISE ========== */
 /* ============================================ */
 
-//Ajoute de l'eau al�atoirement dans la banquise, remplace la glace
+
+/*
+    Auteur(e)(s): Florian Legendre
+    Utilité: Ajoute de l'eau aleatoirement dans la banquise, ne peut que remplacer de la glace grâce à la fonction IsPlacementAvailable()
+    Fonctionnement: Un compteur, nb_water, nous donne le nombre d'eau qu'on souhaite ajouter sur la banquise et est décrémenté au fur et à mesure que l'eau est
+                    ajoutée. Un nombre aléatoire (cf. la variable "loto") compris entre 0 et 100 est généré, la glace ne peut être ajoutée que si "loto" est compris
+                    entre 0 et 10 (ce qui correspond donc à 10% de chance d'avoir une case qui devient de l'eau). Chaque case de la banquise est parcourue avec ce
+                    pourcentage. Si arrivée à la fin de la banquise on n'a toujours pas ajouté l'ensemble des cases d'eau souhaité, on reparcourt de nouveau toutes
+                    les cases de la banquise (d'où le while(counter > 0)...) Si ce compteur arrive à 0 pendant le parcourt des cases de la banquise, on arrête la fonction
+                    par un return (cf. if(counter == 0)). Ainsi on s'assure que le bon nombre de cases d'eau est ajoutée de manière aléatoire.
+    Complexité en temps (au pire): Dans le pire des cas, si la variable "loto" n'est jamais dans les 10% on obtient une boucle infinie. Cependant ce cas, bien que
+                                   possible dans notre imagination, n'est ni théoriquement possible (la limite de cette probabilité tend vite vers 0) et donc ne l'est pas
+                                   en pratique. Plus probable, on a au pire: O(banquise_size²) pour le parcours de chaque case de la banquise
+    Hypothèse d'amélioration possible: Créer un tableau de position dont la taille (du tableau) correspond au nombre de cases d'eau voulues
+                                       puis générer pour chaque case du tableau une position aléatoire. La difficulté sera alors de vérifier qu'il n'y a pas de doublons
+                                       avec une fonction d'une complexité inférieure à la nôtre...
+*/
 void addWater(T_banquise *banquise, int nb_water)
 {
     int counter = nb_water;
@@ -83,8 +116,14 @@ void addWater(T_banquise *banquise, int nb_water)
     }
 }
 
-//Ajoute des rochers al�atoirement sur la banquise, remplace la glace
-//Mais ne remplace pas l'eau! Code pour rocher: object = 1
+
+/*
+    Auteur(e)(s): Florian Legendre
+    Utilité: Ajoute des rochers aleatoirement sur la banquise, remplace la glace, ne peut que remplacer de la glace grâce à la fonction IsPlacementAvailable()
+    Fonctionnement: Le fonctionnement est identique à la fonction addWater().
+    Complexité en temps (au pire): O(banquise_size²)
+    Hypothèse d'amélioration possible: Même suggestion que pour addWater()
+*/
 void addRocks(T_banquise *banquise, int nb_rocks)
 {
     int counter = nb_rocks;
@@ -113,10 +152,19 @@ void addRocks(T_banquise *banquise, int nb_rocks)
 }
 
 
-//Ajoute les points de d�part et d'arriv�e
-//Le point d'arriv� ne peut �tre qu'� trois lignes du haut du d�part
-//Le point de d�part dans les trois lignes en bas du tableau
 
+/*
+    Auteur(e)(s): Florian Legendre
+    Utilité: Ajoute les points de depart et d'arrivee. Note importante: Le point d'arrive ne peut etre qu'a trois lignes du haut du depart.
+                                                                        Le point de depart dans les trois lignes en bas du tableau.
+    Fonctionnement: Les variables (Xa, Ya) et (Xb, Yb) représentent respectivement qu'on cherche à générer des points A et B.
+                    On les génère une première fois. Puis on vérifie avec "while(!(IsPlacementAvailable(...)))" si leur placement est bon.
+                    Si le placement est valide (voir IsPlacementAvailable pour une définition d'un placement valide) alors on ne rentre
+                    pas dans la boucle et on assigne directement le drapeau à la position générée (cf. "banquise->grid[Xa][Ya].flag = A;", même
+                    chose pour B...) Sinon on rentre dans la boucle et on génère jusqu'à trouver une position correcte.
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: /
+*/
 void addFlags(T_banquise *banquise)
 {
     int Xa = BANQUISE_SIZE - 1 - (rand() % 3);
@@ -125,7 +173,7 @@ void addFlags(T_banquise *banquise)
     int Xb = 0 + (rand() % 3);
     int Yb = rand() % BANQUISE_SIZE;
 
-    //Si la position de A d�finie ci-dessus comporte un objet ou de l'eau on red�finit jusqu'�
+    //Si la position de A definie ci-dessus comporte un objet ou de l'eau on redefinit jusqu'a
     //ce que ce soit bon!
     while(!(IsPlacementAvailable(banquise->grid[Xa][Ya])))
     {
@@ -145,6 +193,15 @@ void addFlags(T_banquise *banquise)
     banquise->grid[Xb][Yb].flag = B;
 }
 
+/*
+    Auteur(e)(s): Florian Legendre
+    Utilité: S'occupe de mettre à jour un objet passé en paramètre sur la banquise. Par mise à jour on signifie -> débranchement
+             sur la banquise de l'objet de son ancienne position, mise à jour de la position de l'objet et rebranchement de l'objet
+             sur la banquise à ses nouvelles positions.
+    Fonctionnement: Un switch() permet de gérer les différents types d'objets qui n'ont pas les mêmes structures
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: /
+*/
 void updateObjectOnBanquise(T_object *myObject, int new_line, int new_col, T_banquise *banquise)
 {
     switch(myObject->object_type)
@@ -174,8 +231,13 @@ void updateObjectOnBanquise(T_object *myObject, int new_line, int new_col, T_ban
 /* ============ CHEMIN DE A VERS B ============ */
 /* ============================================ */
 
-//initialise la variable a 1 pour tester la fonction isARoad ulterieurement
-// 1 signifiera que la case n'est pas disponible pour effectuer un deplacement
+/*
+    Auteur(e)(s): Amandine Fradet
+    Utilité: Initialise la variable a 1 pour tester la fonction isARoad ulterieurement, 1 signifiera que la case n'est pas disponible pour effectuer un deplacement
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 T_test initTest(int size)
 {
     T_test T;
@@ -199,7 +261,14 @@ T_test initTest(int size)
     return T;
 }
 
-//transforme la banquise en 0, 1 ou 2 dans la variable T pour simplifier la recherche de la fonction isARoad
+
+/*
+    Auteur(e)(s): Amandine Fradet
+    Utilité: Transforme la banquise en 0, 1 ou 2 dans la variable T pour simplifier la recherche de la fonction isARoad
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 T_test collectInfos(T_banquise *banquise, T_test T)
 {
     for (int i = 0; i < BANQUISE_SIZE; i++)
@@ -232,7 +301,14 @@ T_test collectInfos(T_banquise *banquise, T_test T)
     return T;
 }
 
-//intialisation du tableau qui sauvegardera les coordonnées des cases déjà visitées
+
+/*
+    Auteur(e)(s): Amandine Fradet
+    Utilité: Intialisation du tableau qui sauvegardera les coordonnées des cases déjà visitées
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 T_pos *initTab()
 {
     int s = BANQUISE_SIZE * BANQUISE_SIZE;
@@ -245,7 +321,14 @@ T_pos *initTab()
     return tab;
 }
 
-//recursive cherchant un chemin de A vers B
+
+/*
+    Auteur(e)(s): Amandine Fradet
+    Utilité: Recursive cherchant un chemin de A vers B
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void isRoad(T_test T, int line, int col, T_pos *tab, int i)
 {
 
@@ -301,7 +384,14 @@ void isRoad(T_test T, int line, int col, T_pos *tab, int i)
         }
 }
 
-//fonction qui appellent toutes celles aidant a verifier l'existence d'un chemin de A vers B
+
+/*
+    Auteur(e)(s): Amandine Fradet
+    Utilité: Fonction qui appellent toutes celles aidant a verifier l'existence d'un chemin de A vers B
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void road(T_game_parts theGame, int players)
 {
     T_test T = collectInfos(theGame.banquise, initTest(BANQUISE_SIZE));
@@ -339,8 +429,20 @@ void road(T_game_parts theGame, int players)
 /* ================ AFFICHAGES ================ */
 /* ============================================ */
 
-//Affiche un code d'une case avec le symbole correspondant
-//Suit ordre logique: A/B > object > player > ice
+/*
+    Auteur(e)(s): Florian Legendre
+    Utilité: Affiche un code d'une case avec le symbole et/ou la couleur correspondante
+    Fonctionnement: Des if/then/else contrôle d'abord la nature du terrain à la case passée en paramètre (si c'est de l'eau ou de la
+                    roche rien ne peut être dessus donc on peut les afficher en premier). Puis s'il n'y a pas d'élément de terrain on
+                    vérifie alors s'il y a des objets (car le joueur ne peut pas marcher dessus sauf pour les pièges).  Pour cette
+                    même raison on contrôle ensuite les drapeaux (occurence plus rare que les objets donc on s'épargne dans la plupart
+                    des cas un test inutile). Enfin la présence d'un joueur (ou de son corps). Finalement s'il n'y a rien d'indiqué
+                    ci-dessus alors c'est qu'il n'y a rien d'autre que de la glace sur la case, on affiche donc, le cas échéant, de la glace.
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: Si un joueur tombe dans un piège, ce-dernier est affiché en priorité et donc le joueur en question n'est plus affiché.
+                                       Il faudrait pouvoir faire clignoter la case où le joueur et le piège se superposent. Ou bien afficher le joueur en priorité
+                                       et modifier la couleur du joueur pour faire comprendre qu'il est prisonnier d'un piège.
+*/
 void printCase(T_case banquise_case)
 {
     //Si c'est de l'eau ou un rocher inutile de chercher plus loin, on l'affiche
@@ -496,7 +598,18 @@ void printCase(T_case banquise_case)
 }
 
 
-//Affiche l'�tat de la banquise � l'instant de son appel
+/*
+    Auteur(e)(s): Florian Legendre
+    Utilité: Affiche la banquise entiere et donc revele son etat au joueur a l'instant de son appel
+    Fonctionnement: Parcourt chaque case de la banquise et affiche le contenu du la case avec printCase(). La fonction affiche également
+                    des separateurs (--- et |) pour delimiter les cases de la banquise et centre l'affichage de la banquise verticalement
+                    (center_printf_row()) et horizontalement (center_printf_col()). Pour centrer, les informations de la taille de console
+                    (grâce à windows.h) sont récupérées au moment de l'appel et passées en paramètre des fonctions énoncées précédemment.
+                    Ce qui signifie que si le joueur redimensionne sa console en cours de jeu alors il doit jouer un tour pour voir un
+                    rendimensionnement de l'affichage de la banquise.
+    Complexité en temps (au pire): O(banquise_size²) car on parcourt chaque case de la banquise.
+    Hypothèse d'amélioration possible: /
+*/
 void printBanquise(T_banquise *banquise)
 {
     CONSOLE_SCREEN_BUFFER_INFO csbi;
@@ -506,15 +619,9 @@ void printBanquise(T_banquise *banquise)
     columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
     rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 
-    //printf("columns: %d\n", columns);
-    //printf("rows: %d\n", rows);
-
     //Upper Border
-    for(int i = 0; i < rows / 6; i++)
-        printf("\n");
-
-    for(int i = 0; i < (columns / 2 - (banquise->sizeB * 2 + 4)); i++)
-        printf(" ");
+    center_printf_row(rows / 6);
+    center_printf_col(columns / 2 - (banquise->sizeB * 2 + 4));
 
     for(int i = 0; i < banquise->sizeB * 4 + 1; i++)
         printf("-"); //, text_white(stdout)
@@ -531,9 +638,7 @@ void printBanquise(T_banquise *banquise)
                 printf("\n");
 
                 //Right border of grid
-                for(int i = 0; i < (columns / 2 - (banquise->sizeB * 2 + 4)); i++)
-                    printf(" ");
-
+                center_printf_col(columns / 2 - (banquise->sizeB * 2 + 4));
                 printf("| ");
                 counter = 0;
             }
@@ -545,9 +650,7 @@ void printBanquise(T_banquise *banquise)
 
         //Mid-lines + Bottom border
         printf("\n");
-
-        for(int i = 0; i < (columns / 2 - (banquise->sizeB * 2 + 4)); i++)
-            printf(" ");
+        center_printf_col(columns / 2 - (banquise->sizeB * 2 + 4));
 
         for(int i = 0; i < banquise->sizeB * 4 + 1; i++)
             printf("-");
@@ -564,6 +667,13 @@ void printBanquise(T_banquise *banquise)
 /* ============================================ */
 
 //Calcule la fonte de la banquise
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void Fontebanquise (T_banquise *banquise)
 {
     srand(time (NULL));
