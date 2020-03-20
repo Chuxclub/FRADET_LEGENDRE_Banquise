@@ -135,11 +135,11 @@ int main()
                 updateFlakes(NB_FLAKES, theGame.flakes, theGame.banquise);
                 updateHammers(NB_HAMMERS, &theGame);
                 Fontebanquise(theGame.banquise);
-                //road(theGame, nb_players);
 
                 //Rafraichissement banquise
                 system("@cls||clear"); //Commenter cette ligne pour faciliter les tests!
                 printBanquise(theGame.banquise);
+               // theGame.game_on = road(theGame, nb_players, end_game_type);
             }
         }
     }
@@ -150,6 +150,9 @@ int main()
 
     else if(end_game_type == salvation)
         printf("\nUn des joueurs a reussi a s'enfuir et a contacter (hypocritement ou non) les secours!\n");
+
+    else if (end_game_type == global_warming)
+        printf("\nLa banquise a fondu. Le rechauffement climatique a frappe...\n");
 
 
     return 0;

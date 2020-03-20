@@ -3,6 +3,8 @@
 //
 
 #include "banquise.h"
+#include "jeu.h"
+#include "user_types.h"
 
 
 /* ============================================ */
@@ -322,6 +324,7 @@ T_pos *initTab()
 }
 
 
+
 /*
     Auteur(e)(s): Amandine Fradet
     Utilité: Recursive cherchant un chemin de A vers B
@@ -329,12 +332,12 @@ T_pos *initTab()
     Complexité en temps (au pire):
     Hypothèse d'amélioration possible:
 */
-void isRoad(T_test T, int line, int col, T_pos *tab, int i)
+int isRoad(T_test T, int line, int col, T_pos *tab, int i)
 {
 
         if (T.grid[line][col] == 2)
         {
-            T.B_find = 1;
+            return 1;
         }
         //si la case n'a jamais été visitée
         //lancement des récursives
@@ -382,7 +385,12 @@ void isRoad(T_test T, int line, int col, T_pos *tab, int i)
             int  nline = tab[i].line;
             isRoad(T, nline, ncol, tab, i);
         }
+        else
+        {
+            return 0;
+        }
 }
+
 
 
 /*
@@ -392,14 +400,14 @@ void isRoad(T_test T, int line, int col, T_pos *tab, int i)
     Complexité en temps (au pire):
     Hypothèse d'amélioration possible:
 */
-void road(T_game_parts theGame, int players)
+
+bool road(T_game_parts theGame, int players, T_end_game_type endgame)
 {
     T_test T = collectInfos(theGame.banquise, initTest(BANQUISE_SIZE));
     T_pos *tab = initTab();
-    isRoad(T, T.posA.line, T.posA.col, tab, 0);
 
     //n'a pas trouve de chemin
-    if (T.B_find == 0)
+    if ((isRoad(T, T.posA.line, T.posA.col, tab, 0)) == 0)
     {
         char answer;
         printf("Il n'y a plus de chemin possible.\nVoulez-vous relancer une nouvelle partie ?\nPour oui : y\nPour non : n\n");
@@ -410,18 +418,26 @@ void road(T_game_parts theGame, int players)
         {
         case 'y':
             players = main_menu();
-          //  theGame = initGame(players);
+            theGame = initGame(players);
+            system("@cls||clear");
+            printBanquise(theGame.banquise);
+            return true;
             break;
 
         case 'n':
             printf("Merci d'avoir joué");
-            theGame.game_on = false;
+            endgame = global_warming;
+            return false;
             break;
 
         default:
             printf ("wrong input\n");
             break;
         }
+    }
+    else
+    {
+        return true;
     }
 }
 
@@ -666,10 +682,10 @@ void printBanquise(T_banquise *banquise)
 /* =================== FONTE ================== */
 /* ============================================ */
 
-//Calcule la fonte de la banquise
+
 /*
-    Auteur(e)(s):
-    Utilité:
+    Auteur(e)(s): Amandine Fradet
+    Utilité: Calcule la fonte de la banquise
     Fonctionnement:
     Complexité en temps (au pire):
     Hypothèse d'amélioration possible:
@@ -702,7 +718,7 @@ void Fontebanquise (T_banquise *banquise)
     {
         for (int l = 0; l < BANQUISE_SIZE; l++)
         {
-            if ( (T.grid[k][l] == 0) && (fonte < 4) )
+            if ( (T.grid[k][l] == 0) && (fonte < 5) )
             {
                 if ( (-1 < (l - 1)) && (banquise->grid[k][l - 1].flag == 0) && (banquise->grid[k][l - 1].player == NULL) )
                 {
