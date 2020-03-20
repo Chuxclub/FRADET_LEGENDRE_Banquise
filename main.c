@@ -28,6 +28,21 @@ int main()
     int nb_players = main_menu();
     T_game_parts theGame = initGame(nb_players);
 
+    //cherche un chemin direct de A vers B
+    //sinon, relance une nouvelle banquise
+    T_test T = collectInfos(theGame.banquise, initTest(BANQUISE_SIZE));
+    T_pos *tab = initTab();
+
+    while ((isRoad(T, T.posA.line, T.posA.col, tab, 0)) == 0)
+    {
+        srand(time(NULL));
+        nb_players = main_menu();
+        theGame = initGame(nb_players);
+        T = collectInfos(theGame.banquise, initTest(BANQUISE_SIZE));
+        tab = initTab();
+    }
+
+
     //Affichage initial
     system("@cls||clear");
     printBanquise(theGame.banquise);
@@ -135,7 +150,38 @@ int main()
                 //Rafraichissement banquise
                 system("@cls||clear"); //Commenter cette ligne pour faciliter les tests!
                 printBanquise(theGame.banquise);
-               // theGame.game_on = road(theGame, nb_players, end_game_type);
+
+                T = collectInfos(theGame.banquise, initTest(BANQUISE_SIZE));
+                tab = initTab();
+
+                //n'a pas trouve de chemin direct
+                if ((isRoad(T, T.posA.line, T.posA.col, tab, 0)) == 0)
+                {
+                    char answer;
+                    printf("Il n'y a plus de chemin possible.\nVoulez-vous relancer une nouvelle partie ?\nPour oui : y\nPour non : n\n");
+                    getchar();
+                    scanf("%c", &answer);
+
+                    if (answer == 'y')
+                    {
+                        srand(time(NULL));
+                        nb_players = main_menu();
+                        theGame = initGame(nb_players);
+                        system("@cls||clear");
+                        printBanquise(theGame.banquise);
+                    }
+
+                    else if (answer == 'n')
+                    {
+                        printf("Merci d'avoir joue !\n");
+                        end_game_type = global_warming;
+                        theGame.game_on = false;
+                    }
+                    else
+                        printf ("wrong input\n");
+
+                }
+
             }
         }
     }
@@ -147,7 +193,7 @@ int main()
     else if(end_game_type == salvation)
         printf("\nUn des joueurs a reussi a s'enfuir et a contacter (hypocritement ou non) les secours!\n");
 
-    else if (end_game_type == global_warming)
+    else if(end_game_type == global_warming)
         printf("\nLa banquise a fondu. Le rechauffement climatique a frappe...\n");
 
 

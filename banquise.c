@@ -307,46 +307,6 @@ int isRoad(T_test T, int line, int col, T_pos *tab, int i)
         }
 }
 
-//fonction qui appellent toutes celles aidant a verifier l'existence d'un chemin de A vers B
-bool road(T_game_parts theGame, int players, T_end_game_type endgame)
-{
-    T_test T = collectInfos(theGame.banquise, initTest(BANQUISE_SIZE));
-    T_pos *tab = initTab();
-
-    //n'a pas trouve de chemin
-    if ((isRoad(T, T.posA.line, T.posA.col, tab, 0)) == 0)
-    {
-        char answer;
-        printf("Il n'y a plus de chemin possible.\nVoulez-vous relancer une nouvelle partie ?\nPour oui : y\nPour non : n\n");
-        getchar();
-        scanf("%c", &answer);
-
-        switch (answer)
-        {
-        case 'y':
-            players = main_menu();
-            theGame = initGame(players);
-            system("@cls||clear");
-            printBanquise(theGame.banquise);
-            return true;
-            break;
-
-        case 'n':
-            printf("Merci d'avoir joué");
-            endgame = global_warming;
-            return false;
-            break;
-
-        default:
-            printf ("wrong input\n");
-            break;
-        }
-    }
-    else
-    {
-        return true;
-    }
-}
 
 /* ============================================ */
 /* ================ AFFICHAGES ================ */
