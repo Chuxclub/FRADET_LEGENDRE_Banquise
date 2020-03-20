@@ -5,6 +5,13 @@
 /* ========== INITIALISATION MARTEAU ========== */
 /* ============================================ */
 
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 
 T_hammer *initHammer()
 {
@@ -40,6 +47,14 @@ T_hammer *initHammer()
     return res_hammer;
 }
 
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 T_object **initHammers(int nb_hammers)
 {
     T_object **hammers = (T_object **) malloc(sizeof(T_object *) * 2* nb_hammers);
@@ -74,6 +89,15 @@ T_object **initHammers(int nb_hammers)
     return hammers;
 }
 
+
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void addHammers(T_banquise *banquise, T_object **hammers, int nb_hammers)
 {
     int counter = 2*nb_hammers - 1;
@@ -112,6 +136,15 @@ void addHammers(T_banquise *banquise, T_object **hammers, int nb_hammers)
     }
 }
 
+
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void updateHammers(int nb_hammers, T_game_parts *game_parts)
 {
     //Rappel: ordre = tête puis manche => hammers[0] est une tête de marteau, hammers[1] est un manche de marteau, etc.

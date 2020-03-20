@@ -5,6 +5,14 @@
 /* ========== INITIALISATION JOUEURS ========== */
 /* ============================================ */
 
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 T_player **initPlayers(int nb_players)
 {
     T_player **players = (T_player **) malloc(sizeof(T_player *) * nb_players);
@@ -26,6 +34,15 @@ T_player **initPlayers(int nb_players)
 
 //Recherche une position disponible dans une zone de recherche
 //Que la fonction incr�mente au fur et � mesure, s'arr�te quand toute la banquise a �t� explor�e ou qu'une position a �t� trouv�e
+
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 int *searchAvailablePos(T_banquise *banquise, int Ligne_a, int Col_a)
 {
     /*Initialisation des constantes et variables n�cessaires*/
@@ -97,6 +114,15 @@ int *searchAvailablePos(T_banquise *banquise, int Ligne_a, int Col_a)
 
 //Ajoute les joueurs au plus pr�s du point A sur la banquise
 //Renvoit les positions où elle a ajouté les joueurs
+
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void addPlayers(T_banquise *banquise, T_player **players, int nb_players)
 {
     /*Recherche point A (rappel: ne peut �tre que dans les trois derni�res lignes)*/
@@ -136,6 +162,15 @@ void addPlayers(T_banquise *banquise, T_player **players, int nb_players)
 
 
 //demande et stocke le nombre de joueur
+
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 int HowManyPlayers()
 {
     int nb_players;
@@ -189,6 +224,15 @@ int HowManyPlayers()
 /* ============================================ */
 /* =========== DEPLACEMENT JOUEURS ============ */
 /* ============================================ */
+
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void moveUp(T_player *player, T_game_parts *theGame)
 {
     /* Passage du joueur en paramètre pour récupérer sa position */
@@ -252,6 +296,7 @@ void moveUp(T_player *player, T_game_parts *theGame)
     }
 
 }
+
 
 void moveLeft(T_player *player, T_game_parts *theGame)
 {
@@ -434,6 +479,14 @@ void moveRight(T_player *player, T_game_parts *theGame)
 
 //Met à jour la banquise en fonction des nouvelles positions du joueur
 //Les anciennes coordonnées du joueurs doivent être données
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void updatePlayer(T_player *myPlayer, int previous_line, int previous_col, T_banquise *banquise)
 {
     banquise->grid[previous_line][previous_col].player = NULL;
@@ -446,6 +499,14 @@ void updatePlayer(T_player *myPlayer, int previous_line, int previous_col, T_ban
 /* ============== ETATS JOUEURS =============== */
 /* ============================================ */
 
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void killPlayer(T_player *myPlayer)
 {
     myPlayer->details.health = dead;

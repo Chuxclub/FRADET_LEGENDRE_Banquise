@@ -1,5 +1,12 @@
 #include "jeu.h"
 
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 T_game_parts initGame(int nb_players)
 {
 

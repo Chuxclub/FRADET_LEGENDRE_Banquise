@@ -4,6 +4,15 @@
 /* ============================================ */
 /* ========== INITIALISATION GLACONS ========== */
 /* ============================================ */
+
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 T_flake *initFlake()
 {
     T_flake *res = (T_flake *) malloc(sizeof(T_flake));
@@ -16,6 +25,14 @@ T_flake *initFlake()
     return res;
 }
 
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 T_object **initFlakes(int nb_flakes)
 {
     T_object **flakes = (T_object **) malloc(sizeof(T_object *) * nb_flakes);
@@ -32,20 +49,17 @@ T_object **initFlakes(int nb_flakes)
         flakes[i]->trap = NULL;
     }
 
-
-    /*for(int i = 0; i < NB_FLAKES; i++)
-    {
-        printf("object_type de %i est %i\n", i, flakes[i]->object_type);
-        printf("Pos.line de %i est de %i\n", i, flakes[i]->flake->pos.line);
-        printf("Pos.col de %i est de %i\n\n", i, flakes[i]->flake->pos.col);
-    }
-
-    printf("***************\n\n");*/
-
-
     return flakes;
 }
 
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void addFlakes(T_banquise *banquise, T_object **flakes, int nb_flakes)
 {
     int counter = nb_flakes - 1;
@@ -81,6 +95,15 @@ void addFlakes(T_banquise *banquise, T_object **flakes, int nb_flakes)
 
 
 // ------------> Déplacements
+
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void accelerateUp(T_object *bumped_flake)
 {
     /*Assignation d'une vitesse au glaçon bougé (ou 'bumpé'...)*/
@@ -119,6 +142,14 @@ void stopFlake(T_object *bumped_flake)
 
 
 // ------------> Réactions aux objets et à l'environnement
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void BecomeIce(T_object *bumped_flake, int water_line, int water_col, T_banquise *banquise)
 {
     int flake_line = bumped_flake->flake->pos.line;
@@ -133,6 +164,14 @@ void BecomeIce(T_object *bumped_flake, int water_line, int water_col, T_banquise
     banquise->grid[water_line][water_col].ground = ice;
 }
 
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void BumpSpring(T_object *bumped_flake, int neighbour_line, int neighbour_col, T_banquise *banquise)
 {
     int previous_flake_line = bumped_flake->flake->pos.line;
@@ -159,6 +198,14 @@ void BumpSpring(T_object *bumped_flake, int neighbour_line, int neighbour_col, T
     }
 }
 
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void FlakeInteraction(T_object *bumped_flake, int neighbour_line, int neighbour_col, T_banquise *banquise)
 {
     if(IsWater(banquise->grid[neighbour_line][neighbour_col]))
@@ -218,6 +265,15 @@ void FlakeInteraction(T_object *bumped_flake, int neighbour_line, int neighbour_
 
 
 // ------------> Regroupement déplacements et réactions aux objets et à l'environnement
+
+
+/*
+    Auteur(e)(s):
+    Utilité:
+    Fonctionnement:
+    Complexité en temps (au pire):
+    Hypothèse d'amélioration possible:
+*/
 void updateFlakes(int nb_flakes, T_object **flakes,  T_banquise *banquise)
 {
 
