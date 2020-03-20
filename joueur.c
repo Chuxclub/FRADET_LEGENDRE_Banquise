@@ -7,7 +7,7 @@
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -37,7 +37,7 @@ T_player **initPlayers(int nb_players)
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -117,7 +117,7 @@ int *searchAvailablePos(T_banquise *banquise, int Ligne_a, int Col_a)
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -165,7 +165,7 @@ void addPlayers(T_banquise *banquise, T_player **players, int nb_players)
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Amandine Fradet et Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -227,7 +227,7 @@ int HowManyPlayers()
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -481,7 +481,7 @@ void moveRight(T_player *player, T_game_parts *theGame)
 //Les anciennes coordonnées du joueurs doivent être données
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -501,7 +501,7 @@ void updatePlayer(T_player *myPlayer, int previous_line, int previous_col, T_ban
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):

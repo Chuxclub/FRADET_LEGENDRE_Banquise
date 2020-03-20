@@ -8,11 +8,11 @@
 
 
 /*
-    Auteur(e)(s):
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Auteur(e)(s): Florian Legendre
+    Utilité: Ameliorer la lisibilite des fonctions qui ont besoin d'un vecteur nul.
+    Fonctionnement: Initialise un vecteur nul ( (0,0) ) et le retourne
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: /
 */
 T_vector null_vect()
 {
@@ -23,11 +23,11 @@ T_vector null_vect()
 //--------> Vectors Operations
 
 /*
-    Auteur(e)(s):
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Auteur(e)(s): Florian Legendre
+    Utilité: Permet d'additionner deux vecteurs et de renvoyer le résultat de cette addition
+    Fonctionnement: Utilise la definition algébrique de l'addition de vecteurs
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: /
 */
 T_vector add_vectors(T_vector A, T_vector B)
 {
@@ -41,11 +41,11 @@ T_vector add_vectors(T_vector A, T_vector B)
 
 
 /*
-    Auteur(e)(s):
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Auteur(e)(s): Florian Legendre
+    Utilité: Meme chose que precedemment mais le resultat est stocke dans un vecteur C mutable (d'ou l'extension M_ au nom de la fonction)
+    Fonctionnement: Meme chose que precedemment
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: /
 */
 void M_add_vectors(T_vector A, T_vector B, T_vector *C)
 {
@@ -56,11 +56,11 @@ void M_add_vectors(T_vector A, T_vector B, T_vector *C)
 
 
 /*
-    Auteur(e)(s):
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Auteur(e)(s): Florian Legendre
+    Utilité: Permet de soustraire deux vecteurs et de renvoyer le resultat de cette soustraction
+    Fonctionnement: Utilise la definition algebrique de la soustraction de vecteurs
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: /
 */
 T_vector subtract_vectors(T_vector A, T_vector B)
 {
@@ -74,11 +74,11 @@ T_vector subtract_vectors(T_vector A, T_vector B)
 
 
 /*
-    Auteur(e)(s):
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Auteur(e)(s): Florian Legendre
+    Utilité: Meme chose que precedemment mais le resultat est stocke dans un vecteur C mutable (d'ou l'extension M_ au nom de la fonction)
+    Fonctionnement: Meme chose que precedemment
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: /
 */
 void M_subtract_vectors(T_vector A, T_vector B, T_vector *C)
 {
@@ -89,11 +89,11 @@ void M_subtract_vectors(T_vector A, T_vector B, T_vector *C)
 
 
 /*
-    Auteur(e)(s):
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Auteur(e)(s): Florian Legendre
+    Utilité: Permet de multiplier un vecteur par un scalaire et de renvoyer le resultat de cette multiplication
+    Fonctionnement: Utilise la definition algebrique de la multiplication de vecteurs par des scalaires
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: /
 */
 T_vector multiply_vector(int k, T_vector A)
 {
@@ -106,11 +106,11 @@ T_vector multiply_vector(int k, T_vector A)
 
 
 /*
-    Auteur(e)(s):
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Auteur(e)(s): Florian Legendre
+    Utilité: Meme chose que precedemment mais le resultat est stocke dans un vecteur A mutable (d'ou l'extension M_ au nom de la fonction)
+    Fonctionnement:  Meme chose que precedemment
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: /
 */
 void M_multiply_vector(int k, T_vector *A)
 {
@@ -121,11 +121,11 @@ void M_multiply_vector(int k, T_vector *A)
 
 
 /*
-    Auteur(e)(s):
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Auteur(e)(s): Florian Legendre
+    Utilité: Permet de calculer le produit scalaire de deux vecteurs, renvoit le résultat de ce calcul
+    Fonctionnement: Utilise la définition algébrique du produit scalaire
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: /
 */
 int scalar_product(T_vector A, T_vector B)
 {
@@ -137,11 +137,11 @@ int scalar_product(T_vector A, T_vector B)
 
 
 /*
-    Auteur(e)(s):
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Auteur(e)(s): Florian Legendre
+    Utilité: Permet de translater les coordonnees d'un point selon une regle donnee par un vecteur
+    Fonctionnement: Cf. Definition algebrique
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: /
 */
 T_pos translate_point(T_pos a, T_vector A)
 {
@@ -154,11 +154,11 @@ T_pos translate_point(T_pos a, T_vector A)
 
 
 /*
-    Auteur(e)(s):
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Auteur(e)(s): Florian Legendre
+    Utilité:  Meme chose que precedemment mais le resultat est stocke dans un point a mutable (d'ou l'extension M_ au nom de la fonction)
+    Fonctionnement: Meme chose que precedemment
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: /
 */
 void M_translate_point(T_pos *a, T_vector A)
 {

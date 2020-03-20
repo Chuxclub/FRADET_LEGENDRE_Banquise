@@ -6,7 +6,7 @@
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -25,7 +25,7 @@ T_trap *initTrap()
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -53,7 +53,7 @@ T_object **initTraps(int nb_traps)
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):

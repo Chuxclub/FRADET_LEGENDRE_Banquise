@@ -5,7 +5,7 @@
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -23,7 +23,7 @@ T_spring *initSpring()
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -52,7 +52,7 @@ T_object **initSprings(int nb_springs)
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):

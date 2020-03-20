@@ -7,7 +7,7 @@
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -27,7 +27,7 @@ T_flake *initFlake()
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -54,7 +54,7 @@ T_object **initFlakes(int nb_flakes)
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -98,7 +98,7 @@ void addFlakes(T_banquise *banquise, T_object **flakes, int nb_flakes)
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -144,7 +144,7 @@ void stopFlake(T_object *bumped_flake)
 // ------------> Réactions aux objets et à l'environnement
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -166,7 +166,7 @@ void BecomeIce(T_object *bumped_flake, int water_line, int water_col, T_banquise
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -200,7 +200,7 @@ void BumpSpring(T_object *bumped_flake, int neighbour_line, int neighbour_col, T
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):
@@ -268,7 +268,7 @@ void FlakeInteraction(T_object *bumped_flake, int neighbour_line, int neighbour_
 
 
 /*
-    Auteur(e)(s):
+    Auteur(e)(s): Florian Legendre
     Utilité:
     Fonctionnement:
     Complexité en temps (au pire):

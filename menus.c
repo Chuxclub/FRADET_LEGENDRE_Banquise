@@ -3,11 +3,13 @@
 
 
 /*
-    Auteur(e)(s):
-    Utilité:
-    Fonctionnement:
-    Complexité en temps (au pire):
-    Hypothèse d'amélioration possible:
+    Auteur(e)(s): Florian Legendre
+    Utilité: Affiche le menu d'accueil du jeu
+    Fonctionnement: Affiche le titre en ASCII Art ("Banquise Game") en le centrant puis fait appel à HowManyPlayers()
+                    qui est ainsi intégré à ce menu d'accueil. La fonction renvoit le nombre de joueurs pour renseigner
+                    game_parts (cf. la "boite" du jeu)
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: /
 */
 int main_menu()
 {
