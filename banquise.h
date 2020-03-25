@@ -36,6 +36,7 @@ T_test initTest(int size);
 T_test collectInfos(T_banquise *banquise, T_test T);
 T_pos *initTab();
 int isRoad(T_test T, int line, int col, T_pos *tab, int i);
+int road (T_banquise *banquise);
 
 
 /* ============================================ */
