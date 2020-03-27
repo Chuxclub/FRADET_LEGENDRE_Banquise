@@ -51,8 +51,8 @@ T_player **initPlayers(int nb_players)
                     des positions deja visitees et des positions hors du plateau.
     Complexité en temps (au pire): On suppose A au centre du plateau. On compte d'abord le nombre de case à vérifier par ligne, puis le nombre de case
                                    à vérifier par colonne. Pour un rayon "n" quelconque on obtient la formule suivante: NB_CASES_TOTAL = 8n.
-                                   Comme il s'agit d'une suite arithmétique avec U0 = 0 on a la somme des termes suivante: ((0 + 8*((BANQUISE_SIZE-1) / 2))/2) * (BANQUISE_SIZE - 1) / 2
-                                   En simplifiant on obtient:  (BANQUISE_SIZE - 1)², d'où la complexité: O(BANQUISE_SIZE²)
+                                   Comme il s'agit d'une suite arithmétique avec U0 = 0 on a la somme des termes suivante: ((0 + 8*((BANQUISE_SIZE-1) / 2))/2) * (BANQUISE_SIZE) / 2
+                                   En simplifiant on obtient:  BANQUISE_SIZE² - BANQUISE_SIZE, d'où la complexité: O(BANQUISE_SIZE²)
     Hypothèse d'amélioration possible: 1) Redefinir searchAvailablePos() pour qu'elle renvoie un T_pos et non un int *
                                        2) Eviter l'allocation dynamique du resultat final
                                        3) Eviter les constantes magiques "-1" pour désigner une une ligne dont on peut abandonner la recherche
@@ -315,9 +315,6 @@ int HowManyPlayers()
     printf("Combien de joueurs etes-vous ?\n\n");
 
     center_printf_col(columns / 2 - (BANQUISE_SIZE * 2 + 4));
-    printf("-> 0 pour quitter le jeu\n");
-
-    center_printf_col(columns / 2 - (BANQUISE_SIZE * 2 + 4));
     printf("-> 1 joueur\n");
 
     center_printf_col(columns / 2 - (BANQUISE_SIZE * 2 + 4));
@@ -328,6 +325,9 @@ int HowManyPlayers()
 
     center_printf_col(columns / 2 - (BANQUISE_SIZE * 2 + 4));
     printf("-> 4 joueurs\n\n");
+
+    center_printf_col(columns / 2 - (BANQUISE_SIZE * 2 + 4));
+    printf("-> 0 pour quitter le jeu\n");
 
     scanf("%d", &nb_players);
 
@@ -383,9 +383,9 @@ void print_score(T_player **player, int nb_players)
     for (int i = 0; i < nb_players; i++ )
     {
         printf("\n \tVoici le score du joueur %d :\n", (i + 1));
-        printf("Nombre de pas parcourus => %d :\n", player[i]->details.score.distance);
-        printf("Nombre de glacons pousses => %d :\n", player[i]->details.score.nb_ice);
-        printf("Nombre de joueurs tues => %d :\n", player[i]->details.score.kill);
+        printf("\t\tNombre de pas parcourus => %d :\n", player[i]->details.score.distance);
+        printf("\t\tNombre de glacons pousses => %d :\n", player[i]->details.score.nb_ice);
+        printf("\t\tNombre de joueurs tues => %d :\n", player[i]->details.score.kill);
     }
 }
 
