@@ -51,8 +51,12 @@ T_player **initPlayers(int nb_players)
                     des positions deja visitees et des positions hors du plateau.
     Complexité en temps (au pire): On suppose A au centre du plateau. On compte d'abord le nombre de case à vérifier par ligne, puis le nombre de case
                                    à vérifier par colonne. Pour un rayon "n" quelconque on obtient la formule suivante: NB_CASES_TOTAL = 8n.
-                                   Comme il s'agit d'une suite arithmétique avec U0 = 0 on a la somme des termes suivante: ((0 + 8*((BANQUISE_SIZE-1) / 2))/2) * (BANQUISE_SIZE) / 2
-                                   En simplifiant on obtient:  BANQUISE_SIZE² - BANQUISE_SIZE, d'où la complexité: O(BANQUISE_SIZE²)
+                                   Comme il s'agit d'une suite arithmétique avec U0 = 0 on a, si BANQUISE_SIZE est pair, la somme des termes suivante:
+                                   ((0 + 8*((BANQUISE_SIZE / 2) - 1)/2) * (BANQUISE_SIZE) / 2
+                                   Et si BANQUISE_SIZE est impair: ((0 + 8*((BANQUISE_SIZE - 1) / 2))/2) * (BANQUISE_SIZE + 1) / 2
+                                   En simplifiant la formule où BANQUISE_SIZE est pair on obtient:  BANQUISE_SIZE² - 2*BANQUISE_SIZE
+                                   En simplifiant la formule où BANQUISE_SIZE est impair on obtient:  BANQUISE_SIZE² - 1
+                                   D'où la complexité dans tous les cas: O(BANQUISE_SIZE²)
     Hypothèse d'amélioration possible: 1) Redefinir searchAvailablePos() pour qu'elle renvoie un T_pos et non un int *
                                        2) Eviter l'allocation dynamique du resultat final
                                        3) Eviter les constantes magiques "-1" pour désigner une une ligne dont on peut abandonner la recherche
