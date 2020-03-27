@@ -26,6 +26,11 @@ T_player **initPlayers(int nb_players)
         players[i]->id = (i + 1);
         players[i]->details.freedom = player_free;
         players[i]->details.health = full_health;
+        players[i]->details.score.distance = 0;
+        players[i]->details.score.kill = 0;
+        players[i]->details.score.nb_ice = 0;
+        players[i]->details.pos.line = 0;
+        players[i]->details.pos.col = 0;
     }
 
     return players;

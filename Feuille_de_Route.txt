@@ -5,18 +5,6 @@
 IMPORTANT: A la fin de chaque phase, se concerter pour vérifier complexités/optimisations possibles/lisibilité/documentation/anticipation pour des évolutions possibles
 =======================================================================================================================================================================
 
-Phase 5 -> Ajout score des joueurs
-Fait:
-
-A faire:
-1) Ajouter un score aux joueurs: nombre de joueurs tués/distance de l'arrivée/chemin parcouru
-2) Afficher le score en fin de partie
-3) Déterminer un gagnant par catégorie: tueur/pacifique/distance/chemin
-
-
-
-
-
 
 
 =======================================================================================================================================================================
@@ -59,6 +47,13 @@ Fait:
 Phase 4 -> Ajout du réchauffement climatique
 Fait:
 1) Ajouter un réchauffement climatique aléatoire à la boucle des rafraîchissements tour par tour
+
+
+
+Phase 5 -> Ajout score des joueurs
+Fait:
+1) Ajouter un score aux joueurs: nombre de joueurs tués/distance de l'arrivée/chemin parcouru
+2) Afficher le score en fin de partie
 
 
 

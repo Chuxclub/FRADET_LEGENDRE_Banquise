@@ -3,7 +3,7 @@
 
 #define BANQUISE_CASES (BANQUISE_SIZE * BANQUISE_SIZE)
 #define BANQUISE_SIZE 20
-#define FONTE_SPEED 50
+#define FONTE_SPEED 1
 #define NB_FLAKES 30
 #define NB_HAMMERS 4
 #define NB_OF_COORDINATES 2
@@ -34,7 +34,7 @@
 
 #define BANQUISE_CASES (BANQUISE_SIZE * BANQUISE_SIZE)
 #define BANQUISE_SIZE 20
-#define FONTE_SPEED 2
+#define FONTE_SPEED 1
 #define NB_FLAKES 30
 #define NB_HAMMERS 4
 #define NB_OF_COORDINATES 2
@@ -43,6 +43,7 @@
 #define NB_TRAPS 10
 #define NB_WATER 40
 #define PERCENT 101
+
 */
 
 
