@@ -19,6 +19,7 @@
     Complexité en temps (au pire): Egale à la somme des complexités en temps de toutes les procédures contenues par le main
 */
 
+
 int main()
 {
     /* Initialisation de la dimension de la console par rapport à la résolution de l'écran du joueur (cf. windows.h) */
@@ -109,6 +110,7 @@ int main()
                             break;
 
                         case 'l':
+                            free_game_parts(theGame);
                             exit(EXIT_SUCCESS);
                             break;
 
@@ -192,6 +194,6 @@ int main()
     /* affichage des scores*/
     print_score(theGame.players, nb_players);
 
-
+    free_game_parts(theGame);
     return 0;
 }
