@@ -35,16 +35,10 @@ int main()
 
     //cherche un chemin direct de A vers B
     //sinon, relance une nouvelle banquise
-    T_test T = collectInfos(theGame.banquise, initTest(BANQUISE_SIZE));
-    T_pos *tab = initTab();
-
-    while ((isRoad(T, T.posA.line, T.posA.col, tab, 0)) == 0)
+    while ((road(theGame.banquise)) == 0)
     {
         srand(time(NULL));
-        nb_players = main_menu();
         theGame = initGame(nb_players);
-        T = collectInfos(theGame.banquise, initTest(BANQUISE_SIZE));
-        tab = initTab();
     }
 
 
@@ -155,11 +149,8 @@ int main()
                 system("@cls||clear"); //Commenter cette ligne pour faciliter les tests!
                 printBanquise(theGame.banquise);
 
-                T = collectInfos(theGame.banquise, initTest(BANQUISE_SIZE));
-                tab = initTab();
-
                 //n'a pas trouve de chemin direct après la possible fonte de la banquise
-                if ((isRoad(T, T.posA.line, T.posA.col, tab, 0)) == 0)
+                if ((road(theGame.banquise)) == 0)
                 {
                     char answer;
                     printf("Il n'y a plus de chemin possible.\nVoulez-vous relancer une nouvelle partie ?\nPour oui : y\nPour non : n\n");
@@ -168,8 +159,6 @@ int main()
 
                     if (answer == 'y')
                     {
-                        srand(time(NULL));
-                        nb_players = main_menu();
                         theGame = initGame(nb_players);
                         system("@cls||clear");
                         printBanquise(theGame.banquise);

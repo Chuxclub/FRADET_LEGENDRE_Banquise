@@ -400,6 +400,20 @@ int isRoad(T_test T, int line, int col, T_pos *tab, int i)
         }
 }
 
+/*
+    Auteur(e)(s): Amandine Fradet
+    Utilité: Recursive cherchant un chemin de A vers B
+    Fonctionnement: Cette fonction appelle toutes celles nécessaires pour lors de la recherche de A vers B
+    Complexité en temps (au pire): Il s'agit de l'addition des complexités des 3 fonctions appelées
+    Hypothèse d'amélioration possible:
+*/
+int road (T_banquise *banquise)
+{
+    T_test T = collectInfos(banquise, initTest(BANQUISE_SIZE));
+    T_pos *tab = initTab();
+    return isRoad(T, T.posA.line, T.posA.col, tab, 0);
+}
+
 
 /* ============================================ */
 /* ================ AFFICHAGES ================ */
