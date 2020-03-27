@@ -18,6 +18,7 @@
     Utilité: Point d'entrée du programme, contient la totalité du jeu (par le biais de ses procédures et procédures des procédures, etc.)
     Fonctionnement: Initialisation de l'affichage dans la console -> initialisation des éléments du jeu -> Boucle du jeu -> Fins du jeu
     Complexité en temps (au pire): Egale à la somme des complexités en temps de toutes les procédures contenues par le main
+    Hypothèse d'amélioration: Créer davantage de procédures dans main() afin d'améliorer sa lisibilité et la facilité de maintenance
 */
 
 
