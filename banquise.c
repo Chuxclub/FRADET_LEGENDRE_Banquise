@@ -698,28 +698,28 @@ void Fontebanquise (T_banquise *banquise)
             if ( (T.grid[k][l] == water))
             {
                 fonte = rand()%100;
-                if (IsInbound(BANQUISE_SIZE, k, l - 1) && IsFonteAvailable(banquise->grid[k][l - 1]) && (fonte < 1))
+                if (IsInbound(BANQUISE_SIZE, k, l - 1) && IsFonteAvailable(banquise->grid[k][l - 1]) && (fonte < FONTE_SPEED))
                 {
                     banquise->grid[k][l - 1].ground = water;
                     banquise->grid[k][l - 1].object = NULL;
                 }
 
                 fonte = rand()%100;
-                if (IsInbound(BANQUISE_SIZE, k - 1, l)  && IsFonteAvailable(banquise->grid[k - 1][l]) && (fonte < 1))
+                if (IsInbound(BANQUISE_SIZE, k - 1, l)  && IsFonteAvailable(banquise->grid[k - 1][l]) && (fonte < FONTE_SPEED))
                 {
                     banquise->grid[k - 1][l].ground = water;
                     banquise->grid[k - 1][l].object = NULL;
                 }
 
                 fonte = rand()%100;
-                if (IsInbound(BANQUISE_SIZE, k, l + 1) && IsFonteAvailable(banquise->grid[k][l + 1]) && (fonte < 1))
+                if (IsInbound(BANQUISE_SIZE, k, l + 1) && IsFonteAvailable(banquise->grid[k][l + 1]) && (fonte < FONTE_SPEED))
                 {
                     banquise->grid[k][l + 1].ground = water;
                     banquise->grid[k][l + 1].object = NULL;
                 }
 
                 fonte = rand()%100;
-                if (IsInbound(BANQUISE_SIZE, k + 1, l) && IsFonteAvailable(banquise->grid[k + 1][l]) && (fonte < 1))
+                if (IsInbound(BANQUISE_SIZE, k + 1, l) && IsFonteAvailable(banquise->grid[k + 1][l]) && (fonte < FONTE_SPEED))
                 {
                     banquise->grid[k + 1][l].ground = water;
                     banquise->grid[k + 1][l].object = NULL;

@@ -51,6 +51,7 @@ int main()
     /* Boucle du jeu */
     T_end_game_type end_game_type = salvation;
     char move;
+    char admin_go_on = 'o';
     bool wrong_input;
 
     while(theGame.game_on)
@@ -152,31 +153,42 @@ int main()
                 printBanquise(theGame.banquise);
 
                 //n'a pas trouve de chemin direct après la possible fonte de la banquise
-                if ((road(theGame.banquise)) == 0)
+                if ((road(theGame.banquise)) == 0 && admin_go_on != '$')
                 {
                     char answer;
-                    printf("Il n'y a plus de chemin possible.\nVoulez-vous relancer une nouvelle partie ?\nPour oui : y\nPour non : n\n");
-                    getchar();
-                    scanf("%c", &answer);
 
-                    if (answer == 'y')
+                    do
                     {
-                        theGame = initGame(nb_players);
-                        system("@cls||clear");
-                        printBanquise(theGame.banquise);
-                    }
+                        printf("Il n'y a plus de chemin possible.\nVoulez-vous relancer une nouvelle partie ?\nPour oui : y\nPour non : n\nPour continuer: $\n");
+                        getchar();
+                        scanf("%c", &answer);
 
-                    else if (answer == 'n')
-                    {
-                        printf("Merci d'avoir joue !\n");
-                        end_game_type = global_warming;
-                        theGame.game_on = false;
-                    }
-                    else
-                        printf ("wrong input\n");
+                        if (answer == 'y')
+                        {
+                            theGame = initGame(nb_players);
+                            system("@cls||clear");
+                            printBanquise(theGame.banquise);
+                        }
 
+                        else if (answer == 'n')
+                        {
+                            printf("Merci d'avoir joue !\n");
+                            end_game_type = global_warming;
+                            theGame.game_on = false;
+                        }
+
+                        else if(answer == '$')
+                        {
+                            admin_go_on = '$';
+                            system("@cls||clear"); //Commenter cette ligne pour faciliter les tests!
+                            printBanquise(theGame.banquise);
+                        }
+
+                        else
+                            printf ("wrong input\n\n");
+
+                    }while(answer != 'y' && answer != 'n' && answer != '$');
                 }
-
             }
         }
     }
