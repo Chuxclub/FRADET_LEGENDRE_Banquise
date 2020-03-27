@@ -28,6 +28,15 @@ void addPlayers(T_banquise *banquise, T_player **players, int nb_players);
 
 
 /* ============================================ */
+/* ============== SCORE JOUEURS =============== */
+/* ============================================ */
+void score_distance(T_player *player);
+void score_flake(T_player *player);
+void score_kill(T_player *player);
+void print_score(T_player **player, int nb_players);
+
+
+/* ============================================ */
 /* =========== DEPLACEMENT JOUEURS ============ */
 /* ============================================ */
 

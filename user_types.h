@@ -27,6 +27,7 @@ typedef struct
 {
     T_pos pos;
     T_vector vect;
+    int id;
 }T_flake;
 
 typedef struct
