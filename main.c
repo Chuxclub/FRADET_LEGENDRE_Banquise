@@ -189,7 +189,10 @@ int main()
         printf("\nUn des joueurs a reussi a s'enfuir et a contacter (hypocritement ou non) les secours!\n");
 
     else if(end_game_type == global_warming)
-        printf("\nLa banquise a fondu. Le rechauffement climatique a frappe...\n");
+        printf("\nVous ne pouvez plus relier le point A au point B. Le rechauffement climatique a frappe...\n");
+
+    /* affichage des scores*/
+    print_score(theGame.players, nb_players);
 
     free_game_parts(theGame);
     return 0;

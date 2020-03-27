@@ -340,6 +340,52 @@ int HowManyPlayers()
 }
 
 
+/* ============================================ */
+/* ============== SCORE JOUEURS =============== */
+/* ============================================ */
+
+/*
+    Auteur(e)(s): Amandine Fradet
+    Utilité: Actualise le score du joueur
+    Fonctionnement: La fonction ajoute une unité au score, selon si le joueur a bougé, a déplacé un glaçon ou a tué un joueur
+    Complexité en temps (au pire): O(1)
+    Hypothèse d'amélioration possible: /
+*/
+void score_distance(T_player *player)
+{
+    player->details.score.distance += 1;
+}
+
+void score_flake(T_player *player)
+{
+    player->details.score.nb_ice += 1;
+}
+
+void score_kill(T_player *player)
+{
+    player->details.score.kill += 1;
+}
+
+
+/*
+    Auteur(e)(s): Amandine Fradet
+    Utilité: Affiche le score des joueurs
+    Fonctionnement: Pour chaque joueur, grace à une boucle, on affiche tous les éléments qui font référence au score
+    Complexité en temps: O(nb_players)
+    Hypothèse d'amélioration possible: /
+*/
+
+void print_score(T_player **player, int nb_players)
+{
+    for (int i = 0; i < nb_players; i++ )
+    {
+        printf("\n \tVoici le score du joueur %d :\n", (i + 1));
+        printf("Nombre de pas parcourus => %d :\n", player[i]->details.score.distance);
+        printf("Nombre de glacons pousses => %d :\n", player[i]->details.score.nb_ice);
+        printf("Nombre de joueurs tues => %d :\n", player[i]->details.score.kill);
+    }
+}
+
 
 /* ============================================ */
 /* =========== DEPLACEMENT JOUEURS ============ */
@@ -389,6 +435,9 @@ void moveUp(T_player *player, T_game_parts *theGame)
 
             /* Assignation à la case voulue du joueur sur la banquise*/
             updatePlayer(player, previous_line, previous_col, theGame->banquise);
+
+            /* Ajout du déplacement au score du joueur*/
+            score_distance(player);
         }
 
         else
@@ -396,12 +445,19 @@ void moveUp(T_player *player, T_game_parts *theGame)
             if(IsObject(theGame->banquise->grid[new_line][previous_col]))
             {
                 if(IsFlake(theGame->banquise->grid[new_line][previous_col]) && (scalar_product(theGame->banquise->grid[new_line][previous_col].object->flake->vect, up_vect) >= 0))
+                {
                     accelerateUp(theGame->banquise->grid[new_line][previous_col].object);
+                    theGame->banquise->grid[new_line][previous_col].object->flake->id = player->id;
+                    score_flake(player);
+                }
+
 
                 else if(IsFlake(theGame->banquise->grid[new_line][previous_col]) && (scalar_product(theGame->banquise->grid[new_line][previous_col].object->flake->vect, up_vect) < 0))
                 {
                     accelerateUp(theGame->banquise->grid[new_line][previous_col].object);
                     player->details.health = dead;
+                    int killer = theGame->banquise->grid[new_line][previous_col].object->flake->id;
+                    score_kill(theGame->players[killer]);
                 }
 
 
@@ -453,6 +509,9 @@ void moveLeft(T_player *player, T_game_parts *theGame)
 
             /* Assignation à la case voulue du joueur sur la banquise*/
             updatePlayer(player, previous_line, previous_col, theGame->banquise);
+
+            /* Ajout du déplacement au score du joueur*/
+            score_distance(player);
         }
 
         else
@@ -460,12 +519,19 @@ void moveLeft(T_player *player, T_game_parts *theGame)
             if(IsObject(theGame->banquise->grid[previous_line][new_col]))
             {
                 if(IsFlake(theGame->banquise->grid[previous_line][new_col]) && (scalar_product(theGame->banquise->grid[previous_line][new_col].object->flake->vect, left_vect) >= 0))
+                {
                     accelerateLeft(theGame->banquise->grid[previous_line][new_col].object);
+                    theGame->banquise->grid[previous_line][new_col].object->flake->id = player->id;
+                    score_flake(player);
+                }
+
 
                 else if(IsFlake(theGame->banquise->grid[previous_line][new_col]) && (scalar_product(theGame->banquise->grid[previous_line][new_col].object->flake->vect, left_vect) < 0))
                 {
                     accelerateLeft(theGame->banquise->grid[previous_line][new_col].object);
                     player->details.health = dead;
+                    int killer = theGame->banquise->grid[previous_line][new_col].object->flake->id;
+                    score_kill(theGame->players[killer]);
                 }
 
                 else if(IsTrap(theGame->banquise->grid[previous_line][new_col]))
@@ -513,6 +579,9 @@ void moveDown(T_player *player, T_game_parts *theGame)
 
             /* Assignation à la case voulue du joueur sur la banquise*/
             updatePlayer(player, previous_line, previous_col, theGame->banquise);
+
+            /* Ajout du déplacement au score du joueur*/
+            score_distance(player);
         }
 
         else
@@ -520,12 +589,19 @@ void moveDown(T_player *player, T_game_parts *theGame)
             if(IsObject(theGame->banquise->grid[new_line][previous_col]))
             {
                 if(IsFlake(theGame->banquise->grid[new_line][previous_col]) && (scalar_product(theGame->banquise->grid[new_line][previous_col].object->flake->vect, down_vect) >= 0))
+                {
                     accelerateDown(theGame->banquise->grid[new_line][previous_col].object);
+                    theGame->banquise->grid[new_line][previous_col].object->flake->id = player->id;
+                    score_flake(player);
+                }
+
 
                 else if(IsFlake(theGame->banquise->grid[new_line][previous_col]) && (scalar_product(theGame->banquise->grid[new_line][previous_col].object->flake->vect, down_vect) < 0))
                 {
                     accelerateDown(theGame->banquise->grid[new_line][previous_col].object);
                     player->details.health = dead;
+                    int killer = theGame->banquise->grid[new_line][previous_col].object->flake->id;
+                    score_kill(theGame->players[killer]);
                 }
 
                 else if(IsTrap(theGame->banquise->grid[new_line][previous_col]))
@@ -572,6 +648,9 @@ void moveRight(T_player *player, T_game_parts *theGame)
 
             /* Assignation à la case voulue du joueur sur la banquise*/
             updatePlayer(player, previous_line, previous_col, theGame->banquise);
+
+            /* Ajout du déplacement au score du joueur*/
+            score_distance(player);
         }
 
         else
@@ -579,12 +658,19 @@ void moveRight(T_player *player, T_game_parts *theGame)
             if(IsObject(theGame->banquise->grid[previous_line][new_col]))
             {
                 if(IsFlake(theGame->banquise->grid[previous_line][new_col]) && (scalar_product(theGame->banquise->grid[previous_line][new_col].object->flake->vect, right_vect) >= 0))
+                {
                     accelerateRight(theGame->banquise->grid[previous_line][new_col].object);
+                    theGame->banquise->grid[previous_line][new_col].object->flake->id = player->id;
+                    score_flake(player);
+                }
+
 
                 else if(IsFlake(theGame->banquise->grid[previous_line][new_col]) && (scalar_product(theGame->banquise->grid[previous_line][new_col].object->flake->vect, right_vect) < 0))
                 {
                     accelerateLeft(theGame->banquise->grid[previous_line][new_col].object);
                     player->details.health = dead;
+                    int killer = theGame->banquise->grid[previous_line][new_col].object->flake->id;
+                    score_kill(theGame->players[killer]);
                 }
 
                 else if(IsTrap(theGame->banquise->grid[previous_line][new_col]))

@@ -25,8 +25,8 @@
 #define NB_TRAPS 1
 #define NB_WATER 6
 #define PERCENT 101
-*/
 
+*/
 
 /* CONFIG "HARD":
 
