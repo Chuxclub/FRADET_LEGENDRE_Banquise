@@ -15,5 +15,6 @@
 
 
 T_game_parts initGame(int nb_players);
+void free_game_parts(T_game_parts theGame);
 
 #endif // JEU_H_INCLUDED

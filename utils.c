@@ -22,6 +22,12 @@ int IsCaseAvailable(T_case banquise_case)
     return ((banquise_case.ground == ice && (banquise_case.object == NULL || (banquise_case.object != NULL && banquise_case.object->object_type == reserved))) && (banquise_case.flag == no_flag && banquise_case.player == NULL));
 }
 
+
+int IsFonteAvailable(T_case banquise_case)
+{
+    return ((banquise_case.ground != rock) && (banquise_case.player == NULL) && (banquise_case.flag == no_flag));
+}
+
 int IsPlacementAvailable(T_case banquise_case)
 {
     return ((banquise_case.ground == ice && (banquise_case.object == NULL)) && (banquise_case.flag == no_flag && banquise_case.player == NULL));
@@ -123,7 +129,6 @@ int IsPlayer(T_case banquise_case)
 {
     return (banquise_case.player != NULL);
 }
-
 
 
 /*
