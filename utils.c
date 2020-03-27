@@ -124,6 +124,10 @@ int IsPlayer(T_case banquise_case)
     return (banquise_case.player != NULL);
 }
 
+int IsNotRock(T_case banquise_case)
+{
+    return (banquise_case.ground != rock);
+}
 
 
 /*
