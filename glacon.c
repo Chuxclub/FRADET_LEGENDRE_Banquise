@@ -21,6 +21,7 @@ T_flake *initFlake()
     res->pos.col = 0;
     res->vect.d_line = 0;
     res->vect.d_col = 0;
+    res->id = 0;
 
     return res;
 }
