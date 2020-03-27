@@ -658,12 +658,14 @@ void printBanquise(T_banquise *banquise)
 
 
 /*
-    Auteur(e)(s): Amandine Fradet
+    Auteur(e)(s): Amandine Fradet et Florian Legendre
     Utilité: Calcule la fonte de la banquise
     Fonctionnement: On crée un tableau d'entiers qui sauvegarde les emplacements des points d'eau de la banquise. Puis on applique
                     un random pour calculer les chances de voir la banquise fondre. Si ce random est inférieur à 5, alors la banquise
                     va fondre autour de ces points d'eau. Pour ne pas appliquer la fonte à un point d'eau tout juste créée, on s'appuie
                     sur le tableau d'entier qui ne sera pas affecté par ces apparitions.
+                    Pour éviter que la fonte ne soit trop brutale, la probabilité de voir de la glaçe fondre est indépendante
+                    pour chaque case concernée
     Complexité en temps (au pire): O(BANQUISE_SIZE² + BANQUISE_SIZE²)
     Hypothèse d'amélioration possible:
 */
