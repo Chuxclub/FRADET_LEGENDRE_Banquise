@@ -129,7 +129,6 @@ T_pos searchBands(T_banquise *banquise, T_pos pos_tab[4][2])
 int *searchAvailablePos(T_banquise *banquise, int Ligne_a, int Col_a)
 {
     int dist_A = 1;
-    int found = 0;
     int ligne_max = BANQUISE_SIZE - 1;
     int col_max = BANQUISE_SIZE - 1;
     int col_min = 0;
@@ -298,11 +297,10 @@ int HowManyPlayers()
 
     /* Recuperation des données de la console pour centrage de l'affichage par rapport aux colonnes/lignes */
     CONSOLE_SCREEN_BUFFER_INFO csbi;
-    int columns, rows;
+    int columns;
 
     GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi);
     columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
-    rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
 
     //Saut de ligne pour éviter que le menu colle au titre
     printf("\n");

@@ -14,6 +14,10 @@
 //Détermine si une case est disponible (c'est-à-dire sans objet, ni eau, ni roche, que de la glace)
 int IsCaseAvailable(T_case banquise_case);
 
+int IsFonteAvailable(T_case banquise_case);
+
+int IsPlacementAvailable(T_case banquise_case);
+
 int AreSurroundingsAvailable(T_banquise *banquise, int line, int col);
 
 void PlaceReservedZone(T_banquise *banquise, int line, int col);
@@ -23,8 +27,11 @@ int IsFlake(T_case banquise_case);
 
 int IsFlagB(T_case banquise_case);
 
-//Détermine si le voisin peut interagir avec un glaçon ou non
-int IsFlakeIN(int banquise_size, T_banquise *banquise, int neighbour_line, int neighbour_col);
+int IsTrap(T_case banquise_case);
+
+int IsPlayer(T_case banquise_case);
+
+int IsPlayerInRange(T_hammer_head *hammer_head, T_banquise *banquise, int *player_id_in_range);
 
 //Détermine si une position est dans le plateau ou non
 int IsInbound(int banquise_size, int line, int col);
@@ -32,11 +39,17 @@ int IsInbound(int banquise_size, int line, int col);
 //Détermine s'il y a un T_object présent à la case indiquée
 int IsObject(T_case banquise_case);
 
+int IsHammerHead(T_case banquise_case);
+
 //Détermine s'il y a un ressort présent à la case indiquée
 int IsSpring(T_case banquise_case);
 
 //Détermine s'il y a de l'eau à la case indiquée
 int IsWater(T_case banquise_case);
+
+
+//Détermine si le voisin peut interagir avec un glaçon ou non
+int IsFlakeIN(int banquise_size, T_banquise *banquise, int neighbour_line, int neighbour_col);
 
 
 

@@ -10,6 +10,7 @@
 #include "menus.h"
 #include "marteau.h"
 #include "jeu.h"
+#include "test_funcs.h"
 
 
 /*
@@ -56,7 +57,7 @@ int main()
 
     while(theGame.game_on)
     {
-        /* On v�rifie si au moins un joueur est encore en vie. Si c'est le cas, le jeu continue */
+        /* On verifie si au moins un joueur est encore en vie. Si c'est le cas, le jeu continue */
         theGame.game_on = false;
 
         for(int i = 0; i < nb_players; i++)
@@ -187,7 +188,11 @@ int main()
                         else
                             printf ("wrong input\n\n");
 
-                    }while(answer != 'y' && answer != 'n' && answer != '$');
+                    }while(answer != 'y' && answer != 'n' && answer != '$');//Ici on vérifie que l'utilisateur ne s'est pas trompé de touche
+
+                    //Si la réponse est non, il faut casser la boucle for d'input, sinon avec plusieurs joueurs on a un bug...
+                    if(answer == 'n')
+                        break;
                 }
             }
         }
