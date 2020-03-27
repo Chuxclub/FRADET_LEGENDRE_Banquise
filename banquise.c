@@ -695,29 +695,31 @@ void Fontebanquise (T_banquise *banquise)
     {
         for (int l = 0; l < BANQUISE_SIZE; l++)
         {
-            fonte = rand()%100;
-
-            if ( (T.grid[k][l] == water) && (fonte < 1))
+            if ( (T.grid[k][l] == water))
             {
-                if (IsInbound(BANQUISE_SIZE, k, l - 1) && IsNotRock(banquise->grid[k][l - 1]))
+                fonte = rand()%100;
+                if (IsInbound(BANQUISE_SIZE, k, l - 1) && IsFonteAvailable(banquise->grid[k][l - 1]) && (fonte < 2))
                 {
                     banquise->grid[k][l - 1].ground = water;
                     banquise->grid[k][l - 1].object = NULL;
                 }
 
-                if (IsInbound(BANQUISE_SIZE, k - 1, l)  && IsNotRock(banquise->grid[k - 1][l]))
+                fonte = rand()%100;
+                if (IsInbound(BANQUISE_SIZE, k - 1, l)  && IsFonteAvailable(banquise->grid[k - 1][l]) && (fonte < 2))
                 {
                     banquise->grid[k - 1][l].ground = water;
                     banquise->grid[k - 1][l].object = NULL;
                 }
 
-                if (IsInbound(BANQUISE_SIZE, k, l + 1) && IsNotRock(banquise->grid[k][l + 1]))
+                fonte = rand()%100;
+                if (IsInbound(BANQUISE_SIZE, k, l + 1) && IsFonteAvailable(banquise->grid[k][l + 1]) && (fonte < 2))
                 {
                     banquise->grid[k][l + 1].ground = water;
                     banquise->grid[k][l + 1].object = NULL;
                 }
 
-                if (IsInbound(BANQUISE_SIZE, k + 1, l) && IsNotRock(banquise->grid[k + 1][l]))
+                fonte = rand()%100;
+                if (IsInbound(BANQUISE_SIZE, k + 1, l) && IsFonteAvailable(banquise->grid[k + 1][l]) && (fonte < 2))
                 {
                     banquise->grid[k + 1][l].ground = water;
                     banquise->grid[k + 1][l].object = NULL;
