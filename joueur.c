@@ -52,6 +52,9 @@ T_player **initPlayers(int nb_players)
                                        2) Eviter l'allocation dynamique du resultat final
                                        3) Eviter les constantes magiques "-1" pour désigner une une ligne dont on peut abandonner la recherche
                                           ou une position qui n'a pas été trouvée.
+    Notes: searchBand() = recherche sur une bande (une ligne ou une colonne passée en paramètre)
+           searchBands() = recherche sur les 4 bandes possibles passées en paramètre, searchBands() ignore la bande si les positions valent -1,
+                           un seul -1 est suffisant pour invalider la bande, on la "drop" comme dit dans searchAvailablePos().
 */
 
 T_pos searchBand(T_banquise *banquise, T_pos *pos_tab, int *found)
@@ -221,11 +224,11 @@ int *searchAvailablePos(T_banquise *banquise, int Ligne_a, int Col_a)
     }while(res_pos.line == -1);
 
 
-    int *res = (int *) malloc(sizeof(int) * NB_OF_COORDINATES);
-    res[0] = res_pos.line;
-    res[1] = res_pos.col;
+    int *final_res = (int *) malloc(sizeof(int) * NB_OF_COORDINATES);
+    final_res[0] = res_pos.line;
+    final_res[1] = res_pos.col;
 
-    return res;
+    return final_res;
 }
 
 
