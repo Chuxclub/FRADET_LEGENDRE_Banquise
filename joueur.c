@@ -37,45 +37,104 @@ T_player **initPlayers(int nb_players)
 
     Utilité: Chercher autour du drapeau si une case est disponible pour pouvoir y placer un joueur
 
-    Fonctionnement: On procede par balayage d'une zone qu'on definit par des variables dont on a veille a ce qu'elles
-                    definissent des cases qui sont dans le plateau. Le balayage se fait alors ligne par ligne. Si aucune
-                    cases correspondant a nos conditions de placement du joueur autour du drapeau ne correspond on etend le
-                    rayon de recherche (cf. dist_A). Si on a balaye toutes les lignes possibles de la banquise et qu'on a rien trouve
-                    on renvoit un message d'erreur qui sera gere plus tard dans le developpement. Au final, la fonction renvoit un tableau comprenant
-                    les positions determinees par l'algorithme.
-
-    Complexité en temps (au pire): Dans le pire des cas (on suppose le drapeau A au centre de la banquise)
-                                   on a une première recherche avec un rayon de 1 qui implique le test de 9 cases (ou 3² avec 3 = nb_de_cases_par_lignes).
-                                   puis on etend le rayon a 2, on doit alors tester 25 cases (ou 5² avec 5 = nb_de_cases_par_lignes),
-                                   puis on etend le rayon a 3, on doit alors tester 7² cases, etc. On a donc une somme d'une suite de carrées: E(nb_cases_par_lignes)²
-                                   qui se simplifie en 1/6 x (n + 2)((n + 2) + 1)(2(n + 2) + 1), on pose n = nb_cases_par_lignes. Cette expression se simplifie
-                                   en (2n^3 + 15n² + 27n + 30) / 6. On a alors une complexité au pire en O(n^3) avec n le nb_cases_par_lignes maximum qu'on peut avoir
-                                   à tester, soit, finalement banquise_size. Donc finalement on a O(banquise_size^3).
-
-    Hypothèse d'amélioration possible: 1) La fonction reverifie des cases deja verifiees des qu'on etend le rayon de recherche.
-                                          On peut eviter cela en ne procedant non plus par balayage mais par bandes de recherche.
-                                          Le principe serait alors le suivant: definir la ligne du dessus, la ligne du dessous et les colonnes
-                                          sur les cotes entre les lignes dans le rayon souhaite. Si une colonne ou ligne est hors du plateau on peut
-                                          ne pas y faire de recherche. On evite alors de retester des cases deja testees.
-
-                                       2) Au lieu de renvoyer un tableau d'entier on pourrait renvoyer un T_pos
-                                       3) pos_tab est renvoye. On pourrait aussi bien eviter l'allocation dynamique
+    Fonctionnement: On procede par balayage de bandes, autour du drapeau A. On définit par bandes des zones
+                    de recherche de largeur 1, c'est-à-dire une ligne aussi longue qu'elle soit ou une colonne.
+                    Une bande "ligne" s'étend aussi loin qu'elle peut, une bande "colonne" est définie entre deux
+                    bandes lignes pour éviter de revérifier deux fois tous les coins. Si une ligne ou une colonne est hors
+                    du plateau on ne recherche pas cette ligne ou cette colonne. Si aucune position n'a été trouvée pendant la
+                    recherche, on etend le rayon autour de A où sont définies les bandes. Par ce procédé on évite ainsi de revérifier
+                    des positions deja visitees et des positions hors du plateau.
+    Complexité en temps (au pire): On suppose A au centre du plateau. On compte d'abord le nombre de case à vérifier par ligne, puis le nombre de case
+                                   à vérifier par colonne. Pour un rayon "n" quelconque on obtient la formule suivante: NB_CASES_TOTAL = 8n.
+                                   Comme il s'agit d'une suite arithmétique avec U0 = 0 on a la somme des termes suivante: ((0 + 8*((BANQUISE_SIZE-1) / 2))/2) * (BANQUISE_SIZE - 1) / 2
+                                   En simplifiant on obtient:  (BANQUISE_SIZE - 1)², d'où la complexité: O(BANQUISE_SIZE²)
+    Hypothèse d'amélioration possible: 1) Redefinir searchAvailablePos() pour qu'elle renvoie un T_pos et non un int *
+                                       2) Eviter l'allocation dynamique du resultat final
+                                       3) Eviter les constantes magiques "-1" pour désigner une une ligne dont on peut abandonner la recherche
+                                          ou une position qui n'a pas été trouvée.
 */
+
+T_pos searchBand(T_banquise *banquise, T_pos *pos_tab, int *found)
+{
+    T_pos res_pos = {-1 , -1}; //Je n'ai besoin que d'une position
+
+    for(int ligne_index = pos_tab[0].line; ligne_index <= pos_tab[1].line; ligne_index++)
+        {
+            for(int col_index = pos_tab[0].col; col_index <= pos_tab[1].col; col_index++)
+            {
+                if(IsPlacementAvailable(banquise->grid[ligne_index][col_index]))
+                {
+                    res_pos.line = ligne_index;
+                    res_pos.col = col_index;
+                    *found = 1;
+                    break;
+                }
+            }
+
+            if(*found == 1)
+                break;
+        }
+
+    return res_pos;
+}
+
+
+T_pos searchBands(T_banquise *banquise, T_pos pos_tab[4][2])
+{
+    T_pos res_pos = {-1, -1};
+    int found = 0;
+
+    if (pos_tab[0][0].line != -1)
+    {
+        res_pos = searchBand(banquise, pos_tab[0], &found);
+
+        if(found)
+            return res_pos;
+    }
+
+
+    if (pos_tab[1][0].line != -1)
+    {
+        res_pos = searchBand(banquise, pos_tab[1], &found);
+
+        if(found)
+            return res_pos;
+    }
+
+
+    if (pos_tab[2][0].line != -1)
+    {
+        res_pos = searchBand(banquise, pos_tab[2], &found);
+
+        if(found)
+            return res_pos;
+    }
+
+
+    if (pos_tab[3][0].line != -1)
+    {
+        res_pos = searchBand(banquise, pos_tab[3], &found);
+
+        if(found)
+            return res_pos;
+    }
+
+    return res_pos;
+}
+
+
 int *searchAvailablePos(T_banquise *banquise, int Ligne_a, int Col_a)
 {
-    /*Initialisation des constantes et variables necessaires*/
-    //pos_tab correspond aux positions qui seront
-    //dans les limites du tableau
-    int dist_A = 0;
+    int dist_A = 1;
     int found = 0;
     int ligne_max = BANQUISE_SIZE - 1;
-    int col_max  = BANQUISE_SIZE - 1;
-    int col_min  = 0;
-    int *pos_tab = (int *) malloc(sizeof(int) * NB_OF_COORDINATES);
+    int col_max = BANQUISE_SIZE - 1;
+    int col_min = 0;
+    T_pos res_pos = {-1, -1};
 
     do
     {
-        /*Definition des limites de la zone de recherche*/
+        //Definition des limites de la zone de recherche
         //Positionnement des indices lignes/colonnes par rapport a A (Col_a, Ligne_a)
         //Et par rapport au rayon de recherche autour de A (dist_A)
         //Rectification de ces indices si ces-derniers d�passent le plateau de jeu
@@ -84,50 +143,91 @@ int *searchAvailablePos(T_banquise *banquise, int Ligne_a, int Col_a)
         int ligne_begin = Ligne_a - dist_A;
         int ligne_end = Ligne_a + dist_A;
 
-        while(ligne_end > ligne_max)
-            ligne_end--;
-
-        while(col_begin < col_min)
-            col_begin++;
-
-        while(col_end > col_max)
-            col_end--;
+        int drop_right = 0;
+        int drop_down = 0;
+        int drop_left = 0;
 
 
-        /*Balayage de la zone de recherche du haut en bas, de la gauche vers la droite*/
-        //Sauvegarde des positions dans le tableau au fur et a mesure de la recherche et que celles-ci sont libres
-        //Sauvegarde de la taille du tableau avec la variable size au fur et a mesure qu'on rajoute des positions
-        for(int ligne_index = ligne_begin; ligne_index <= ligne_end; ligne_index++)
+        if(ligne_end > ligne_max)
         {
-            for(int col_index = col_begin; col_index <= col_end; col_index++)
-            {
-                if(IsPlacementAvailable(banquise->grid[ligne_index][col_index]))
-                {
-                    pos_tab[0] = ligne_index;
-                    pos_tab[1] = col_index;
-                    found = 1;
-                    break;
-                }
-            }
-
-            if(found == 1)
-                break;
+            ligne_end = ligne_max;
+            drop_down = 1;
         }
 
-        /*Extension de la zone et boucle si aucune position de trouvee*/
-        if(found == 0)
+
+        if(col_begin < col_min)
+        {
+           col_begin = col_min;
+           drop_left = 1;
+        }
+
+
+        if(col_end > col_max)
+        {
+            col_end = col_max;
+            drop_right = 1;
+        }
+
+        T_pos up_ligne_band[2] = {{ligne_begin, col_begin}, {ligne_begin, col_end}};
+        T_pos right_col_band[2] = {{ligne_begin + 1, col_end}, {ligne_end - 1, col_end}};
+        T_pos down_ligne_band[2] = {{ligne_end, col_begin}, {ligne_end, col_end}};
+        T_pos left_col_band[2] = {{ligne_begin + 1, col_begin}, {ligne_end - 1, col_begin}};
+
+
+        if(drop_down)
+        {
+            down_ligne_band[0].line = -1;
+            down_ligne_band[0].col = -1;
+            down_ligne_band[1].line = -1;
+            down_ligne_band[1].col = -1;
+        }
+
+        if(drop_left)
+        {
+            left_col_band[0].line = -1;
+            left_col_band[0].col = -1;
+            left_col_band[1].line = -1;
+            left_col_band[1].col = -1;
+        }
+
+        if(drop_right)
+        {
+            right_col_band[0].line = -1;
+            right_col_band[0].col = -1;
+            right_col_band[1].line = -1;
+            right_col_band[1].col = -1;
+        }
+
+
+        //Balayage de la zone de recherche du haut en bas, de la gauche vers la droite
+        //Sauvegarde des positions dans le tableau au fur et a mesure de la recherche et que celles-ci sont libres
+        //Sauvegarde de la taille du tableau avec la variable size au fur et a mesure qu'on rajoute des positions
+
+        T_pos bands[4][2] = {{up_ligne_band[0],up_ligne_band[1]}, {right_col_band[0],right_col_band[1]}, {down_ligne_band[0], down_ligne_band[1]}, {left_col_band[0],left_col_band[1]}};
+        res_pos = searchBands(banquise, bands);
+
+
+        //Extension de la zone et boucle si aucune position de trouvee
+        if(res_pos.line == -1)
             dist_A++;
 
-        /*Arret de la recherche si on est parti du coin haut gauche du plateau et qu'on n'a rien trouve par balayage*/
-        if((col_begin == 0 && ligne_begin == 0) && found == 0)
+        //Arret de la recherche si on est parti du coin haut gauche du plateau et qu'on n'a rien trouve par balayage des bandes
+        if((col_begin == 0 && ligne_begin == 0) && res_pos.line == -1)
         {
             fprintf(stderr, "No available position to place player\(s)\n");
             exit(EXIT_FAILURE);
         }
-    }while(found == 0);
 
-    return pos_tab;
+    }while(res_pos.line == -1);
+
+
+    int *res = (int *) malloc(sizeof(int) * NB_OF_COORDINATES);
+    res[0] = res_pos.line;
+    res[1] = res_pos.col;
+
+    return res;
 }
+
 
 
 

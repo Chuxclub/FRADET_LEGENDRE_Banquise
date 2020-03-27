@@ -13,7 +13,7 @@
 #define PERCENT 101
 
 
-/* Anciens paramètres:
+/* CONFIG "NORMAL":
 
 #define BANQUISE_CASES (BANQUISE_SIZE * BANQUISE_SIZE)
 #define BANQUISE_SIZE 10
@@ -24,6 +24,21 @@
 #define NB_SPRINGS 1
 #define NB_TRAPS 1
 #define NB_WATER 6
+#define PERCENT 101
+*/
+
+
+/* CONFIG "HARD":
+
+#define BANQUISE_CASES (BANQUISE_SIZE * BANQUISE_SIZE)
+#define BANQUISE_SIZE 20
+#define NB_FLAKES 30
+#define NB_HAMMERS 4
+#define NB_OF_COORDINATES 2
+#define NB_ROCKS 25
+#define NB_SPRINGS 8
+#define NB_TRAPS 10
+#define NB_WATER 40
 #define PERCENT 101
 */
 

@@ -166,7 +166,8 @@ void addRocks(T_banquise *banquise, int nb_rocks)
                     pas dans la boucle et on assigne directement le drapeau à la position générée (cf. "banquise->grid[Xa][Ya].flag = A;", même
                     chose pour B...) Sinon on rentre dans la boucle et on génère jusqu'à trouver une position correcte.
     Complexité en temps (au pire): O(1)
-    Hypothèse d'amélioration possible: /
+    Hypothèse d'amélioration possible:  1) Quand le plateau est saturé d'objets, il y a un risque que le drapeau B ou A puissent ne pas pouvoir se positionner,
+                                          une solution possible: placer les drapeaux avant les éléments du terrain.
 */
 void addFlags(T_banquise *banquise)
 {
